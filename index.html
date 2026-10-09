@@ -1,22 +1,52 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>KHELOGO – Play, Earn & Reward</title>
+    <title>KHELOGO - Play, Earn &amp; Reward</title>
 
-    <meta name="description"
-          content="KHELOGO is a gaming and rewards platform featuring games, daily rewards, referrals and creator-focused features.">
+    <meta name="description" content="Discover KHELOGO, a gaming and rewards platform featuring games, daily rewards, referrals and upcoming creator experiences.">
 
-    <!-- Google tag (gtag.js) -->
+    <meta name="robots" content="index, follow">
+    <meta name="theme-color" content="#080b12">
+    <meta name="author" content="KHELOGO">
+
+    <link rel="canonical" href="https://anshmaurya5619.github.io/">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="KHELOGO">
+    <meta property="og:title" content="KHELOGO - Play, Earn &amp; Reward">
+    <meta property="og:description" content="Discover KHELOGO, a gaming and rewards platform featuring games, daily rewards, referrals and upcoming creator experiences.">
+    <meta property="og:url" content="https://anshmaurya5619.github.io/">
+
+    <!-- Social sharing -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="KHELOGO - Play, Earn &amp; Reward">
+    <meta name="twitter:description" content="Explore games, daily rewards, referrals and upcoming creator experiences on KHELOGO.">
+
+    <!-- Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-WD264MPXWF"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
+        function gtag() {
+            window.dataLayer.push(arguments);
+        }
         gtag('js', new Date());
-
         gtag('config', 'G-WD264MPXWF');
+    </script>
+
+    <!-- Google site name structured data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "KHELOGO",
+      "alternateName": "KHELOGO - Play, Earn & Reward",
+      "url": "https://anshmaurya5619.github.io/"
+    }
     </script>
 
     <style>
@@ -26,11 +56,25 @@
             padding: 0;
         }
 
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 20px;
+        }
+
         body {
             font-family: Arial, Helvetica, sans-serif;
             background: #080b12;
             color: #ffffff;
             line-height: 1.6;
+        }
+
+        a {
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        a:focus-visible {
+            outline: 2px solid #00e5ff;
+            outline-offset: 4px;
         }
 
         .container {
@@ -41,7 +85,7 @@
         header {
             padding: 22px 0;
             border-bottom: 1px solid rgba(255,255,255,0.08);
-            background: rgba(8,11,18,0.95);
+            background: rgba(8,11,18,0.97);
         }
 
         .nav {
@@ -68,6 +112,13 @@
             padding: 11px 20px;
             border-radius: 25px;
             font-weight: 700;
+            transition: background .2s ease, transform .2s ease;
+        }
+
+        .nav-btn:hover,
+        .primary:hover {
+            background: #65f0ff;
+            transform: translateY(-2px);
         }
 
         .hero {
@@ -91,7 +142,7 @@
 
         h1 {
             font-size: clamp(42px, 8vw, 78px);
-            line-height: 1;
+            line-height: 1.08;
             margin-bottom: 24px;
         }
 
@@ -116,10 +167,12 @@
 
         .primary,
         .secondary {
+            display: inline-block;
             padding: 14px 25px;
             border-radius: 30px;
             text-decoration: none;
             font-weight: 800;
+            transition: background .2s ease, transform .2s ease;
         }
 
         .primary {
@@ -130,6 +183,11 @@
         .secondary {
             border: 1px solid #303846;
             color: #ffffff;
+        }
+
+        .secondary:hover {
+            border-color: #00e5ff;
+            color: #00e5ff;
         }
 
         section {
@@ -150,7 +208,7 @@
 
         .cards {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
+            grid-template-columns: repeat(4, minmax(0, 1fr));
             gap: 18px;
         }
 
@@ -159,11 +217,12 @@
             border: 1px solid #202938;
             border-radius: 20px;
             padding: 25px;
-            transition: transform .2s ease;
+            transition: transform .2s ease, border-color .2s ease;
         }
 
         .card:hover {
             transform: translateY(-5px);
+            border-color: rgba(0,229,255,0.5);
         }
 
         .icon {
@@ -182,7 +241,7 @@
 
         .feature {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
             gap: 25px;
         }
 
@@ -226,9 +285,10 @@
         }
 
         footer a {
+            display: inline-block;
             color: #9da6b4;
             text-decoration: none;
-            margin: 0 8px;
+            margin: 5px 8px;
         }
 
         footer a:hover {
@@ -237,7 +297,7 @@
 
         @media (max-width: 800px) {
             .cards {
-                grid-template-columns: repeat(2, 1fr);
+                grid-template-columns: repeat(2, minmax(0, 1fr));
             }
 
             .feature {
@@ -256,21 +316,34 @@
             }
 
             .hero {
-                padding-top: 60px;
+                padding: 60px 0 55px;
+            }
+
+            .hero p {
+                font-size: 16px;
+            }
+
+            .section-title {
+                font-size: 29px;
+            }
+
+            .feature-box {
+                padding: 25px;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            html {
+                scroll-behavior: auto;
+            }
+
+            *,
+            *::before,
+            *::after {
+                transition-duration: 0.01ms !important;
             }
         }
     </style>
-
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "WebSite",
-  "name": "KHELOGO",
-  "alternateName": "KHELOGO - Play, Earn & Reward",
-  "url": "https://anshmaurya5619.github.io/"
-}
-</script>
-
 </head>
 
 <body>
@@ -282,126 +355,116 @@
     </div>
 </header>
 
-<section class="hero">
-    <div class="container">
+<main>
+    <section class="hero">
+        <div class="container">
+            <div class="badge">PLAY • EARN • REWARD</div>
 
-        <div class="badge">PLAY • EARN • REWARD</div>
+            <h1>
+                Play Games.<br>
+                <span>Get Rewarded.</span>
+            </h1>
 
-        <h1>
-            Play Games.<br>
-            <span>Get Rewarded.</span>
-        </h1>
+            <p>
+                Welcome to KHELOGO — a gaming and rewards platform
+                built around games, daily rewards, referrals and future
+                creator-focused experiences.
+            </p>
 
-        <p>
-            Welcome to KHELOGO — a gaming and rewards platform
-            built around games, daily rewards, referrals and future
-            creator-focused experiences.
-        </p>
-
-        <div class="hero-buttons">
-            <a class="primary" href="#features">Explore KHELOGO</a>
-            <a class="secondary" href="#contact">Contact Us</a>
+            <div class="hero-buttons">
+                <a class="primary" href="#features">Explore KHELOGO</a>
+                <a class="secondary" href="#contact">Contact Us</a>
+            </div>
         </div>
+    </section>
 
-    </div>
-</section>
+    <section id="features">
+        <div class="container">
+            <h2 class="section-title">What is KHELOGO?</h2>
 
-<section id="features">
-    <div class="container">
+            <p class="section-subtitle">
+                One platform for games, rewards and future creator experiences.
+            </p>
 
-        <h2 class="section-title">What is KHELOGO?</h2>
+            <div class="cards">
+                <article class="card">
+                    <div class="icon" aria-hidden="true">🎮</div>
+                    <h3>Games</h3>
+                    <p>
+                        Enjoy engaging games and challenges inside the
+                        KHELOGO platform.
+                    </p>
+                </article>
 
-        <p class="section-subtitle">
-            One platform for games, rewards and future creator experiences.
-        </p>
+                <article class="card">
+                    <div class="icon" aria-hidden="true">🎁</div>
+                    <h3>Daily Rewards</h3>
+                    <p>
+                        Participate in daily reward activities and
+                        maintain your reward streak.
+                    </p>
+                </article>
 
-        <div class="cards">
+                <article class="card">
+                    <div class="icon" aria-hidden="true">🤝</div>
+                    <h3>Refer &amp; Earn</h3>
+                    <p>
+                        Invite friends through the KHELOGO referral
+                        program and receive qualifying rewards.
+                    </p>
+                </article>
 
-            <div class="card">
-                <div class="icon">🎮</div>
-                <h3>Games</h3>
-                <p>
-                    Enjoy engaging games and challenges inside the
-                    KHELOGO platform.
-                </p>
+                <article class="card">
+                    <div class="icon" aria-hidden="true">🎬</div>
+                    <h3>Creator Features</h3>
+                    <p>
+                        Future KHELOGO updates will introduce
+                        video and creator-focused features.
+                    </p>
+                </article>
             </div>
-
-            <div class="card">
-                <div class="icon">🎁</div>
-                <h3>Daily Rewards</h3>
-                <p>
-                    Participate in daily reward activities and
-                    maintain your reward streak.
-                </p>
-            </div>
-
-            <div class="card">
-                <div class="icon">🤝</div>
-                <h3>Refer & Earn</h3>
-                <p>
-                    Invite friends through the KHELOGO referral
-                    program and receive qualifying rewards.
-                </p>
-            </div>
-
-            <div class="card">
-                <div class="icon">🎬</div>
-                <h3>Creator Features</h3>
-                <p>
-                    Future KHELOGO updates will introduce
-                    video and creator-focused features.
-                </p>
-            </div>
-
         </div>
-    </div>
-</section>
+    </section>
 
-<section>
-    <div class="container">
+    <section>
+        <div class="container">
+            <div class="feature">
+                <article class="feature-box">
+                    <h3>🎯 Play &amp; Collect</h3>
+                    <p>
+                        KHELOGO combines games and reward activities
+                        into one simple mobile experience.
+                    </p>
+                </article>
 
-        <div class="feature">
-
-            <div class="feature-box">
-                <h3>🎯 Play & Collect</h3>
-                <p>
-                    KHELOGO combines games and reward activities
-                    into one simple mobile experience.
-                </p>
+                <article class="feature-box">
+                    <h3>🚀 Built for the Future</h3>
+                    <p>
+                        The platform is designed to grow with new games,
+                        rewards and creator features over time.
+                    </p>
+                </article>
             </div>
-
-            <div class="feature-box">
-                <h3>🚀 Built for the Future</h3>
-                <p>
-                    The platform is designed to grow with new games,
-                    rewards and creator features over time.
-                </p>
-            </div>
-
         </div>
+    </section>
 
-    </div>
-</section>
+    <section class="cta" id="contact">
+        <div class="container">
+            <h2 class="section-title">Welcome to KHELOGO</h2>
 
-<section class="cta" id="contact">
-    <div class="container">
+            <p class="section-subtitle">
+                Play. Explore. Create. Reward.
+            </p>
 
-        <h2 class="section-title">Welcome to KHELOGO</h2>
-
-        <p class="section-subtitle">
-            Play. Explore. Create. Reward.
-        </p>
-
-        <a class="primary" href="mailto:support@khelogo.in">
-            Contact Support
-        </a>
-
-    </div>
-</section>
+            <a class="primary" href="mailto:support@khelogo.in">
+                Contact Support
+            </a>
+        </div>
+    </section>
+</main>
 
 <footer>
     <div class="container">
-
         <p>© 2026 KHELOGO. All rights reserved.</p>
 
         <p style="margin-top:10px;">
@@ -409,7 +472,6 @@
             <a href="terms.html">Terms</a>
             <a href="#contact">Contact</a>
         </p>
-
     </div>
 </footer>
 
