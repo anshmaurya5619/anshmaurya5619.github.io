@@ -2,478 +2,406 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>KHELOGO - Play, Earn &amp; Reward</title>
+<title>KHELOGO — Play, Explore &amp; Create</title>
+<meta name="description" content="Discover KHELOGO, a mobile entertainment platform for casual games, daily activities, referrals and upcoming video creator features.">
+<meta name="robots" content="index, follow">
+<meta name="theme-color" content="#080b12">
+<meta name="author" content="KHELOGO">
+<link rel="canonical" href="https://anshmaurya5619.github.io/">
 
-    <meta name="description" content="Discover KHELOGO, a gaming and rewards platform featuring games, daily rewards, referrals and upcoming creator experiences.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="KHELOGO">
+<meta property="og:title" content="KHELOGO — Play, Explore &amp; Create">
+<meta property="og:description" content="Explore games, daily activities and upcoming creator features on KHELOGO.">
+<meta property="og:url" content="https://anshmaurya5619.github.io/">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="KHELOGO — Play, Explore &amp; Create">
+<meta name="twitter:description" content="A mobile entertainment platform for games and future creator experiences.">
 
-    <meta name="robots" content="index, follow">
-    <meta name="theme-color" content="#080b12">
-    <meta name="author" content="KHELOGO">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-WD264MPXWF"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-WD264MPXWF');
+</script>
 
-    <link rel="canonical" href="https://anshmaurya5619.github.io/">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "KHELOGO",
+  "alternateName": "KHELOGO - Play, Explore & Create",
+  "url": "https://anshmaurya5619.github.io/"
+}
+</script>
 
-    <!-- Open Graph -->
-    <meta property="og:type" content="website">
-    <meta property="og:site_name" content="KHELOGO">
-    <meta property="og:title" content="KHELOGO - Play, Earn &amp; Reward">
-    <meta property="og:description" content="Discover KHELOGO, a gaming and rewards platform featuring games, daily rewards, referrals and upcoming creator experiences.">
-    <meta property="og:url" content="https://anshmaurya5619.github.io/">
-
-    <!-- Social sharing -->
-    <meta name="twitter:card" content="summary">
-    <meta name="twitter:title" content="KHELOGO - Play, Earn &amp; Reward">
-    <meta name="twitter:description" content="Explore games, daily rewards, referrals and upcoming creator experiences on KHELOGO.">
-
-    <!-- Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-WD264MPXWF"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag() {
-            window.dataLayer.push(arguments);
-        }
-        gtag('js', new Date());
-        gtag('config', 'G-WD264MPXWF');
-    </script>
-
-    <!-- Google site name structured data -->
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "WebSite",
-      "name": "KHELOGO",
-      "alternateName": "KHELOGO - Play, Earn & Reward",
-      "url": "https://anshmaurya5619.github.io/"
-    }
-    </script>
-
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        html {
-            scroll-behavior: smooth;
-            scroll-padding-top: 20px;
-        }
-
-        body {
-            font-family: Arial, Helvetica, sans-serif;
-            background: #080b12;
-            color: #ffffff;
-            line-height: 1.6;
-        }
-
-        a {
-            -webkit-tap-highlight-color: transparent;
-        }
-
-        a:focus-visible {
-            outline: 2px solid #00e5ff;
-            outline-offset: 4px;
-        }
-
-        .container {
-            width: min(1100px, 92%);
-            margin: auto;
-        }
-
-        header {
-            padding: 22px 0;
-            border-bottom: 1px solid rgba(255,255,255,0.08);
-            background: rgba(8,11,18,0.97);
-        }
-
-        .nav {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 20px;
-        }
-
-        .logo {
-            font-size: 28px;
-            font-weight: 900;
-            letter-spacing: 2px;
-        }
-
-        .logo span {
-            color: #00e5ff;
-        }
-
-        .nav-btn {
-            text-decoration: none;
-            color: #080b12;
-            background: #00e5ff;
-            padding: 11px 20px;
-            border-radius: 25px;
-            font-weight: 700;
-            transition: background .2s ease, transform .2s ease;
-        }
-
-        .nav-btn:hover,
-        .primary:hover {
-            background: #65f0ff;
-            transform: translateY(-2px);
-        }
-
-        .hero {
-            padding: 85px 0 70px;
-            text-align: center;
-            background:
-                radial-gradient(circle at top, rgba(0,229,255,0.18), transparent 45%),
-                #080b12;
-        }
-
-        .badge {
-            display: inline-block;
-            padding: 7px 15px;
-            border: 1px solid rgba(0,229,255,0.35);
-            border-radius: 30px;
-            color: #00e5ff;
-            font-size: 13px;
-            font-weight: 700;
-            margin-bottom: 22px;
-        }
-
-        h1 {
-            font-size: clamp(42px, 8vw, 78px);
-            line-height: 1.08;
-            margin-bottom: 24px;
-        }
-
-        h1 span {
-            color: #00e5ff;
-        }
-
-        .hero p {
-            max-width: 680px;
-            margin: auto;
-            color: #b8c0cc;
-            font-size: 18px;
-        }
-
-        .hero-buttons {
-            margin-top: 32px;
-            display: flex;
-            justify-content: center;
-            gap: 14px;
-            flex-wrap: wrap;
-        }
-
-        .primary,
-        .secondary {
-            display: inline-block;
-            padding: 14px 25px;
-            border-radius: 30px;
-            text-decoration: none;
-            font-weight: 800;
-            transition: background .2s ease, transform .2s ease;
-        }
-
-        .primary {
-            background: #00e5ff;
-            color: #080b12;
-        }
-
-        .secondary {
-            border: 1px solid #303846;
-            color: #ffffff;
-        }
-
-        .secondary:hover {
-            border-color: #00e5ff;
-            color: #00e5ff;
-        }
-
-        section {
-            padding: 70px 0;
-        }
-
-        .section-title {
-            text-align: center;
-            font-size: 34px;
-            margin-bottom: 12px;
-        }
-
-        .section-subtitle {
-            text-align: center;
-            color: #9da6b4;
-            margin-bottom: 40px;
-        }
-
-        .cards {
-            display: grid;
-            grid-template-columns: repeat(4, minmax(0, 1fr));
-            gap: 18px;
-        }
-
-        .card {
-            background: #111722;
-            border: 1px solid #202938;
-            border-radius: 20px;
-            padding: 25px;
-            transition: transform .2s ease, border-color .2s ease;
-        }
-
-        .card:hover {
-            transform: translateY(-5px);
-            border-color: rgba(0,229,255,0.5);
-        }
-
-        .icon {
-            font-size: 34px;
-            margin-bottom: 15px;
-        }
-
-        .card h3 {
-            margin-bottom: 8px;
-        }
-
-        .card p {
-            color: #9da6b4;
-            font-size: 14px;
-        }
-
-        .feature {
-            display: grid;
-            grid-template-columns: repeat(2, minmax(0, 1fr));
-            gap: 25px;
-        }
-
-        .feature-box {
-            padding: 35px;
-            border-radius: 24px;
-            background: linear-gradient(145deg, #121927, #0d111a);
-            border: 1px solid #202938;
-        }
-
-        .feature-box h3 {
-            font-size: 25px;
-            margin-bottom: 12px;
-        }
-
-        .feature-box p {
-            color: #aab3c0;
-        }
-
-        .highlight {
-            color: #00e5ff;
-            font-weight: 800;
-        }
-
-        .cta {
-            text-align: center;
-            background: linear-gradient(
-                135deg,
-                rgba(0,229,255,0.12),
-                rgba(130,70,255,0.10)
-            );
-            border-top: 1px solid #202938;
-            border-bottom: 1px solid #202938;
-        }
-
-        footer {
-            padding: 35px 0;
-            text-align: center;
-            color: #737d8c;
-            font-size: 14px;
-        }
-
-        footer a {
-            display: inline-block;
-            color: #9da6b4;
-            text-decoration: none;
-            margin: 5px 8px;
-        }
-
-        footer a:hover {
-            color: #00e5ff;
-        }
-
-        @media (max-width: 800px) {
-            .cards {
-                grid-template-columns: repeat(2, minmax(0, 1fr));
-            }
-
-            .feature {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        @media (max-width: 520px) {
-            .cards {
-                grid-template-columns: 1fr;
-            }
-
-            .nav-btn {
-                padding: 9px 15px;
-                font-size: 13px;
-            }
-
-            .hero {
-                padding: 60px 0 55px;
-            }
-
-            .hero p {
-                font-size: 16px;
-            }
-
-            .section-title {
-                font-size: 29px;
-            }
-
-            .feature-box {
-                padding: 25px;
-            }
-        }
-
-        @media (prefers-reduced-motion: reduce) {
-            html {
-                scroll-behavior: auto;
-            }
-
-            *,
-            *::before,
-            *::after {
-                transition-duration: 0.01ms !important;
-            }
-        }
-    </style>
+<style>
+:root {
+  --bg:#080b12;
+  --panel:#111927;
+  --line:rgba(180,200,230,.15);
+  --text:#f5f7fb;
+  --muted:#a5afbf;
+  --cyan:#00e5ff;
+  --purple:#a397ff;
+  --green:#8df5bd;
+}
+* {box-sizing:border-box;margin:0;padding:0}
+html {scroll-behavior:smooth;scroll-padding-top:85px}
+body {
+  font-family:Arial,Helvetica,sans-serif;
+  color:var(--text);
+  line-height:1.65;
+  background:
+    radial-gradient(ellipse at 85% 0%,#38317b44,transparent 500px),
+    radial-gradient(ellipse at 0% 30%,#00e5ff12,transparent 400px),
+    var(--bg);
+}
+a {color:inherit}
+.container {width:min(1140px,calc(100% - 36px));margin:auto}
+header {
+  position:sticky;top:0;z-index:10;
+  background:#080b12ed;
+  border-bottom:1px solid var(--line);
+  backdrop-filter:blur(15px);
+}
+nav {display:flex;align-items:center;justify-content:space-between;gap:20px;min-height:72px}
+.logo {font-size:23px;font-weight:900;letter-spacing:1.5px;text-decoration:none}
+.logo span {color:var(--cyan)}
+.navlinks {display:flex;align-items:center;gap:23px}
+.navlinks a {text-decoration:none;color:var(--muted);font-size:14px;font-weight:bold}
+.navlinks a:hover {color:var(--cyan)}
+.btn {
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  padding:13px 20px;border-radius:13px;text-decoration:none;
+  font-weight:800;font-size:14px;border:1px solid transparent;
+  transition:transform .2s,border-color .2s;
+}
+.btn:hover {transform:translateY(-2px)}
+.primary {background:linear-gradient(110deg,var(--cyan),#9aefff);color:#061018}
+.secondary {border-color:var(--line);background:#ffffff08;color:var(--text)}
+.menu {display:none;background:none;color:white;border:1px solid var(--line);padding:8px 12px;border-radius:10px;font-size:20px}
+.hero {padding:82px 0 72px}
+.hero-grid {display:grid;grid-template-columns:1.05fr .95fr;gap:40px;align-items:center}
+.eyebrow {
+  display:inline-block;padding:7px 12px;border-radius:30px;
+  background:#00e5ff10;border:1px solid #00e5ff40;
+  color:#9af5ff;font-size:11px;font-weight:800;letter-spacing:1.2px;
+}
+h1 {font-size:clamp(43px,6vw,76px);line-height:1.05;letter-spacing:-2.5px;margin:22px 0}
+.gradient {
+  color:var(--cyan);
+  background:linear-gradient(90deg,var(--cyan),var(--purple));
+  -webkit-background-clip:text;background-clip:text;
+  -webkit-text-fill-color:transparent;
+}
+.hero p {max-width:610px;color:var(--muted);font-size:17px}
+.actions {display:flex;flex-wrap:wrap;gap:12px;margin-top:27px}
+.trust {display:flex;flex-wrap:wrap;gap:15px;margin-top:25px;color:#c0cad7;font-size:12px}
+.trust b {color:var(--green)}
+.preview-wrap {position:relative;display:grid;place-items:center;min-height:390px}
+.orb {position:absolute;width:280px;height:280px;border-radius:50%;background:linear-gradient(135deg,#00e5ff44,#a397ff44);filter:blur(8px)}
+.preview {
+  position:relative;width:100%;max-width:420px;padding:23px;
+  border-radius:25px;border:1px solid #ffffff20;
+  background:linear-gradient(145deg,#172235,#0d121c);
+  box-shadow:0 30px 80px #0008;transform:rotate(1deg);
+}
+.preview-top {display:flex;justify-content:space-between;align-items:center;gap:10px;border-bottom:1px solid var(--line);padding-bottom:16px}
+.preview-top strong {font-size:14px;letter-spacing:1px}
+.status {font-size:10px;color:var(--green);background:#8df5bd18;padding:5px 8px;border-radius:20px}
+.preview small {display:block;color:var(--muted);margin-top:19px;font-size:11px}
+.preview h2 {font-size:29px;line-height:1.2;margin:5px 0 18px}
+.highlight {color:var(--cyan)}
+.preview-banner {
+  padding:19px;border-radius:17px;
+  background:linear-gradient(120deg,#00e5ff20,#a397ff20);
+  border:1px solid #00e5ff22;
+}
+.preview-banner small {margin:0}
+.preview-banner strong {display:block;font-size:23px;margin:5px 0}
+.preview-banner span {font-size:11px;color:var(--green)}
+.tiles {display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px}
+.tile {padding:14px 5px;text-align:center;background:#ffffff07;border:1px solid var(--line);border-radius:13px}
+.tile b {display:block;font-size:23px}
+.tile span {font-size:11px;color:var(--muted)}
+section {padding:70px 0}
+.section-head {max-width:720px;text-align:center;margin:0 auto 35px}
+.kicker {color:var(--cyan);font-size:11px;font-weight:900;letter-spacing:2px;text-transform:uppercase}
+h2 {font-size:clamp(30px,4vw,43px);line-height:1.15;letter-spacing:-1px;margin-top:10px}
+.section-head p {color:var(--muted);margin-top:13px}
+.cards {display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
+.card {
+  padding:23px;border:1px solid var(--line);border-radius:21px;
+  background:linear-gradient(145deg,#141e2d,#0e141f);
+  transition:transform .2s,border-color .2s;
+}
+.card:hover {transform:translateY(-5px);border-color:#00e5ff70}
+.card-icon {
+  display:grid;place-items:center;width:48px;height:48px;
+  border-radius:15px;background:#00e5ff12;border:1px solid #00e5ff25;
+  font-size:24px;margin-bottom:18px;
+}
+.card h3 {font-size:17px}
+.card p {color:var(--muted);font-size:13px;margin-top:9px}
+.tag {
+  display:inline-block;margin-top:15px;padding:5px 9px;border-radius:20px;
+  color:#c5bcff;background:#a397ff12;border:1px solid #a397ff30;
+  font-size:10px;font-weight:bold;text-transform:uppercase;
+}
+.creator {
+  display:grid;grid-template-columns:.8fr 1.2fr;gap:30px;align-items:center;
+  padding:clamp(25px,5vw,48px);border:1px solid #a397ff40;
+  border-radius:28px;
+  background:radial-gradient(circle at top right,#a397ff20,transparent 50%),#111927;
+}
+.creator-art {
+  min-height:210px;display:grid;place-items:center;border-radius:22px;
+  border:1px solid var(--line);background:linear-gradient(135deg,#00e5ff12,#a397ff20);
+  font-size:75px;
+}
+.creator p {color:var(--muted);margin-top:13px}
+.creator-list {display:grid;gap:9px;margin-top:18px;font-size:13px}
+.creator-list b {color:var(--green);margin-right:8px}
+.steps {display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.step {padding:22px;border:1px solid var(--line);border-radius:18px;background:#ffffff05}
+.step small {color:var(--cyan);font-weight:900;letter-spacing:1.5px}
+.step h3 {margin-top:10px}
+.step p {color:var(--muted);font-size:13px;margin-top:7px}
+.cta {padding-top:10px;padding-bottom:80px}
+.cta-box {
+  text-align:center;padding:50px 22px;border-radius:27px;
+  border:1px solid #00e5ff35;
+  background:radial-gradient(ellipse at top,#00e5ff18,transparent 65%),#111927;
+}
+.cta-box p {color:var(--muted);max-width:600px;margin:14px auto 23px}
+footer {border-top:1px solid var(--line);padding:27px 0 32px;color:#8994a5;font-size:12px}
+.footer-row {display:flex;justify-content:space-between;align-items:center;gap:18px;flex-wrap:wrap}
+.footer-links {display:flex;flex-wrap:wrap;gap:17px}
+.footer-links a {text-decoration:none;color:#b0bac8}
+.disclaimer {margin-top:16px;font-size:11px;color:#7e899a;max-width:900px}
+@media(max-width:900px) {
+  .hero-grid {grid-template-columns:1fr}
+  .preview-wrap {min-height:350px}
+  .cards {grid-template-columns:repeat(2,minmax(0,1fr))}
+  .creator {grid-template-columns:1fr}
+  .creator-art {min-height:150px}
+}
+@media(max-width:620px) {
+  .container {width:calc(100% - 30px)}
+  nav {min-height:66px}
+  .logo {font-size:20px}
+  .menu {display:block}
+  .navlinks {
+    display:none;position:absolute;top:66px;left:0;right:0;
+    padding:18px;background:#0b1019;border-bottom:1px solid var(--line);
+    flex-direction:column;align-items:stretch;gap:15px;
+  }
+  .navlinks.open {display:flex}
+  .hero {padding:55px 0 42px}
+  h1 {font-size:clamp(42px,11vw,62px);letter-spacing:-2px}
+  .hero p {font-size:16px}
+  section {padding:55px 0}
+  .cards,.steps {grid-template-columns:1fr}
+  .preview-wrap {min-height:320px}
+  .preview {padding:16px}
+  .cta {padding-bottom:55px}
+}
+@media(prefers-reduced-motion:reduce) {
+  html {scroll-behavior:auto}
+  *,*::before,*::after {transition:none!important}
+}
+</style>
 </head>
-
 <body>
 
 <header>
-    <div class="container nav">
-        <div class="logo">KHELO<span>GO</span></div>
-        <a class="nav-btn" href="#features">Explore</a>
-    </div>
+<div class="container">
+<nav aria-label="Main navigation">
+<a class="logo" href="#home">KHELO<span>GO</span></a>
+<button class="menu" id="menuButton" aria-expanded="false" aria-label="Toggle menu">☰</button>
+<div class="navlinks" id="navLinks">
+<a href="#features">Features</a>
+<a href="#creators">Creators</a>
+<a href="#how">How it works</a>
+<a href="#about">About</a>
+<a class="btn primary" href="#contact">Contact us ↗</a>
+</div>
+</nav>
+</div>
 </header>
 
-<main>
-    <section class="hero">
-        <div class="container">
-            <div class="badge">PLAY • EARN • REWARD</div>
+<main id="home">
+<section class="hero">
+<div class="container hero-grid">
+<div>
+<div class="eyebrow">✦ A NEW WAY TO PLAY AND CREATE</div>
+<h1>Play your way.<br><span class="gradient">Explore what's next.</span></h1>
+<p>Welcome to KHELOGO — a mobile entertainment platform bringing casual games, daily activities and a future home for video creators together in one experience.</p>
+<div class="actions">
+<a class="btn primary" href="#features">Explore the platform →</a>
+<a class="btn secondary" href="#creators">Discover creators</a>
+</div>
+<div class="trust">
+<span><b>✓</b> Casual entertainment</span>
+<span><b>✓</b> No user deposit for games</span>
+<span><b>✓</b> Creator features planned</span>
+</div>
+</div>
 
-            <h1>
-                Play Games.<br>
-                <span>Get Rewarded.</span>
-            </h1>
+<div class="preview-wrap" aria-label="KHELOGO platform preview">
+<div class="orb"></div>
+<div class="preview">
+<div class="preview-top">
+<strong>KHELO<span class="highlight">GO</span></strong>
+<span class="status">PLATFORM PREVIEW</span>
+</div>
+<small>YOUR NEXT EXPERIENCE STARTS HERE</small>
+<h2>Play. Discover.<br><span class="highlight">Create.</span></h2>
+<div class="preview-banner">
+<small>One platform, multiple experiences</small>
+<strong>Made for you ✨</strong>
+<span>Games · Activities · Creators</span>
+</div>
+<div class="tiles">
+<div class="tile"><b>🎮</b><span>Games</span></div>
+<div class="tile"><b>🎁</b><span>Activities</span></div>
+<div class="tile"><b>🎬</b><span>Creators</span></div>
+</div>
+</div>
+</div>
+</div>
+</section>
 
-            <p>
-                Welcome to KHELOGO — a gaming and rewards platform
-                built around games, daily rewards, referrals and future
-                creator-focused experiences.
-            </p>
+<section id="features">
+<div class="container">
+<div class="section-head">
+<div class="kicker">The KHELOGO experience</div>
+<h2>More than just a game screen.</h2>
+<p>Explore the areas KHELOGO is building around casual entertainment and digital creativity.</p>
+</div>
+<div class="cards">
+<article class="card">
+<div class="card-icon">🎮</div>
+<h3>Casual Games</h3>
+<p>Discover casual games designed for short breaks and everyday entertainment.</p>
+<span class="tag">Entertainment</span>
+</article>
+<article class="card">
+<div class="card-icon">🎁</div>
+<h3>Daily Activities</h3>
+<p>Find daily activities and reward features where available, subject to platform rules.</p>
+<span class="tag">Platform feature</span>
+</article>
+<article class="card">
+<div class="card-icon">🤝</div>
+<h3>Refer &amp; Share</h3>
+<p>Learn about referral activities and applicable eligibility conditions within KHELOGO.</p>
+<span class="tag">Terms apply</span>
+</article>
+<article class="card">
+<div class="card-icon">🛡️</div>
+<h3>Responsible Experience</h3>
+<p>We aim to provide clear information, transparent rules and a safer digital experience.</p>
+<span class="tag">Clarity first</span>
+</article>
+</div>
+</div>
+</section>
 
-            <div class="hero-buttons">
-                <a class="primary" href="#features">Explore KHELOGO</a>
-                <a class="secondary" href="#contact">Contact Us</a>
-            </div>
-        </div>
-    </section>
+<section id="creators">
+<div class="container">
+<div class="creator">
+<div class="creator-art">🎬</div>
+<div>
+<div class="kicker">Coming in future updates</div>
+<h2>Your ideas. Your videos. A new creator journey.</h2>
+<p>KHELOGO plans to introduce video creation and sharing features. Eligible creators may be able to earn under clearly published program rules once these features launch.</p>
+<div class="creator-list">
+<div><b>✓</b> Video creation and sharing features are planned</div>
+<div><b>✓</b> Creator rewards will have eligibility rules</div>
+<div><b>✓</b> Availability and terms will be announced after launch</div>
+</div>
+<span class="tag">Not available yet</span>
+</div>
+</div>
+</div>
+</section>
 
-    <section id="features">
-        <div class="container">
-            <h2 class="section-title">What is KHELOGO?</h2>
+<section id="how">
+<div class="container">
+<div class="section-head">
+<div class="kicker">Simple by design</div>
+<h2>A clear, easy-to-explore experience.</h2>
+<p>As KHELOGO grows, we aim to keep the experience straightforward and the rules easy to understand.</p>
+</div>
+<div class="steps">
+<article class="step"><small>STEP 01</small><h3>Explore</h3><p>Learn about games and features currently available on the platform.</p></article>
+<article class="step"><small>STEP 02</small><h3>Take part</h3><p>Use available activities according to their displayed rules and eligibility requirements.</p></article>
+<article class="step"><small>STEP 03</small><h3>Follow updates</h3><p>Check official KHELOGO updates for new games, creator tools and feature availability.</p></article>
+</div>
+</div>
+</section>
 
-            <p class="section-subtitle">
-                One platform for games, rewards and future creator experiences.
-            </p>
+<section id="about">
+<div class="container">
+<div class="section-head">
+<div class="kicker">About KHELOGO</div>
+<h2>Built around play and creativity.</h2>
+<p>KHELOGO is developing a mobile entertainment experience with casual games, platform activities and planned creator-focused features. Availability and eligibility may vary; applicable terms will be communicated clearly.</p>
+</div>
+</div>
+</section>
 
-            <div class="cards">
-                <article class="card">
-                    <div class="icon" aria-hidden="true">🎮</div>
-                    <h3>Games</h3>
-                    <p>
-                        Enjoy engaging games and challenges inside the
-                        KHELOGO platform.
-                    </p>
-                </article>
-
-                <article class="card">
-                    <div class="icon" aria-hidden="true">🎁</div>
-                    <h3>Daily Rewards</h3>
-                    <p>
-                        Participate in daily reward activities and
-                        maintain your reward streak.
-                    </p>
-                </article>
-
-                <article class="card">
-                    <div class="icon" aria-hidden="true">🤝</div>
-                    <h3>Refer &amp; Earn</h3>
-                    <p>
-                        Invite friends through the KHELOGO referral
-                        program and receive qualifying rewards.
-                    </p>
-                </article>
-
-                <article class="card">
-                    <div class="icon" aria-hidden="true">🎬</div>
-                    <h3>Creator Features</h3>
-                    <p>
-                        Future KHELOGO updates will introduce
-                        video and creator-focused features.
-                    </p>
-                </article>
-            </div>
-        </div>
-    </section>
-
-    <section>
-        <div class="container">
-            <div class="feature">
-                <article class="feature-box">
-                    <h3>🎯 Play &amp; Collect</h3>
-                    <p>
-                        KHELOGO combines games and reward activities
-                        into one simple mobile experience.
-                    </p>
-                </article>
-
-                <article class="feature-box">
-                    <h3>🚀 Built for the Future</h3>
-                    <p>
-                        The platform is designed to grow with new games,
-                        rewards and creator features over time.
-                    </p>
-                </article>
-            </div>
-        </div>
-    </section>
-
-    <section class="cta" id="contact">
-        <div class="container">
-            <h2 class="section-title">Welcome to KHELOGO</h2>
-
-            <p class="section-subtitle">
-                Play. Explore. Create. Reward.
-            </p>
-
-            <a class="primary" href="mailto:support@khelogo.in">
-                Contact Support
-            </a>
-        </div>
-    </section>
+<section class="cta" id="contact">
+<div class="container">
+<div class="cta-box">
+<div class="kicker">Stay connected</div>
+<h2>Questions about KHELOGO?</h2>
+<p>For website or platform enquiries, contact the KHELOGO team. Official app download details will be added here when available.</p>
+<a class="btn primary" href="mailto:support@khelogo.in">Contact KHELOGO ↗</a>
+</div>
+</div>
+</section>
 </main>
 
 <footer>
-    <div class="container">
-        <p>© 2026 KHELOGO. All rights reserved.</p>
-
-        <p style="margin-top:10px;">
-            <a href="privacy.html">Privacy Policy</a>
-            <a href="terms.html">Terms</a>
-            <a href="#contact">Contact</a>
-        </p>
-    </div>
+<div class="container">
+<div class="footer-row">
+<a class="logo" href="#home">KHELO<span>GO</span></a>
+<div class="footer-links">
+<a href="privacy.html">Privacy Policy</a>
+<a href="terms.html">Terms &amp; Conditions</a>
+<a href="mailto:support@khelogo.in">Contact</a>
+</div>
+<span>© 2026 KHELOGO. All rights reserved.</span>
+</div>
+<p class="disclaimer">Feature descriptions may include planned future services. Rewards, creator programs and any payout features are subject to availability, eligibility criteria, applicable terms and required approvals. No earnings or payout availability are guaranteed.</p>
+</div>
 </footer>
 
+<script>
+(function(){
+var button=document.getElementById('menuButton');
+var links=document.getElementById('navLinks');
+if(!button||!links)return;
+button.addEventListener('click',function(){
+var open=links.classList.toggle('open');
+button.setAttribute('aria-expanded',String(open));
+button.textContent=open?'✕':'☰';
+});
+links.querySelectorAll('a').forEach(function(link){
+link.addEventListener('click',function(){
+links.classList.remove('open');
+button.setAttribute('aria-expanded','false');
+button.textContent='☰';
+});
+});
+})();
+</script>
 </body>
 </html>
