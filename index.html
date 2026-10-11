@@ -3,200 +3,126 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>KHELOGO | Play, Explore & Create</title>
-<meta name="description" content="Explore KHELOGO games, daily activities, wallet information, referrals and upcoming creator features.">
-<meta name="robots" content="index, follow">
+<meta name="description" content="Explore KHELOGO games, activities, wallet information, referrals and creator features.">
 <meta name="theme-color" content="#080b12">
 <link rel="canonical" href="https://anshmaurya5619.github.io/">
 
-<meta property="og:type" content="website">
-<meta property="og:title" content="KHELOGO | Play, Explore & Create">
-<meta property="og:description" content="Casual games, activities and future creator features.">
-<meta property="og:url" content="https://anshmaurya5619.github.io/">
-
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-WD264MPXWF"></script>
-<script>
-window.dataLayer=window.dataLayer||[];
-function gtag(){dataLayer.push(arguments);}
-gtag('js',new Date());
-gtag('config','G-WD264MPXWF');
-</script>
-
 <style>
-:root{
- --bg:#080b12;
- --text:#f5f7fb;
- --muted:#a5afbf;
- --cyan:#00e5ff;
- --purple:#a397ff;
- --green:#48e0a1;
- --gold:#ffcc66;
- --pink:#ff78bd;
- --blue:#72a7ff;
- --orange:#ff925c;
- --line:rgba(180,200,230,.15);
+:root {
+  --bg:#080b12;
+  --panel:#111927;
+  --text:#f5f7fb;
+  --muted:#a5afbf;
+  --cyan:#00e5ff;
+  --purple:#a397ff;
+  --green:#48e0a1;
+  --gold:#ffcc66;
+  --pink:#ff78bd;
+  --blue:#72a7ff;
+  --orange:#ff925c;
+  --line:#ffffff20;
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth;scroll-padding-top:85px}
 body{
- font-family:Arial,Helvetica,sans-serif;
- background:
- radial-gradient(ellipse at 80% 0%,#493a9230,transparent 500px),
- var(--bg);
- color:var(--text);
- line-height:1.65;
+  font:16px/1.6 Arial,Helvetica,sans-serif;
+  background:radial-gradient(ellipse at 80% 0%,#493a9230,transparent 500px),var(--bg);
+  color:var(--text)
 }
+body.no-scroll{overflow:hidden}
 a{color:inherit}
-.container{width:min(1140px,calc(100% - 36px));margin:auto}
-
+button,input{font:inherit}
+button{cursor:pointer}
+.container{width:min(1140px,calc(100% - 32px));margin:auto}
 header{
- position:sticky;top:0;z-index:100;
- background:#080b12f2;
- border-bottom:1px solid var(--line);
- backdrop-filter:blur(16px);
+  position:sticky;top:0;z-index:20;
+  background:#080b12f2;border-bottom:1px solid var(--line);
+  backdrop-filter:blur(15px)
 }
 nav{
- min-height:72px;display:flex;align-items:center;
- justify-content:space-between;gap:20px;
+  min-height:70px;display:flex;align-items:center;
+  justify-content:space-between;gap:18px;position:relative
 }
-.logo{
- font-size:24px;font-weight:900;letter-spacing:1.5px;
- text-decoration:none;white-space:nowrap;
-}
+.logo{font-size:24px;font-weight:900;letter-spacing:1px;text-decoration:none}
 .logo span{color:var(--cyan)}
-.navlinks{display:flex;align-items:center;gap:16px}
+.navlinks{display:flex;align-items:center;gap:17px}
 .navlinks a:not(.btn){
- color:#c2ccda;text-decoration:none;font-size:13px;font-weight:bold;
+  text-decoration:none;color:#c2ccda;font-size:13px;font-weight:bold
 }
 .navlinks a:hover{color:var(--cyan)}
 .menu{
- display:none;color:white;background:#182234;
- border:1px solid #ffffff30;border-radius:12px;
- min-width:47px;min-height:45px;font-size:23px;cursor:pointer;
+  display:none;color:white;background:#182234;
+  border:1px solid #ffffff30;border-radius:10px;
+  min-width:45px;min-height:44px;font-size:22px
 }
 .btn{
- display:inline-flex;align-items:center;justify-content:center;
- padding:13px 19px;border-radius:13px;
- font-size:14px;font-weight:800;text-decoration:none;
- border:1px solid transparent;transition:.2s;
+  display:inline-flex;align-items:center;justify-content:center;
+  padding:12px 18px;border-radius:12px;font-weight:800;
+  text-decoration:none;border:1px solid transparent
 }
-.btn:hover{transform:translateY(-2px)}
-.primary{background:linear-gradient(110deg,#00e5ff,#9aefff);color:#061018}
-.secondary{background:#ffffff08;border-color:#ffffff28;color:white}
-
-.hero{padding:76px 0 68px}
-.hero-grid{
- display:grid;grid-template-columns:1.05fr .95fr;
- align-items:center;gap:38px;
+.primary{background:linear-gradient(110deg,var(--cyan),#9aefff);color:#061018}
+.secondary{background:#ffffff08;border-color:#ffffff30;color:white}
+.hero{padding:76px 0}
+.hero-grid{display:grid;grid-template-columns:1.05fr .95fr;align-items:center;gap:38px}
+.eyebrow,.tag{
+  display:inline-block;border-radius:25px;padding:6px 10px;
+  font-size:10px;font-weight:900;letter-spacing:1px;
+  text-transform:uppercase;border:1px solid #00e5ff50;
+  color:#9af5ff;background:#00e5ff12
 }
-.eyebrow{
- display:inline-block;padding:7px 12px;border-radius:30px;
- background:#00e5ff12;border:1px solid #00e5ff50;
- color:#9af5ff;font-size:11px;font-weight:900;letter-spacing:1.2px;
-}
-h1{
- font-size:clamp(42px,6vw,75px);line-height:1.05;
- letter-spacing:-2.4px;margin:22px 0;
-}
+h1{font-size:clamp(40px,6vw,72px);line-height:1.05;letter-spacing:-2px;margin:20px 0}
 .gradient{
- background:linear-gradient(90deg,#00e5ff,#a397ff,#ff78bd);
- -webkit-background-clip:text;background-clip:text;
- -webkit-text-fill-color:transparent;
+  background:linear-gradient(90deg,var(--cyan),var(--purple),var(--pink));
+  background-clip:text;-webkit-background-clip:text;color:transparent
 }
-.hero p{max-width:610px;color:var(--muted);font-size:17px}
-.actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:27px}
-.trust{display:flex;flex-wrap:wrap;gap:15px;margin-top:24px;font-size:12px;color:#c0cad7}
+.hero p,.section-head p{color:var(--muted)}
+.hero p{font-size:17px}
+.actions,.trust{display:flex;flex-wrap:wrap;gap:12px;margin-top:22px}
+.trust{font-size:12px;color:#c0cad7}
 .trust b{color:var(--green)}
-
-.preview-wrap{position:relative;display:grid;place-items:center;min-height:370px}
-.orb{
- position:absolute;width:275px;height:275px;border-radius:50%;
- background:linear-gradient(135deg,#00e5ff65,#a397ff65,#ff78bd45);
- filter:blur(35px);
-}
 .preview{
- position:relative;width:100%;max-width:425px;padding:24px;
- border-radius:26px;border:1px solid #ffffff25;
- background:linear-gradient(145deg,#19273b,#111322);
- box-shadow:0 25px 75px #0008;
+  padding:25px;border:1px solid #ffffff25;border-radius:25px;
+  background:linear-gradient(145deg,#19273b,#111322);
+  box-shadow:0 25px 70px #0008
 }
-.preview-top{
- display:flex;align-items:center;justify-content:space-between;
- gap:10px;padding-bottom:15px;border-bottom:1px solid var(--line);
+.preview h2{margin:15px 0;font-size:30px}
+.preview-banner,.tile{
+  padding:16px;border:1px solid var(--line);
+  border-radius:15px;background:#ffffff08
 }
-.status{
- font-size:10px;color:var(--green);background:#48e0a11a;
- border-radius:20px;padding:5px 9px;
-}
-.preview small{display:block;color:var(--muted);font-size:11px;margin-top:18px}
-.preview h2{font-size:30px;line-height:1.2;margin:6px 0 18px}
-.highlight{color:var(--cyan)}
-.preview-banner{
- padding:19px;border-radius:18px;
- background:linear-gradient(120deg,#00e5ff22,#a397ff24,#ff78bd17);
- border:1px solid #a397ff30;
-}
-.preview-banner small{margin:0}
-.preview-banner strong{display:block;font-size:23px;margin:5px 0}
-.preview-banner span{font-size:11px;color:var(--green)}
-.tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px}
-.tile{
- padding:13px 5px;text-align:center;background:#ffffff08;
- border:1px solid var(--line);border-radius:14px;
-}
-.tile b{display:block;font-size:23px}
+.tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-top:10px;text-align:center}
+.tile b{display:block;font-size:25px}
 .tile span{font-size:11px;color:var(--muted)}
-
-section{padding:68px 0}
+section{padding:62px 0}
 #games{background:linear-gradient(180deg,#0c1520,#080b12)}
-#features{background:radial-gradient(ellipse at 90% 20%,#ffbd5910,transparent 45%)}
-#wallet{background:radial-gradient(ellipse at 10% 30%,#48e0a112,transparent 45%),#090e13}
-#referral{background:radial-gradient(ellipse at 90% 30%,#a397ff15,transparent 45%),#0c0b17}
-#creators{background:radial-gradient(ellipse at 15% 30%,#ff78bd12,transparent 50%)}
-.section-head{max-width:760px;text-align:center;margin:0 auto 35px}
+#wallet{background:#090e13}
+#referral{background:#0c0b17}
+.section-head{max-width:760px;text-align:center;margin:0 auto 32px}
 .kicker{font-size:11px;font-weight:900;letter-spacing:2px;color:var(--cyan);text-transform:uppercase}
-h2{font-size:clamp(30px,4vw,43px);line-height:1.16;letter-spacing:-1px;margin-top:10px}
-.section-head h2:after{
- content:"";display:block;width:58px;height:3px;border-radius:5px;
- margin:15px auto 0;background:linear-gradient(90deg,var(--cyan),var(--purple),var(--pink));
-}
-.section-head p{color:var(--muted);margin-top:13px}
-
-.cards{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
+h2{font-size:clamp(29px,4vw,42px);line-height:1.2;margin-top:8px}
+.section-head p{margin-top:12px}
+.cards{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:15px}
 .card{
- --accent:var(--cyan);--shade:#122c39;
- position:relative;isolation:isolate;overflow:hidden;
- padding:23px;border:1px solid color-mix(in srgb,var(--accent) 38%,transparent);
- border-radius:22px;
- background:linear-gradient(145deg,var(--shade),#0e141f 85%);
- transition:transform .22s,border-color .22s,box-shadow .22s;
+  --accent:var(--cyan);--shade:#102b38;
+  position:relative;overflow:hidden;padding:21px;
+  border:1px solid color-mix(in srgb,var(--accent) 40%,transparent);
+  border-radius:20px;background:linear-gradient(145deg,var(--shade),#0e141f 85%);
+  transition:transform .2s,border-color .2s
 }
-.card:before{
- content:"";position:absolute;z-index:-1;right:-48px;top:-58px;
- width:140px;height:140px;border-radius:50%;
- background:var(--accent);opacity:.18;filter:blur(27px);
-}
-.card:hover{
- transform:translateY(-5px);
- border-color:var(--accent);
- box-shadow:0 16px 36px #0005,0 0 20px color-mix(in srgb,var(--accent) 12%,transparent);
-}
+.card:hover{transform:translateY(-4px);border-color:var(--accent)}
 .card-icon{
- display:grid;place-items:center;width:52px;height:52px;
- border-radius:16px;background:color-mix(in srgb,var(--accent) 14%,transparent);
- border:1px solid color-mix(in srgb,var(--accent) 42%,transparent);
- font-size:25px;margin-bottom:18px;
+  display:grid;place-items:center;width:50px;height:50px;
+  border-radius:15px;background:color-mix(in srgb,var(--accent) 15%,transparent);
+  font-size:25px;margin-bottom:14px
 }
-.card h3{font-size:17px}
-.card p{color:var(--muted);font-size:13px;margin-top:9px}
-.tag{
- display:inline-block;margin-top:15px;padding:5px 9px;
- border-radius:20px;color:var(--accent);
- background:color-mix(in srgb,var(--accent) 10%,transparent);
- border:1px solid color-mix(in srgb,var(--accent) 35%,transparent);
- font-size:10px;font-weight:bold;text-transform:uppercase;
+.card p{font-size:13px;color:var(--muted);margin-top:8px}
+.card .tag{
+  margin-top:14px;color:var(--accent);
+  border-color:color-mix(in srgb,var(--accent) 40%,transparent);
+  background:color-mix(in srgb,var(--accent) 10%,transparent);
+  letter-spacing:.4px
 }
 .cyan{--accent:#00e5ff;--shade:#102b38}
 .violet{--accent:#b09aff;--shade:#292044}
@@ -205,324 +131,818 @@ h2{font-size:clamp(30px,4vw,43px);line-height:1.16;letter-spacing:-1px;margin-to
 .pink{--accent:#ff78bd;--shade:#3b2039}
 .blue{--accent:#72a7ff;--shade:#192d4b}
 .orange{--accent:#ff925c;--shade:#3b291a}
+.play-btn{
+  width:100%;margin-top:15px;padding:12px;border:0;
+  border-radius:10px;background:var(--accent);color:#071018;font-weight:900
+}
+.play-btn:hover,.gbtn:hover{filter:brightness(1.12)}
+.play-btn:disabled,.gbtn:disabled{opacity:.45;cursor:not-allowed}
 .section-note{text-align:center;color:var(--muted);font-size:12px;margin-top:20px}
-
-.creator{
- display:grid;grid-template-columns:.8fr 1.2fr;gap:30px;align-items:center;
- padding:clamp(25px,5vw,48px);border:1px solid #a397ff55;border-radius:28px;
- background:linear-gradient(125deg,#17223a,#201634,#111927);
+.feature-box{
+  padding:30px;border:1px solid #a397ff55;border-radius:25px;
+  background:linear-gradient(125deg,#17223a,#201634,#111927)
 }
-.creator-art{
- min-height:190px;display:grid;place-items:center;border-radius:22px;
- border:1px solid #ff78bd35;
- background:linear-gradient(135deg,#00e5ff15,#a397ff25,#ff78bd20);
- font-size:76px;
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:15px}
+.step{padding:22px;border:1px solid var(--line);border-radius:17px;background:#ffffff08}
+.step p{font-size:13px;color:var(--muted);margin-top:7px}
+footer{border-top:1px solid var(--line);padding:27px 0;color:#8994a5;font-size:12px}
+.footer-row{display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap}
+.footer-links{display:flex;gap:15px;flex-wrap:wrap}
+.footer-links a{color:#b0bac8;text-decoration:none}
+.disclaimer{margin-top:14px;font-size:11px;max-width:900px}
+
+/* Game window */
+.modal{
+  display:none;position:fixed;inset:0;z-index:100;
+  background:#03060cf5;overflow:auto;padding:10px
 }
-.creator p{color:var(--muted);margin-top:13px}
-.creator-list{display:grid;gap:9px;margin-top:18px;font-size:13px}
-.check{color:var(--green)}
-
-.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
-.step{
- padding:23px;border:1px solid #ffffff17;border-radius:19px;
- background:linear-gradient(145deg,#172235,#10131d);
+.modal.open{display:block}
+.shell{
+  --accent:var(--cyan);max-width:850px;min-height:calc(100vh - 20px);
+  margin:auto;border:1px solid var(--accent);border-radius:20px;
+  background:radial-gradient(ellipse at top,color-mix(in srgb,var(--accent) 18%,transparent),transparent 55%),#0c121d;
+  position:relative;overflow:hidden
 }
-.step:nth-child(1){border-top:3px solid var(--cyan)}
-.step:nth-child(2){border-top:3px solid var(--purple)}
-.step:nth-child(3){border-top:3px solid var(--green)}
-.step small{color:var(--cyan);font-weight:900;letter-spacing:1.5px}
-.step h3{margin-top:10px}
-.step p{color:var(--muted);font-size:13px;margin-top:7px}
-
-.cta{padding-top:10px;padding-bottom:75px}
-.cta-box{
- text-align:center;padding:50px 22px;border-radius:28px;
- border:1px solid #00e5ff40;
- background:radial-gradient(ellipse at top,#00e5ff20,transparent 60%),
- linear-gradient(125deg,#101b2a,#17122a);
+.shell[data-game="Ludo"]{--accent:var(--gold)}
+.shell[data-game="LuckyJava"]{--accent:var(--green)}
+.shell[data-game="Mines"]{--accent:var(--purple)}
+.shell[data-game="Aviator"]{--accent:var(--pink)}
+.shell[data-game="Runway Surfing"]{--accent:var(--cyan)}
+.game-head{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:13px 16px;border-bottom:1px solid var(--line)}
+.game-head strong span{color:var(--accent)}
+.game-head button{
+  min-width:42px;min-height:42px;background:#ffffff10;
+  border:1px solid var(--line);color:white;border-radius:10px;font-size:19px
 }
-.cta-box p{color:var(--muted);max-width:650px;margin:14px auto 23px}
-
-footer{border-top:1px solid var(--line);padding:27px 0 32px;color:#8994a5;font-size:12px}
-.footer-row{display:flex;justify-content:space-between;align-items:center;gap:18px;flex-wrap:wrap}
-.footer-links{display:flex;flex-wrap:wrap;gap:17px}
-.footer-links a{text-decoration:none;color:#b0bac8}
-.disclaimer{margin-top:16px;font-size:11px;color:#7e899a;max-width:900px}
-
+.game-content{padding:clamp(12px,3vw,25px)}
+.game-title{text-align:center}
+.game-title h2{font-size:clamp(27px,5vw,40px)}
+.game-title p{font-size:13px;color:var(--muted);margin:8px auto 20px}
+.panel{
+  max-width:650px;margin:auto;padding:clamp(12px,3vw,24px);
+  border:1px solid var(--line);border-radius:18px;background:#05091099
+}
+.stats{display:flex;justify-content:center;gap:9px;flex-wrap:wrap;margin-bottom:15px}
+.stat{padding:7px 12px;background:#ffffff0b;border:1px solid var(--line);border-radius:10px;font-size:12px}
+.stat b{color:var(--accent);margin-left:5px}
+.gbtn{padding:11px 15px;border:0;border-radius:10px;background:var(--accent);color:#071018;font-weight:900}
+.gbtn.alt{background:#ffffff10;color:white;border:1px solid #ffffff30}
+.game-buttons{display:flex;justify-content:center;flex-wrap:wrap;gap:9px;margin-top:15px}
+.message{text-align:center;min-height:25px;color:#d4deea;font-size:13px;margin-top:12px}
+.game-menu{
+  display:none;position:absolute;right:15px;top:65px;z-index:3;
+  width:min(285px,calc(100% - 30px));padding:16px;
+  border:1px solid #ffffff30;border-radius:15px;background:#111a29;
+  box-shadow:0 18px 45px #0009
+}
+.game-menu.open{display:block}
+.game-menu h3{margin-bottom:8px}
+.setting{display:flex;justify-content:space-between;gap:12px;padding:9px 0;border-bottom:1px solid #ffffff15;font-size:13px}
+.game-menu .gbtn{width:100%;margin-top:9px}
+.mines-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;max-width:380px;margin:15px auto}
+.mine{aspect-ratio:1;border:1px solid #b09aff66;border-radius:8px;background:linear-gradient(145deg,#332753,#171329);color:white;font-size:23px}
+.mine.safe{background:#15553e}
+.mine.boom{background:#6c263f}
+.targets{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;max-width:430px;margin:18px auto}
+.target{min-height:82px;border:1px solid #48e0a155;border-radius:14px;background:linear-gradient(145deg,#184c36,#0b241a);font-size:27px}
+.aviator-stage{
+  position:relative;min-height:220px;display:grid;place-items:center;overflow:hidden;
+  border:1px solid #ff78bd40;border-radius:15px;background:linear-gradient(#1b1534,#2d1630 65%,#11101a)
+}
+.multiplier{font-size:clamp(44px,10vw,75px);font-weight:900;position:relative}
+.plane{position:absolute;bottom:20px;left:15%;font-size:34px;transition:.2s}
+.ludo-board{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;max-width:370px;margin:15px auto}
+.ludo-cell{min-height:75px;display:grid;place-items:center;border-radius:12px;border:2px solid #ffffff30;font-size:28px;background:#ffffff0b}
+.runner-stage{position:relative;max-width:420px;height:280px;margin:auto;overflow:hidden;border:1px solid #00e5ff45;border-radius:15px;background:linear-gradient(#122c40,#1d2830)}
+.road{position:absolute;inset:0 15%;background:#303b47;clip-path:polygon(38% 0,62% 0,100% 100%,0 100%)}
+.lanes{position:absolute;inset:0 15%;background:linear-gradient(90deg,transparent 32.8%,#ffffff40 33%,transparent 33.5%,transparent 66%,#ffffff40 66.5%,transparent 67%)}
+.runner{position:absolute;bottom:25px;left:49%;font-size:33px;transition:left .12s,transform .15s}
+.obstacle{position:absolute;top:-40px;font-size:25px}
+.rules{font-size:13px;color:#cbd5e1}
+.rules li{margin:8px 0 8px 20px}
 @media(max-width:1000px){
- .navlinks{gap:10px}
- .navlinks a:not(.btn){font-size:12px}
- .hero-grid{grid-template-columns:1fr}
- .preview-wrap{min-height:320px}
- .cards{grid-template-columns:repeat(2,minmax(0,1fr))}
- .creator{grid-template-columns:1fr}
- .creator-art{min-height:145px}
+  .hero-grid{grid-template-columns:1fr}
+  .cards{grid-template-columns:repeat(2,minmax(0,1fr))}
 }
 @media(max-width:700px){
- .container{width:calc(100% - 30px)}
- nav{min-height:66px}
- .logo{font-size:20px}
- .menu{display:block}
- .navlinks{
-  display:none;position:absolute;top:66px;left:0;right:0;
-  padding:18px 20px 22px;background:#0b1019;
-  border-bottom:1px solid var(--line);box-shadow:0 18px 30px #0007;
-  flex-direction:column;align-items:stretch;gap:12px;
- }
- .navlinks.open{display:flex}
- .navlinks a:not(.btn){padding:6px 0;font-size:15px;color:#e1e8f2}
- .navlinks .btn{width:100%;min-height:48px;color:#061018}
- .hero{padding:45px 0 35px}
- h1{font-size:clamp(40px,10.5vw,58px);letter-spacing:-1.8px}
- .hero p{font-size:16px}
- .actions .btn{flex:1 1 100%;min-height:48px}
- section{padding:48px 0}
- .cards,.steps{grid-template-columns:1fr}
- .card{padding:21px;border-radius:19px}
- .card:hover{transform:translateY(-2px)}
- .preview-wrap{min-height:290px}
- .preview{padding:16px}
- .creator{padding:22px}
- .cta{padding-bottom:50px}
- .cta-box{padding:35px 20px}
- .footer-row{align-items:flex-start;flex-direction:column}
+  .container{width:calc(100% - 28px)}
+  .menu{display:block}
+  .navlinks{
+    display:none;position:absolute;top:65px;left:0;right:0;
+    flex-direction:column;align-items:stretch;gap:0;
+    padding:10px;background:#101725;border:1px solid var(--line);border-radius:14px
+  }
+  .navlinks.open{display:flex}
+  .navlinks a{padding:11px}
+  .navlinks .btn{margin-top:8px}
+  .hero{padding:48px 0}
+  section{padding:45px 0}
+  .cards{grid-template-columns:1fr}
+  .steps{grid-template-columns:1fr}
+  .preview{padding:18px}
+  .game-head{padding:10px}
+  .game-head strong{font-size:12px}
 }
 @media(prefers-reduced-motion:reduce){
- html{scroll-behavior:auto}
- *,*::before,*::after{transition:none!important}
+  html{scroll-behavior:auto}
+  *,*::before,*::after{transition:none!important;animation:none!important}
 }
 </style>
 </head>
 
 <body>
 <header>
- <div class="container">
-  <nav aria-label="Main navigation">
-   <a class="logo" href="#home">KHELO<span>GO</span></a>
-   <button class="menu" id="menuButton" aria-expanded="false" aria-controls="navLinks" aria-label="Open menu">☰</button>
-   <div class="navlinks" id="navLinks">
-    <a href="#games">Games</a>
-    <a href="#features">Features</a>
-    <a href="#wallet">Wallet</a>
-    <a href="#referral">Refer &amp; Earn</a>
-    <a href="#creators">Creators</a>
-    <a href="#how">How it works</a>
-    <a href="#about">About</a>
-    <a class="btn primary" href="#contact">Contact us ↗</a>
-   </div>
-  </nav>
- </div>
+  <div class="container">
+    <nav>
+      <a class="logo" href="#home">KHELO<span>GO</span></a>
+      <button class="menu" id="menuBtn" aria-label="Open navigation" aria-expanded="false">☰</button>
+      <div class="navlinks" id="navLinks">
+        <a href="#games">Games</a>
+        <a href="#features">Features</a>
+        <a href="#wallet">Wallet</a>
+        <a href="#referral">Referral</a>
+        <a href="#creators">Creators</a>
+        <a class="btn primary" href="#games">Play Now ↗</a>
+      </div>
+    </nav>
+  </div>
 </header>
 
 <main id="home">
-<section class="hero">
- <div class="container hero-grid">
-  <div>
-   <div class="eyebrow">✦ A NEW WAY TO PLAY AND CREATE</div>
-   <h1>Play your way.<br><span class="gradient">Explore what's next.</span></h1>
-   <p>Welcome to KHELOGO — a mobile entertainment platform bringing casual games, daily activities, referral information and future creator features together in one experience.</p>
-   <div class="actions">
-    <a class="btn primary" href="#games">Explore the games →</a>
-    <a class="btn secondary" href="#features">Discover features</a>
-   </div>
-   <div class="trust">
-    <span><b>✓</b> Casual entertainment</span>
-    <span><b>✓</b> No user deposit for games</span>
-    <span><b>✓</b> Creator features planned</span>
-   </div>
-  </div>
-
-  <div class="preview-wrap">
-   <div class="orb"></div>
-   <div class="preview">
-    <div class="preview-top">
-     <strong>KHELO<span class="highlight">GO</span></strong>
-     <span class="status">PLATFORM PREVIEW</span>
+  <section class="hero">
+    <div class="container hero-grid">
+      <div>
+        <span class="eyebrow">✦ A NEW WAY TO PLAY AND CREATE</span>
+        <h1>Play your way.<br><span class="gradient">Explore what's next.</span></h1>
+        <p>Welcome to KHELOGO — a mobile entertainment experience built around casual games, activities and future creator features.</p>
+        <div class="actions">
+          <a class="btn primary" href="#games">Explore Games ↗</a>
+          <a class="btn secondary" href="#features">Discover Features</a>
+        </div>
+        <div class="trust"><span>✓ <b>Mobile friendly</b></span><span>✓ Easy to explore</span><span>✓ New ideas ahead</span></div>
+      </div>
+      <div class="preview">
+        <span class="eyebrow">KHELOGO EXPERIENCE</span>
+        <h2>One place.<br><span class="gradient">Many ways to play.</span></h2>
+        <div class="preview-banner"><strong>Made for you ✨</strong><p style="color:var(--muted);font-size:13px">Explore games and discover what's coming next.</p></div>
+        <div class="tiles">
+          <div class="tile"><b>🎮</b><span>Games</span></div>
+          <div class="tile"><b>🎁</b><span>Activities</span></div>
+          <div class="tile"><b>🎬</b><span>Creators</span></div>
+        </div>
+      </div>
     </div>
-    <small>YOUR NEXT EXPERIENCE STARTS HERE</small>
-    <h2>Play. Discover.<br><span class="highlight">Create.</span></h2>
-    <div class="preview-banner">
-     <small>One platform, multiple experiences</small>
-     <strong>Made for you ✨</strong>
-     <span>Games · Activities · Creators</span>
+  </section>
+
+  <section id="games">
+    <div class="container">
+      <div class="section-head">
+        <div class="kicker">Game zone</div>
+        <h2>Choose a game. Start playing.</h2>
+        <p>These lightweight browser demos run on this page. Scores are fictional demo points only—not money, wallet coins or redeemable rewards.</p>
+      </div>
+      <div class="cards">
+        <article class="card gold"><div class="card-icon">🎲</div><h3>Ludo Mini</h3><p>Roll dice and move a token on a simplified solo board.</p><span class="tag">Playable demo</span><button class="play-btn" data-game="Ludo">Play Ludo →</button></article>
+        <article class="card green"><div class="card-icon">🍀</div><h3>LuckyJava</h3><p>Choose a lucky target and earn fictional demo points.</p><span class="tag">Playable demo</span><button class="play-btn" data-game="LuckyJava">Play LuckyJava →</button></article>
+        <article class="card violet"><div class="card-icon">💎</div><h3>Mines</h3><p>Reveal safe cells, avoid mines and collect demo points.</p><span class="tag">Playable demo</span><button class="play-btn" data-game="Mines">Play Mines →</button></article>
+        <article class="card pink"><div class="card-icon">✈️</div><h3>Aviator</h3><p>A simulated flight multiplier arcade game.</p><span class="tag">Simulation demo</span><button class="play-btn" data-game="Aviator">Play Aviator →</button></article>
+        <article class="card cyan"><div class="card-icon">🏃</div><h3>Runway Surfing</h3><p>Change lanes and dodge obstacles to build your distance.</p><span class="tag">Playable demo</span><button class="play-btn" data-game="Runway Surfing">Play Runway Surfing →</button></article>
+        <article class="card gold"><div class="card-icon">🐔</div><h3>Chicken Road 2</h3><p>Playable browser version is not included yet.</p><span class="tag">Coming soon</span></article>
+        <article class="card blue"><div class="card-icon">🐉</div><h3>Dragon Tiger</h3><p>Planned game for a future release.</p><span class="tag">Coming soon</span></article>
+        <article class="card orange"><div class="card-icon">🎱</div><h3>Carrom &amp; Javelin</h3><p>Additional game ideas for future releases.</p><span class="tag">Coming soon</span></article>
+      </div>
+      <p class="section-note">Browser demos are separate from the Android app. They are not connected to Firebase, live balances, rewards or payouts.</p>
     </div>
-    <div class="tiles">
-     <div class="tile"><b>🎮</b><span>Games</span></div>
-     <div class="tile"><b>🎁</b><span>Activities</span></div>
-     <div class="tile"><b>🎬</b><span>Creators</span></div>
+  </section>
+
+  <section id="features">
+    <div class="container">
+      <div class="section-head"><div class="kicker">The KHELOGO experience</div><h2>More than just a game screen.</h2><p>Explore activities and features being developed around the KHELOGO app.</p></div>
+      <div class="cards">
+        <article class="card gold"><div class="card-icon">🎁</div><h3>Daily Check-in</h3><p>Planned seven-day reward cycle; check current app rules.</p><span class="tag">Check app</span></article>
+        <article class="card pink"><div class="card-icon">📺</div><h3>Watch &amp; Earn</h3><p>Video and ad activities depend on provider rules and availability.</p><span class="tag">Availability varies</span></article>
+        <article class="card green"><div class="card-icon">🪙</div><h3>Coins &amp; Conversion</h3><p>Check current coin rates and eligibility in the app.</p><span class="tag">Rules apply</span></article>
+        <article class="card blue"><div class="card-icon">🛡️</div><h3>Account &amp; Safety</h3><p>Review the privacy policy and terms before account actions.</p><span class="tag">Account safety</span></article>
+      </div>
     </div>
-   </div>
-  </div>
- </div>
-</section>
+  </section>
 
-<section id="games">
- <div class="container">
-  <div class="section-head">
-   <div class="kicker">Game zone</div>
-   <h2>Find your next game.</h2>
-   <p>Explore games associated with KHELOGO. Availability depends on the current app release.</p>
-  </div>
-  <div class="cards">
-   <article class="card cyan"><div class="card-icon">🎲</div><h3>Ludo</h3><p>A familiar board-game experience for casual play.</p><span class="tag">Listed in project</span></article>
-   <article class="card green"><div class="card-icon">🍀</div><h3>LuckyJava</h3><p>A casual game listed in the KHELOGO project.</p><span class="tag">Listed in project</span></article>
-   <article class="card violet"><div class="card-icon">💣</div><h3>Mines</h3><p>Check the app for current availability.</p><span class="tag">Check availability</span></article>
-   <article class="card pink"><div class="card-icon">✈️</div><h3>Aviator</h3><p>Planned game concept for a future update.</p><span class="tag">Coming soon</span></article>
-   <article class="card gold"><div class="card-icon">🐔</div><h3>Chicken Road 2</h3><p>Game area planned for the KHELOGO experience.</p><span class="tag">Check availability</span></article>
-   <article class="card violet"><div class="card-icon">🐉</div><h3>Dragon Tiger</h3><p>Planned game card for a future release.</p><span class="tag">Coming soon</span></article>
-   <article class="card blue"><div class="card-icon">🎯</div><h3>PUBG Mini</h3><p>Planned game area, subject to development.</p><span class="tag">Coming soon</span></article>
-   <article class="card orange"><div class="card-icon">🎱</div><h3>Carrom &amp; Javelin</h3><p>Additional game ideas for future releases.</p><span class="tag">Coming soon</span></article>
-  </div>
-  <p class="section-note">These cards do not guarantee every game is playable. Check the latest app version for current availability.</p>
- </div>
-</section>
-
-<section id="features">
- <div class="container">
-  <div class="section-head">
-   <div class="kicker">The KHELOGO experience</div>
-   <h2>More than just a game screen.</h2>
-   <p>Explore information about activities and features being developed around the KHELOGO app.</p>
-  </div>
-  <div class="cards">
-   <article class="card gold"><div class="card-icon">🎁</div><h3>Daily Check-in</h3><p>A planned seven-day reward cycle. Actual rewards depend on the app's current rules.</p><span class="tag">Check app</span></article>
-   <article class="card pink"><div class="card-icon">📺</div><h3>Watch &amp; Earn</h3><p>Video or ad-related activities depend on provider rules and app availability.</p><span class="tag">Availability varies</span></article>
-   <article class="card green"><div class="card-icon">🪙</div><h3>Coins &amp; Conversion</h3><p>Check coin conversion rates and eligibility in the app.</p><span class="tag">Rules apply</span></article>
-   <article class="card blue"><div class="card-icon">🛡️</div><h3>Account &amp; Safety</h3><p>Review the applicable privacy policy and terms before using account features.</p><span class="tag">Account safety</span></article>
-  </div>
- </div>
-</section>
-
-<section id="wallet">
- <div class="container">
-  <div class="section-head">
-   <div class="kicker">Wallet overview</div>
-   <h2>Wallet, coins and history.</h2>
-   <p>This section describes wallet-related tools. It does not display a live balance or access private transactions.</p>
-  </div>
-  <div class="cards">
-   <article class="card green"><div class="card-icon">💰</div><h3>Wallet Balance</h3><p>Check your actual balance inside the app after signing in.</p><span class="tag">App sign-in required</span></article>
-   <article class="card violet"><div class="card-icon">🔄</div><h3>Coin Conversion</h3><p>Review the current rate, eligibility and minimum requirements in the app.</p><span class="tag">Rates may change</span></article>
-   <article class="card blue"><div class="card-icon">🧾</div><h3>Transaction History</h3><p>Check transaction records inside the app when the history feature is available.</p><span class="tag">App feature</span></article>
-   <article class="card gold"><div class="card-icon">💸</div><h3>Withdrawals</h3><p>Payouts depend on verification, applicable rules and provider approval.</p><span class="tag">Not a live payout portal</span></article>
-  </div>
- </div>
-</section>
-
-<section id="referral">
- <div class="container">
-  <div class="section-head">
-   <div class="kicker">Share the experience</div>
-   <h2>Refer &amp; Earn.</h2>
-   <p>Check the KHELOGO app for your current referral code, eligibility and reward status.</p>
-  </div>
-  <div class="cards">
-   <article class="card violet"><div class="card-icon">🤝</div><h3>Invite Friends</h3><p>Share your referral code through the app when available to your account.</p><span class="tag">App feature</span></article>
-   <article class="card green"><div class="card-icon">₹</div><h3>Referral Reward</h3><p>The project has used a ₹10 reward concept. Actual credit depends on the live rules.</p><span class="tag">Terms apply</span></article>
-   <article class="card blue"><div class="card-icon">🔎</div><h3>Check Status</h3><p>Confirm referral counts and reward credit in your signed-in app account.</p><span class="tag">Verify in app</span></article>
-   <article class="card orange"><div class="card-icon">📋</div><h3>Referral Rules</h3><p>Rewards may require verification and eligibility checks.</p><span class="tag">Eligibility required</span></article>
-  </div>
- </div>
-</section>
-
-<section id="creators">
- <div class="container">
-  <div class="creator">
-   <div class="creator-art" aria-hidden="true">🎬</div>
-   <div>
-    <div class="kicker">Coming in future updates</div>
-    <h2>Your ideas. Your videos. A new creator journey.</h2>
-    <p>KHELOGO plans to introduce video creation and sharing. Eligible creators may be able to earn under published programme rules after launch.</p>
-    <div class="creator-list">
-     <div><b class="check">✓</b> Video creation and sharing are planned</div>
-     <div><b class="check">✓</b> Creator rewards will have eligibility rules</div>
-     <div><b class="check">✓</b> Availability and terms will be announced after launch</div>
+  <section id="wallet">
+    <div class="container">
+      <div class="section-head"><div class="kicker">Wallet overview</div><h2>Wallet, coins and history.</h2><p>This is informational only; the website does not show live balances or private transactions.</p></div>
+      <div class="cards">
+        <article class="card green"><div class="card-icon">💰</div><h3>Wallet Balance</h3><p>Check your actual balance inside the app after signing in.</p><span class="tag">App sign-in required</span></article>
+        <article class="card violet"><div class="card-icon">🔄</div><h3>Coin Conversion</h3><p>Review the current rate and minimum requirements in the app.</p><span class="tag">Rates may change</span></article>
+        <article class="card blue"><div class="card-icon">🧾</div><h3>Transaction History</h3><p>Check records inside the app when history is available.</p><span class="tag">App feature</span></article>
+        <article class="card gold"><div class="card-icon">💸</div><h3>Withdrawals</h3><p>Payouts depend on verification, rules and provider approval.</p><span class="tag">Not a payout portal</span></article>
+      </div>
     </div>
-    <span class="tag">Not available yet</span>
-   </div>
-  </div>
- </div>
-</section>
+  </section>
 
-<section id="how">
- <div class="container">
-  <div class="section-head">
-   <div class="kicker">Simple by design</div>
-   <h2>A clear, easy-to-explore experience.</h2>
-   <p>Use the official app for account actions and check official updates for availability.</p>
-  </div>
-  <div class="steps">
-   <article class="step"><small>STEP 01</small><h3>Explore</h3><p>Learn about games and features currently available on the platform.</p></article>
-   <article class="step"><small>STEP 02</small><h3>Take part</h3><p>Use available activities according to their displayed rules.</p></article>
-   <article class="step"><small>STEP 03</small><h3>Follow updates</h3><p>Check official updates for new games and creator tools.</p></article>
-  </div>
- </div>
-</section>
+  <section id="referral">
+    <div class="container">
+      <div class="section-head"><div class="kicker">Share the experience</div><h2>Refer &amp; Earn.</h2><p>Check the app for your referral code, eligibility and reward status.</p></div>
+      <div class="cards">
+        <article class="card violet"><div class="card-icon">🤝</div><h3>Invite Friends</h3><p>Share your referral code through the app when available.</p><span class="tag">App feature</span></article>
+        <article class="card green"><div class="card-icon">₹</div><h3>Referral Reward</h3><p>The project has used a ₹10 reward concept; actual credit depends on live rules.</p><span class="tag">Terms apply</span></article>
+        <article class="card blue"><div class="card-icon">🔎</div><h3>Check Status</h3><p>Confirm referral credit in your signed-in app account.</p><span class="tag">Verify in app</span></article>
+        <article class="card orange"><div class="card-icon">📋</div><h3>Referral Rules</h3><p>Rewards may require verification and eligibility checks.</p><span class="tag">Eligibility required</span></article>
+      </div>
+    </div>
+  </section>
 
-<section id="about">
- <div class="container">
-  <div class="section-head">
-   <div class="kicker">About KHELOGO</div>
-   <h2>Built around play and creativity.</h2>
-   <p>KHELOGO is developing a mobile entertainment experience with casual games, platform activities and planned creator features. Availability and eligibility may vary.</p>
-  </div>
- </div>
-</section>
+  <section id="creators">
+    <div class="container"><div class="feature-box"><div class="kicker">Coming in future updates</div><h2>Your ideas. Your videos. A new creator journey.</h2><p style="color:var(--muted);margin-top:12px">KHELOGO plans to introduce video creation and sharing. Creator rewards, if launched, will follow published programme rules and eligibility.</p><span class="tag" style="margin-top:15px">Not available yet</span></div></div>
+  </section>
 
-<section class="cta" id="contact">
- <div class="container">
-  <div class="cta-box">
-   <div class="kicker">Stay connected</div>
-   <h2>Questions about KHELOGO?</h2>
-   <p>For website or platform enquiries, contact the KHELOGO team. Official app download details can be added when available.</p>
-   <a class="btn primary" href="mailto:support@khelogo.in">Contact KHELOGO ↗</a>
-  </div>
- </div>
-</section>
+  <section id="how">
+    <div class="container">
+      <div class="section-head"><div class="kicker">Simple by design</div><h2>A clear, easy-to-explore experience.</h2><p>Use the official app for account actions and check official updates for availability.</p></div>
+      <div class="steps">
+        <article class="step"><small>STEP 01</small><h3>Explore</h3><p>Learn about games and features currently available.</p></article>
+        <article class="step"><small>STEP 02</small><h3>Take part</h3><p>Use available activities according to displayed rules.</p></article>
+        <article class="step"><small>STEP 03</small><h3>Follow updates</h3><p>Check official updates for new games and creator tools.</p></article>
+      </div>
+    </div>
+  </section>
+
+  <section id="about">
+    <div class="container"><div class="section-head"><div class="kicker">About KHELOGO</div><h2>Built around play and creativity.</h2><p>KHELOGO is developing a mobile entertainment experience with casual games, platform activities and planned creator features. Availability and eligibility may vary.</p></div></div>
+  </section>
+
+  <section id="contact">
+    <div class="container"><div class="feature-box" style="text-align:center"><div class="kicker">Stay connected</div><h2>Questions about KHELOGO?</h2><p style="color:var(--muted);margin:12px auto 20px">For website or platform enquiries, contact the KHELOGO team.</p><a class="btn primary" href="mailto:support@khelogo.in">Contact KHELOGO ↗</a></div></div>
+  </section>
 </main>
 
 <footer>
- <div class="container">
-  <div class="footer-row">
-   <a class="logo" href="#home">KHELO<span>GO</span></a>
-   <div class="footer-links">
-    <a href="privacy.html">Privacy Policy</a>
-    <a href="terms.html">Terms &amp; Conditions</a>
-    <a href="mailto:support@khelogo.in">Contact</a>
-   </div>
-   <span>© 2026 KHELOGO. All rights reserved.</span>
+  <div class="container">
+    <div class="footer-row">
+      <a class="logo" href="#home">KHELO<span>GO</span></a>
+      <div class="footer-links"><a href="privacy.html">Privacy Policy</a><a href="terms.html">Terms &amp; Conditions</a><a href="mailto:support@khelogo.in">Contact</a></div>
+      <span>© 2026 KHELOGO. All rights reserved.</span>
+    </div>
+    <p class="disclaimer">Browser demo games use fictional scores only. Rewards, referral programmes, creator tools and payouts are subject to availability, eligibility, applicable terms and required approvals. This website does not display live balances or process withdrawals. No earnings or payout availability are guaranteed.</p>
   </div>
-  <p class="disclaimer">Feature descriptions may include planned future services. Games, rewards, referral programmes, creator tools and payouts are subject to availability, eligibility, applicable terms and required approvals. This website does not display live balances or process withdrawals. No earnings or payout availability are guaranteed.</p>
- </div>
 </footer>
+
+<!-- GAME WINDOW -->
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-label="KHELOGO game">
+  <div class="shell" id="shell" data-game="Mines">
+    <div class="game-head">
+      <strong>KHELO<span>GO</span> / WEB ARCADE</strong>
+      <div>
+        <button id="soundBtn" aria-label="Toggle sound">🔊</button>
+        <button id="menuBtnGame" aria-label="Game settings">☰</button>
+        <button id="exitBtn" aria-label="Exit game">✕</button>
+      </div>
+    </div>
+    <div class="game-menu" id="gameMenu">
+      <h3>Game settings</h3>
+      <div class="setting"><label for="soundToggle">Sound effects</label><input id="soundToggle" type="checkbox" checked></div>
+      <div class="setting"><label for="musicToggle">Background ambience</label><input id="musicToggle" type="checkbox"></div>
+      <button class="gbtn alt" id="rulesBtn">Game rules</button>
+      <button class="gbtn alt" id="pauseBtn">Pause / Resume</button>
+      <button class="gbtn alt" id="exitMenu">Exit game</button>
+      <p class="message" id="menuMessage"></p>
+    </div>
+    <div class="game-content">
+      <div class="game-title"><div class="kicker">KHELOGO WEB ARCADE</div><h2 id="gameTitle">Mines</h2><p id="gameSub">Reveal safe cells and avoid hidden mines.</p></div>
+      <div class="panel" id="panel"></div>
+      <div class="message" id="message" aria-live="polite"></div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="rulesModal" role="dialog" aria-modal="true" aria-label="Game rules">
+  <div class="shell" style="--accent:var(--cyan);min-height:0;max-width:600px">
+    <div class="game-head"><strong>Game <span>Rules</span></strong><button id="rulesClose" aria-label="Close rules">✕</button></div>
+    <div class="game-content"><div id="rulesText" class="rules"></div><div class="game-buttons"><button class="gbtn" id="rulesBack">Back to game</button></div></div>
+  </div>
+</div>
 
 <script>
 (function(){
- const button=document.getElementById('menuButton');
- const links=document.getElementById('navLinks');
- if(!button||!links)return;
+  "use strict";
 
- function closeMenu(){
-  links.classList.remove('open');
-  button.setAttribute('aria-expanded','false');
-  button.setAttribute('aria-label','Open menu');
-  button.textContent='☰';
- }
+  const $ = id => document.getElementById(id);
+  const navLinks = $("navLinks");
+  const menuButton = $("menuBtn");
+  const modal = $("modal");
+  const shell = $("shell");
+  const panel = $("panel");
+  const title = $("gameTitle");
+  const sub = $("gameSub");
+  const msg = $("message");
+  const gm = $("gameMenu");
+  const menuMessage = $("menuMessage");
+  const rulesModal = $("rulesModal");
 
- button.addEventListener('click',function(){
-  const open=links.classList.toggle('open');
-  button.setAttribute('aria-expanded',String(open));
-  button.setAttribute('aria-label',open?'Close menu':'Open menu');
-  button.textContent=open?'✕':'☰';
- });
+  let game = "";
+  let sound = true;
+  let paused = false;
+  let audioContext = null;
+  let timer = null;
+  let run = null;
 
- links.querySelectorAll('a').forEach(function(link){
-  link.addEventListener('click',closeMenu);
- });
+  menuButton.addEventListener("click", function(){
+    const opened = navLinks.classList.toggle("open");
+    menuButton.setAttribute("aria-expanded", String(opened));
+  });
 
- window.addEventListener('resize',function(){
-  if(window.innerWidth>700)closeMenu();
- });
+  navLinks.querySelectorAll("a").forEach(function(link){
+    link.addEventListener("click", function(){
+      navLinks.classList.remove("open");
+      menuButton.setAttribute("aria-expanded", "false");
+    });
+  });
+
+  function beep(frequency=500,duration=0.08,type="sine"){
+    if(!sound) return;
+    try{
+      audioContext = audioContext || new (window.AudioContext || window.webkitAudioContext)();
+      if(audioContext.state === "suspended") audioContext.resume();
+      const oscillator = audioContext.createOscillator();
+      const gain = audioContext.createGain();
+      oscillator.type = type;
+      oscillator.frequency.value = frequency;
+      gain.gain.value = 0.06;
+      oscillator.connect(gain);
+      gain.connect(audioContext.destination);
+      oscillator.start();
+      gain.gain.exponentialRampToValueAtTime(0.001,audioContext.currentTime+duration);
+      oscillator.stop(audioContext.currentTime+duration);
+    }catch(error){}
+  }
+
+  function say(text){msg.textContent=text}
+
+  function stopTimers(){
+    if(timer){clearInterval(timer);timer=null}
+    if(run && run.timer){clearInterval(run.timer);run.timer=null}
+  }
+
+  const gameRules = {
+    Ludo:"<ul><li>Roll the dice, then move your token.</li><li>This is a simplified solo board demo, not full multiplayer Ludo.</li></ul>",
+    LuckyJava:"<ul><li>Choose one of three clovers.</li><li>A lucky pick adds fictional demo points.</li><li>Points have no cash value.</li></ul>",
+    Mines:"<ul><li>Open cells to find safe gems.</li><li>Finding a mine ends the round.</li><li>Demo points are fictional and cannot be redeemed.</li></ul>",
+    Aviator:"<ul><li>Start a flight and watch the simulated multiplier.</li><li>Collect demo points before the flight ends.</li><li>This is a simulation, not real-money betting.</li></ul>",
+    "Runway Surfing":"<ul><li>Move left or right to dodge obstacles.</li><li>Use Jump to avoid a barrier.</li><li>Keyboard controls: left/right arrows and up arrow or space.</li></ul>"
+  };
+
+  function openGame(name){
+    stopTimers();
+    game=name;
+    paused=false;
+    gm.classList.remove("open");
+    shell.dataset.game=name;
+    title.textContent=name==="Ludo"?"Ludo Mini":name;
+    sub.textContent={
+      Ludo:"Roll, move and complete a simplified solo board.",
+      LuckyJava:"Choose a clover and see whether your pick is lucky.",
+      Mines:"Reveal safe cells and avoid hidden mines.",
+      Aviator:"Watch the simulated flight multiplier and collect demo points.",
+      "Runway Surfing":"Switch lanes, jump and dodge obstacles."
+    }[name] || "";
+    modal.classList.add("open");
+    document.body.classList.add("no-scroll");
+    $("soundBtn").textContent=sound?"🔊":"🔇";
+    $("soundToggle").checked=sound;
+    renderGame();
+    beep(650);
+  }
+
+  function closeGame(){
+    stopTimers();
+    modal.classList.remove("open");
+    rulesModal.classList.remove("open");
+    gm.classList.remove("open");
+    document.body.classList.remove("no-scroll");
+    game="";
+    paused=false;
+  }
+
+  // Only actual game buttons open a game; clicks inside the game never reopen it.
+  document.querySelectorAll(".play-btn[data-game]").forEach(function(button){
+    button.addEventListener("click",function(){openGame(button.dataset.game)});
+  });
+
+  $("exitBtn").addEventListener("click",closeGame);
+  $("exitMenu").addEventListener("click",closeGame);
+  $("menuBtnGame").addEventListener("click",function(){gm.classList.toggle("open")});
+
+  $("soundBtn").addEventListener("click",function(){
+    sound=!sound;
+    $("soundToggle").checked=sound;
+    $("soundBtn").textContent=sound?"🔊":"🔇";
+    if(sound) beep(700);
+  });
+
+  $("soundToggle").addEventListener("change",function(event){
+    sound=event.target.checked;
+    $("soundBtn").textContent=sound?"🔊":"🔇";
+    if(sound) beep(700);
+  });
+
+  $("musicToggle").addEventListener("change",function(event){
+    menuMessage.textContent=event.target.checked
+      ?"Ambient mode enabled. No separate music track is bundled."
+      :"Ambient mode off.";
+  });
+
+  $("rulesBtn").addEventListener("click",function(){
+    $("rulesText").innerHTML="<h3>"+game+" Rules</h3>"+gameRules[game];
+    rulesModal.classList.add("open");
+  });
+  $("rulesClose").addEventListener("click",function(){rulesModal.classList.remove("open")});
+  $("rulesBack").addEventListener("click",function(){rulesModal.classList.remove("open")});
+
+  $("pauseBtn").addEventListener("click",function(){
+    paused=!paused;
+    menuMessage.textContent=paused?"Paused. Press Pause / Resume to continue.":"Resumed.";
+    if(game==="Runway Surfing" && run){
+      if(paused && run.timer){clearInterval(run.timer);run.timer=null}
+      else if(!paused && run.live) startRunnerTimer();
+    }
+  });
+
+  modal.addEventListener("click",function(event){
+    if(event.target===modal) closeGame();
+  });
+  rulesModal.addEventListener("click",function(event){
+    if(event.target===rulesModal) rulesModal.classList.remove("open");
+  });
+
+  function renderGame(){
+    stopTimers();
+    paused=false;
+    panel.innerHTML="";
+    if(game==="Mines") createMines();
+    if(game==="LuckyJava") createLuckyJava();
+    if(game==="Aviator") createAviator();
+    if(game==="Ludo") createLudo();
+    if(game==="Runway Surfing") createRunner();
+    say("Ready when you are.");
+  }
+
+  function createMines(){
+    let score=0;
+    let ended=false;
+    const mines=new Set();
+    while(mines.size<5) mines.add(Math.floor(Math.random()*25));
+
+    panel.innerHTML=
+      '<div class="stats">'+
+        '<div class="stat">Demo points <b id="mineScore">0</b></div>'+
+        '<div class="stat">Safe cells <b id="safeCount">0</b>/20</div>'+
+      '</div>'+
+      '<div class="mines-grid" id="mineGrid"></div>'+
+      '<div class="game-buttons"><button class="gbtn" id="collectMines">Collect demo points</button><button class="gbtn alt" id="restartMines">Restart</button></div>';
+
+    const grid=$("mineGrid");
+
+    for(let i=0;i<25;i++){
+      const button=document.createElement("button");
+      button.className="mine";
+      button.textContent="?";
+      button.setAttribute("aria-label","Hidden cell "+(i+1));
+
+      button.addEventListener("click",function(){
+        if(ended || paused || button.disabled) return;
+        button.disabled=true;
+
+        if(mines.has(i)){
+          button.textContent="💣";
+          button.classList.add("boom");
+          ended=true;
+          grid.querySelectorAll("button").forEach(function(cell,index){
+            cell.disabled=true;
+            if(mines.has(index)){
+              cell.textContent="💣";
+              cell.classList.add("boom");
+            }
+          });
+          say("Mine found. Restart to try again.");
+          beep(140,0.25,"sawtooth");
+        }else{
+          button.textContent="💎";
+          button.classList.add("safe");
+          score+=10;
+          $("mineScore").textContent=score;
+          $("safeCount").textContent=grid.querySelectorAll(".safe").length;
+          say("Safe cell! Demo points increased.");
+          beep(720);
+          if(grid.querySelectorAll(".safe").length===20){
+            ended=true;
+            say("All safe cells revealed!");
+          }
+        }
+      });
+      grid.appendChild(button);
+    }
+
+    $("collectMines").addEventListener("click",function(){
+      if(ended && score===0){
+        say("No demo points to collect. Restart.");
+        return;
+      }
+      ended=true;
+      grid.querySelectorAll("button").forEach(function(button){button.disabled=true});
+      say("Collected "+score+" fictional demo points.");
+      beep(850);
+    });
+
+    $("restartMines").addEventListener("click",createMines);
+  }
+
+  function createLuckyJava(){
+    let score=0;
+    let round=1;
+
+    panel.innerHTML=
+      '<div class="stats"><div class="stat">Demo points <b id="luckyScore">0</b></div>'+
+      '<div class="stat">Round <b id="luckyRound">1</b></div></div>'+
+      '<p style="text-align:center">Which clover is lucky?</p>'+
+      '<div class="targets">'+
+        '<button class="target">🍀<br><small>01</small></button>'+
+        '<button class="target">🍀<br><small>02</small></button>'+
+        '<button class="target">🍀<br><small>03</small></button>'+
+      '</div>'+
+      '<div class="game-buttons"><button class="gbtn alt" id="nextLucky">Next round</button></div>';
+
+    const targets=panel.querySelectorAll(".target");
+
+    function nextRound(){
+      round++;
+      $("luckyRound").textContent=round;
+      targets.forEach(function(button,index){
+        button.disabled=false;
+        button.innerHTML="🍀<br><small>"+String(index+1).padStart(2,"0")+"</small>";
+        button.style.background="";
+      });
+      say("Choose a clover.");
+    }
+
+    targets.forEach(function(button,index){
+      button.addEventListener("click",function(){
+        if(paused || button.disabled) return;
+        const luckyIndex=Math.floor(Math.random()*3);
+        targets.forEach(function(target,targetIndex){
+          target.disabled=true;
+          target.textContent=targetIndex===luckyIndex?"✨":"🍀";
+        });
+        if(index===luckyIndex){
+          score+=20;
+          say("Lucky! +20 fictional demo points.");
+          beep(800);
+        }else{
+          score=Math.max(0,score-5);
+          say("Not this time. Try the next round.");
+          beep(250,0.1,"triangle");
+        }
+        $("luckyScore").textContent=score;
+      });
+    });
+
+    $("nextLucky").addEventListener("click",nextRound);
+  }
+
+  function createAviator(){
+    panel.innerHTML=
+      '<div class="stats"><div class="stat">Demo points <b id="aviatorScore">0</b></div>'+
+      '<div class="stat">Status <b id="aviatorStatus">Ready</b></div></div>'+
+      '<div class="aviator-stage"><div class="multiplier" id="multiplier">1.00×</div><div class="plane" id="plane">✈️</div></div>'+
+      '<div class="game-buttons"><button class="gbtn" id="startFlight">Start flight</button>'+
+      '<button class="gbtn alt" id="collectFlight" disabled>Collect demo points</button></div>';
+
+    let multiplier=1;
+    let active=false;
+    const start=$("startFlight");
+    const collect=$("collectFlight");
+
+    start.addEventListener("click",function(){
+      if(active || paused) return;
+      multiplier=1;
+      active=true;
+      start.disabled=true;
+      collect.disabled=false;
+      $("aviatorStatus").textContent="Flying";
+
+      const endAt=Date.now()+4500+Math.random()*4000;
+
+      timer=setInterval(function(){
+        if(paused) return;
+        multiplier+=0.035+multiplier*0.008;
+        $("multiplier").textContent=multiplier.toFixed(2)+"×";
+        $("plane").style.left=Math.min(80,15+multiplier*6)+"%";
+
+        if(Date.now()>endAt){
+          clearInterval(timer);
+          timer=null;
+          active=false;
+          start.disabled=false;
+          collect.disabled=true;
+          $("aviatorStatus").textContent="Ended";
+          $("multiplier").textContent="FLIGHT ENDED";
+          say("Flight ended. No points collected.");
+          beep(150,0.25,"sawtooth");
+        }
+      },100);
+      beep(500);
+    });
+
+    collect.addEventListener("click",function(){
+      if(!active || paused) return;
+      active=false;
+      if(timer){clearInterval(timer);timer=null}
+      $("aviatorScore").textContent=Math.floor(multiplier*10);
+      $("aviatorStatus").textContent="Collected";
+      collect.disabled=true;
+      start.disabled=false;
+      say("Collected fictional demo points at "+multiplier.toFixed(2)+"×.");
+      beep(850);
+    });
+  }
+
+  function createLudo(){
+    let position=0;
+    let dice=0;
+
+    panel.innerHTML=
+      '<div class="stats"><div class="stat">Token position <b id="tokenPosition">0</b>/30</div>'+
+      '<div class="stat">Dice <b id="diceValue">—</b></div></div>'+
+      '<div class="ludo-board">'+
+        '<div class="ludo-cell" style="background:#7a2639">🔴</div>'+
+        '<div class="ludo-cell" style="background:#6e5219">🟡</div>'+
+        '<div class="ludo-cell" style="background:#15553e">🟢</div>'+
+        '<div class="ludo-cell" style="background:#203f7a">🔵</div>'+
+        '<div class="ludo-cell">🎲</div><div class="ludo-cell">🏁</div>'+
+      '</div>'+
+      '<div class="game-buttons"><button class="gbtn" id="rollDice">Roll dice</button>'+
+      '<button class="gbtn alt" id="moveToken" disabled>Move token</button>'+
+      '<button class="gbtn alt" id="restartLudo">Restart</button></div>'+
+      '<p style="text-align:center;color:var(--muted);font-size:11px;margin-top:10px">Simplified solo demo, not full multiplayer Ludo.</p>';
+
+    const move=$("moveToken");
+
+    $("rollDice").addEventListener("click",function(){
+      if(paused || position>=30) return;
+      dice=1+Math.floor(Math.random()*6);
+      $("diceValue").textContent=dice;
+      move.disabled=false;
+      say("Rolled "+dice+". Tap Move token.");
+      beep(420+dice*45);
+    });
+
+    move.addEventListener("click",function(){
+      if(paused || move.disabled) return;
+      position=Math.min(30,position+dice);
+      $("tokenPosition").textContent=position;
+      move.disabled=true;
+      say(position>=30?"Finish reached! You completed the mini board.":"Token moved "+dice+" spaces. Roll again.");
+      if(position>=30) $("rollDice").disabled=true;
+      beep(650);
+    });
+
+    $("restartLudo").addEventListener("click",createLudo);
+  }
+
+  function createRunner(){
+    panel.innerHTML=
+      '<div class="stats"><div class="stat">Distance <b id="distance">0</b> m</div>'+
+      '<div class="stat">Coins <b id="runnerCoins">0</b></div>'+
+      '<div class="stat">Best <b id="bestDistance">0</b> m</div></div>'+
+      '<div class="runner-stage"><div class="road"></div><div class="lanes"></div>'+
+      '<div class="runner" id="runnerActor">🏃</div><div class="obstacle" id="runnerObstacle">🚧</div></div>'+
+      '<div class="game-buttons"><button class="gbtn alt" id="runnerLeft">← Left</button>'+
+      '<button class="gbtn" id="runnerJump">⬆ Jump</button>'+
+      '<button class="gbtn alt" id="runnerRight">Right →</button></div>'+
+      '<div class="game-buttons"><button class="gbtn" id="runnerStart">Start / Restart</button></div>';
+
+    let lane=1;
+    let distance=0;
+    let coins=0;
+    let obstacleLane=1;
+    let obstacleTop=-40;
+    let jumping=false;
+    let live=false;
+    let best=0;
+
+    try{best=Number(localStorage.getItem("khelogoRunBest")||0)}catch(error){}
+    $("bestDistance").textContent=best;
+
+    const actor=$("runnerActor");
+    const obstacle=$("runnerObstacle");
+
+    function draw(){
+      actor.style.left=["27%","49%","71%"][lane];
+      obstacle.style.left=["27%","49%","71%"][obstacleLane];
+      obstacle.style.top=obstacleTop+"px";
+    }
+
+    function finishRun(){
+      live=false;
+      if(run && run.timer){clearInterval(run.timer);run.timer=null}
+      $("runnerStart").disabled=false;
+      if(distance>best){
+        best=distance;
+        try{localStorage.setItem("khelogoRunBest",String(best))}catch(error){}
+        $("bestDistance").textContent=best;
+      }
+      say("Obstacle hit! Distance "+distance+" m. Restart to run again.");
+      beep(130,0.2,"sawtooth");
+    }
+
+    function tick(){
+      if(paused || !live) return;
+      distance++;
+      obstacleTop+=7;
+      $("distance").textContent=distance;
+
+      if(obstacleTop>210){
+        obstacleTop=-40;
+        obstacleLane=Math.floor(Math.random()*3);
+        if(Math.random()<0.25){
+          coins++;
+          $("runnerCoins").textContent=coins;
+        }
+      }
+
+      draw();
+
+      if(obstacleTop>170 && obstacleTop<225 && obstacleLane===lane && !jumping){
+        finishRun();
+      }
+    }
+
+    function moveLane(change){
+      if(!live || paused) return;
+      lane=Math.max(0,Math.min(2,lane+change));
+      draw();
+      beep(430,0.04);
+    }
+
+    function jump(){
+      if(!live || paused || jumping) return;
+      jumping=true;
+      actor.style.transform="translateY(-65px)";
+      beep(650);
+      setTimeout(function(){
+        jumping=false;
+        actor.style.transform="";
+      },550);
+    }
+
+    $("runnerLeft").addEventListener("click",function(){moveLane(-1)});
+    $("runnerRight").addEventListener("click",function(){moveLane(1)});
+    $("runnerJump").addEventListener("click",jump);
+
+    $("runnerStart").addEventListener("click",function(){
+      if(run && run.timer){clearInterval(run.timer);run.timer=null}
+      lane=1;
+      distance=0;
+      coins=0;
+      obstacleLane=Math.floor(Math.random()*3);
+      obstacleTop=-40;
+      live=true;
+      paused=false;
+      $("distance").textContent="0";
+      $("runnerCoins").textContent="0";
+      $("runnerStart").disabled=true;
+      run={timer:null,live:true};
+      draw();
+      say("Run started! Dodge barriers.");
+      startRunnerTimer();
+    });
+
+    run={timer:null,live:false};
+    draw();
+    say("Press Start / Restart to begin.");
+  }
+
+  function startRunnerTimer(){
+    if(!run) return;
+    if(run.timer) clearInterval(run.timer);
+    run.timer=setInterval(function(){
+      // The runner's tick function is attached below.
+      if(run.tick) run.tick();
+    },180);
+  }
+
+  // Keyboard controls for Runway Surfing.
+  document.addEventListener("keydown",function(event){
+    if(!modal.classList.contains("open") || rulesModal.classList.contains("open")) return;
+    if(event.key==="Escape"){
+      if(gm.classList.contains("open")) gm.classList.remove("open");
+      else closeGame();
+    }
+    if(game==="Runway Surfing"){
+      if(event.key==="ArrowLeft"){ $("runnerLeft").click();event.preventDefault() }
+      if(event.key==="ArrowRight"){ $("runnerRight").click();event.preventDefault() }
+      if(event.key==="ArrowUp" || event.key===" "){ $("runnerJump").click();event.preventDefault() }
+    }
+  });
+
 })();
 </script>
 </body>
