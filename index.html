@@ -476,7 +476,7 @@ document.addEventListener('keydown',e=>{if(!modal.classList.contains('open')||ru
   chip.setAttribute("role", "button");
   chip.setAttribute("tabindex", "0");
   chip.setAttribute("aria-label", "Open account options");
-  chip.addEventListener("keydown", event => { if(event.key === "Enter" || event.key === " ") { event.preventDefault(); openDialog(); } });
+  chip.addEventListener("keydown", event => { if(event.key === "Enter" || event.key === " ") { event.preventDefault(); accountMenu.classList.toggle("open"); chip.setAttribute("aria-expanded", accountMenu.classList.contains("open") ? "true" : "false"); } });
   $("closeAccount").addEventListener("click", closeDialog);
   overlay.addEventListener("click", event => { if(event.target === overlay) closeDialog(); });
   document.addEventListener("keydown", event => { if(event.key === "Escape") closeDialog(); });
