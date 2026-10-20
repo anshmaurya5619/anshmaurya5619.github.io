@@ -20,6 +20,30 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Validate HTML script syntax and unique IDs
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import collections, pathlib, re, subprocess
+          html = pathlib.Path("index.html").read_text(encoding="utf-8")
+          scripts = re.findall(r"<script\\b[^>]*>(.*?)</script>", html, re.I | re.S)
+          scripts = [script for script in scripts if script.strip()]
+          if not scripts:
+              raise SystemExit("No inline JavaScript was found.")
+          for i, script in enumerate(scripts):
+              path = pathlib.Path(f"/tmp/khelogo-inline-{i}.js")
+              path.write_text(script, encoding="utf-8")
+              subprocess.run(["node", "--check", str(path)], check=True)
+          ids = re.findall(r"\\bid=[\\\"']([^\\\"']+)[\\\"']", html)
+          duplicates = [key for key, count in collections.Counter(ids).items() if count > 1]
+          if duplicates:
+              raise SystemExit("Duplicate HTML IDs: " + ", ".join(duplicates))
+          print(f"Validated {len(scripts)} inline scripts and {len(ids)} unique IDs.")
+          PY
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
       - name: Upload static site
