@@ -27,7 +27,7 @@ jobs:
         run: node --check functions/index.js
       - name: Install Functions dependencies
         working-directory: functions
-        run: npm ci
+        run: npm install
       - name: Deploy Firebase Functions
         uses: w9jds/firebase-action@v13.24.0
         with:
