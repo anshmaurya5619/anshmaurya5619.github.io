@@ -19,7 +19,7 @@ a{color:inherit;text-decoration:none}
 header{position:sticky;top:0;z-index:20;background:#080b12f2;border-bottom:1px solid #ffffff20}
 nav{min-height:68px;display:flex;align-items:center;justify-content:space-between;gap:16px}
 .logo{font-size:24px;font-weight:900;letter-spacing:1px}.logo span{color:var(--cyan)}
-.navlinks{display:flex;align-items:center;gap:17px}
+.navlinks{display:none;align-items:center;gap:17px}body.logged-in .navlinks{display:flex}body.logged-in .menu{display:block}.auth-required{display:none!important}body.logged-in .auth-required{display:block!important}
 .navlinks a{font-size:13px;color:#c2ccda;font-weight:bold}
 .navlinks a:hover{color:var(--cyan)}
 .menu{display:none;background:#182234;color:white;border:1px solid #ffffff30;border-radius:9px;padding:8px 13px;font-size:20px}
@@ -157,8 +157,8 @@ footer{border-top:1px solid #ffffff20;padding:27px 0;color:#8994a5;font-size:12p
 <div class="container">
 <nav>
 <a class="logo" href="#home">KHELO<span>GO</span></a>
-<button class="menu" id="menuBtn" aria-label="Open navigation" aria-expanded="false">☰</button>
-<div class="navlinks" id="navLinks">
+<button class="menu" id="menuBtn" hidden aria-label="Open navigation" aria-expanded="false">☰</button>
+<div class="navlinks" id="navLinks" hidden>
 <a href="#games">Games</a><a href="#features">Features</a><a href="#wallet">Wallet</a><a href="#referral">Referral</a><a href="#about">About</a><a href="#contact">Contact</a>
 </div>
 <div class="account-actions">
@@ -174,37 +174,37 @@ footer{border-top:1px solid #ffffff20;padding:27px 0;color:#8994a5;font-size:12p
 <div>
 <span class="eyebrow">PLAY · EXPLORE · CREATE</span>
 <h1>Welcome to <span class="gradient">KHELOGO</span></h1>
-<p>Play quick arcade challenges, sign in to see your linked account summary, and explore what KHELOGO is building next. Clean, mobile-first play with a premium bento-inspired interface.</p>
-<div class="actions"><a class="btn primary" href="#games">Explore Games ↗</a><a class="btn secondary" href="#features">Discover Features</a></div>
+<p>Sign in to your KHELOGO account to access games, wallet, referrals and account features. A secure, mobile-first gaming experience.</p>
+<div class="actions"><button class="btn primary" id="heroLogin" type="button">Login to Play ↗</button></div>
 <div class="trust"><span>✓ <b>Mobile friendly</b></span><span>✓ Simple to explore</span><span>✓ New features planned</span></div>
 </div>
 <div class="preview">
 <span class="eyebrow">KHELOGO ARCADE</span>
 <h2>Your next game starts here.</h2>
-<div class="preview-banner"><h3>🎮 Your arcade, your pace.</h3><p style="color:var(--muted);margin-top:6px">Fast browser games with clear rules. Arcade scores stay separate from your KHELOGO account balance.</p></div>
+<div class="preview-banner"><h3>🎮 Your arcade, your pace.</h3><p style="color:var(--muted);margin-top:6px">Sign in to access your games and account features.</p></div>
 <div class="tiles"><div class="tile"><b>🎲</b><span>Ludo Mini</span></div><div class="tile"><b>💎</b><span>Mines</span></div><div class="tile"><b>✈️</b><span>Aviator</span></div></div>
 </div>
 </div>
 </section>
-<section id="games">
+<section id="games" class="auth-required">
 <div class="container">
-<div class="section-head"><div class="kicker">KHELOGO ARCADE</div><h2>Pick your next challenge.</h2><p>Play instantly in your browser. These are fully local arcade experiences; scores are for fun and are not cash, wallet credits, or redeemable rewards.</p></div>
+<div class="section-head"><div class="kicker">KHELOGO ARCADE</div><h2>Pick your next challenge.</h2><p>Choose a game after signing in. Rewards are only granted when verified by KHELOGO services.</p></div>
 <div class="cards">
-<article class="card gold"><div class="card-icon">🎲</div><h3>Ludo Mini</h3><p>Roll the dice and move a token around a simple solo board.</p><span class="tag">Playable demo</span><button class="play-btn" data-game="Ludo">Play Ludo Mini ↗</button></article>
+<article class="card gold"><div class="card-icon">🎲</div><h3>Ludo Mini</h3><p>Roll the dice and move a token around a simple solo board.</p><span class="tag">Arcade game</span><button class="play-btn" data-game="Ludo">Play Ludo Mini ↗</button></article>
 <article class="card green"><div class="card-icon">🍀</div><h3>LuckyJava</h3><p>Pick one of three clovers and see if luck is on your side.</p><span class="tag">Playable demo</span><button class="play-btn" data-game="LuckyJava">Play LuckyJava ↗</button></article>
 <article class="card violet"><div class="card-icon">💎</div><h3>Mines</h3><p>Reveal safe cells and avoid hidden mines on a 5×5 board.</p><span class="tag">Playable demo</span><button class="play-btn" data-game="Mines">Play Mines ↗</button></article>
-<article class="card pink"><div class="card-icon">✈️</div><h3>Aviator</h3><p>Watch a simulated multiplier and collect demo points before the flight ends.</p><span class="tag">Playable demo</span><button class="play-btn" data-game="Aviator">Play Aviator ↗</button></article>
+<article class="card pink"><div class="card-icon">✈️</div><h3>Aviator</h3><p>Track the flight multiplier and decide when to collect your round score.</p><span class="tag">Playable demo</span><button class="play-btn" data-game="Aviator">Play Aviator ↗</button></article>
 <article class="card cyan"><div class="card-icon">🏃</div><h3>Runway Surfing</h3><p>Switch lanes, jump and dodge barriers in this simple runner.</p><span class="tag">Playable demo</span><button class="play-btn" data-game="Runway Surfing">Play Runway Surfing ↗</button></article>
-<article class="card blue"><div class="card-icon">🐔</div><h3>Chicken Road</h3><p>Choose a step, cross the road and avoid the hidden hazard.</p><span class="tag">Playable arcade</span><button class="play-btn" data-game="Chicken Road">Play Chicken Road ↗</button></article>
+<article class="card blue"><div class="card-icon">🐔</div><h3>Chicken Road</h3><p>Choose a step, cross the road and avoid the hidden hazard.</p><span class="tag">Arcade game</span><button class="play-btn" data-game="Chicken Road">Play Chicken Road ↗</button></article>
 <article class="card orange"><div class="card-icon">🐉</div><h3>Dragon Tiger</h3><p>Draw two cards and see which side wins. No bets or money involved.</p><span class="tag">Playable arcade</span><button class="play-btn" data-game="Dragon Tiger">Play Dragon Tiger ↗</button></article>
 <article class="card violet"><div class="card-icon">⚡</div><h3>Reaction Rush</h3><p>Wait for the signal and tap as fast as you can.</p><span class="tag">Playable arcade</span><button class="play-btn" data-game="Reaction Rush">Play Reaction Rush ↗</button></article>
 <article class="card green"><div class="card-icon">🎯</div><h3>Carrom Mini</h3><p>Set your aim, choose shot power and pocket coins in a quick solo challenge.</p><span class="tag">Playable arcade</span><button class="play-btn" data-game="Carrom Mini">Play Carrom Mini ↗</button></article>
 <article class="card pink"><div class="card-icon">🪖</div><h3>Battle Arena Mini</h3><p>Move around a tiny survival arena, avoid enemies and survive for as long as you can.</p><span class="tag">Playable arcade</span><button class="play-btn" data-game="Battle Arena Mini">Play Battle Arena ↗</button></article>
 </div>
-<p class="section-note">Arcade scores are local to each round. They do not change your real account balance or create a payout.</p>
+<p class="section-note">Account rewards require server verification and are subject to published eligibility rules.</p>
 </div>
 </section>
-<section id="features">
+<section id="features" class="auth-required">
 <div class="container">
 <div class="section-head"><div class="kicker">THE KHELOGO EXPERIENCE</div><h2>More than just a game screen.</h2><p>Explore features planned around the KHELOGO mobile app.</p></div>
 <div class="cards">
@@ -215,7 +215,7 @@ footer{border-top:1px solid #ffffff20;padding:27px 0;color:#8994a5;font-size:12p
 </div>
 </div>
 </section>
-<section id="wallet">
+<section id="wallet" class="auth-required">
 <div class="container">
 <div class="section-head"><div class="kicker">ACCOUNT OVERVIEW</div><h2>Your balance, clearly shown.</h2><p>Sign in with your existing KHELOGO account to read the latest balance and coin fields stored in your account.</p></div>
 <div class="account-live" aria-live="polite"><div class="live-stat"><small>Wallet balance</small><strong id="walletBalance">Sign in to view</strong><p>Read-only account value</p></div><div class="live-stat"><small>Game coins</small><strong id="walletCoins">Sign in to view</strong><p>Read-only account value</p></div><div class="live-stat"><small>Account status</small><strong id="walletStatus">Signed out</strong><p id="walletStatusNote">Sign in to load your account record.</p></div></div>
@@ -227,7 +227,7 @@ footer{border-top:1px solid #ffffff20;padding:27px 0;color:#8994a5;font-size:12p
 </div>
 </div>
 </section>
-<section id="withdrawals"><div class="container"><div class="section-head"><div class="kicker">ACCOUNT ACTIVITY</div><h2>Withdrawal history.</h2><p>Requests attached to your signed-in KHELOGO account appear here. Status is read from Firebase.</p></div><div class="withdraw-history"><h3>New withdrawal request</h3><p style="color:var(--muted);font-size:13px;margin:5px 0 12px">Minimum ₹10. Requests are checked by Firebase. Approval is not an instant payout guarantee.</p><form id="withdrawForm" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:10px;margin-bottom:18px"><label style="display:grid;gap:5px;font-size:12px">UPI ID<input id="withdrawUpi" required maxlength="120" placeholder="name@bank" style="padding:11px;border-radius:9px;border:1px solid #ffffff30;background:#080d16;color:#fff"></label><label style="display:grid;gap:5px;font-size:12px">Amount (₹)<input id="withdrawAmount" type="number" required min="10" max="100000" step="1" placeholder="Minimum ₹10" style="padding:11px;border-radius:9px;border:1px solid #ffffff30;background:#080d16;color:#fff"></label><button class="btn primary" id="withdrawSubmit" type="submit" style="align-self:end">Submit request</button></form><div id="withdrawFormStatus" role="status" style="font-size:13px;margin-bottom:12px"></div><h3>Your requests</h3><div id="withdrawHistoryStatus" role="status">Sign in to load withdrawal history.</div><div id="withdrawHistoryList" class="withdraw-list"></div></div><p class="section-note">This page does not approve payouts or deduct balance. Withdrawal requests must be validated by trusted backend logic.</p></div></section><section id="adminPanel" hidden><div class="container"><div class="section-head"><div class="kicker">RESTRICTED AREA</div><h2>Admin panel</h2><p id="adminPanelStatus">Admin access must be verified securely by the server before management actions are enabled.</p></div><div class="withdraw-history"><p id="adminRequestsStatus">Loading admin withdrawal requests…</p><div id="adminRequestsList" class="withdraw-list"></div></div></div></section><section id="referral">
+<section id="withdrawals" class="auth-required"><div class="container"><div class="section-head"><div class="kicker">ACCOUNT ACTIVITY</div><h2>Withdrawal history.</h2><p>Requests attached to your signed-in KHELOGO account appear here. Status is read from Firebase.</p></div><div class="withdraw-history"><h3>New withdrawal request</h3><p style="color:var(--muted);font-size:13px;margin:5px 0 12px">Minimum ₹10. Requests are checked by Firebase. Approval is not an instant payout guarantee.</p><form id="withdrawForm" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:10px;margin-bottom:18px"><label style="display:grid;gap:5px;font-size:12px">UPI ID<input id="withdrawUpi" required maxlength="120" placeholder="name@bank" style="padding:11px;border-radius:9px;border:1px solid #ffffff30;background:#080d16;color:#fff"></label><label style="display:grid;gap:5px;font-size:12px">Amount (₹)<input id="withdrawAmount" type="number" required min="10" max="100000" step="1" placeholder="Minimum ₹10" style="padding:11px;border-radius:9px;border:1px solid #ffffff30;background:#080d16;color:#fff"></label><button class="btn primary" id="withdrawSubmit" type="submit" style="align-self:end">Submit request</button></form><div id="withdrawFormStatus" role="status" style="font-size:13px;margin-bottom:12px"></div><h3>Your requests</h3><div id="withdrawHistoryStatus" role="status">Sign in to load withdrawal history.</div><div id="withdrawHistoryList" class="withdraw-list"></div></div><p class="section-note">This page does not approve payouts or deduct balance. Withdrawal requests must be validated by trusted backend logic.</p></div></section><section id="adminPanel" class="auth-required" hidden><div class="container"><div class="section-head"><div class="kicker">RESTRICTED AREA</div><h2>Admin panel</h2><p id="adminPanelStatus">Admin access must be verified securely by the server before management actions are enabled.</p></div><div class="withdraw-history"><p id="adminRequestsStatus">Loading admin withdrawal requests…</p><div id="adminRequestsList" class="withdraw-list"></div></div></div></section><section id="referral" class="auth-required">
 <div class="container">
 <div class="section-head"><div class="kicker">SHARE THE EXPERIENCE</div><h2>Your referral details.</h2><p>Sign in to read the referral code and referral data already attached to your account. Rewards are never fabricated by the website.</p></div>
 <div class="account-live"><div class="live-stat"><small>Your referral code</small><strong id="referralCode">Sign in to view</strong><div class="referral-tools"><button type="button" id="copyReferral" disabled>Copy code</button><button type="button" id="shareReferral" disabled>Share invite</button></div></div><div class="live-stat"><small>Referral count</small><strong id="referralCount">—</strong><p>Based on the stored referral field</p></div><div class="live-stat"><small>Referral status</small><strong id="referralStatus">Signed out</strong><p id="referralStatusNote">No referral data loaded.</p></div></div>
@@ -239,26 +239,26 @@ footer{border-top:1px solid #ffffff20;padding:27px 0;color:#8994a5;font-size:12p
 </div>
 </div>
 </section>
-<section id="creators">
+<section id="creators" class="auth-required">
 <div class="container"><div class="feature-box"><div class="kicker">COMING IN FUTURE UPDATES</div><h2>Your ideas. Your videos. A new creator journey.</h2><p style="color:var(--muted);margin-top:12px">KHELOGO plans to introduce video creation and sharing. Creator rewards, if launched, will follow published programme rules and eligibility.</p><span class="tag" style="margin-top:15px">Not available yet</span></div></div>
 </section>
-<section id="how">
+<section id="how" class="auth-required">
 <div class="container">
 <div class="section-head"><div class="kicker">SIMPLE BY DESIGN</div><h2>A clear, easy-to-explore experience.</h2><p>Use the official app for account actions and check official updates for availability.</p></div>
 <div class="steps"><article class="step"><small>STEP 01</small><h3>Explore</h3><p>Learn about games and features currently available.</p></article><article class="step"><small>STEP 02</small><h3>Take part</h3><p>Use available activities according to displayed rules.</p></article><article class="step"><small>STEP 03</small><h3>Follow updates</h3><p>Check official updates for new games and creator tools.</p></article></div>
 </div>
 </section>
-<section id="about">
+<section id="about" class="auth-required">
 <div class="container"><div class="section-head"><div class="kicker">ABOUT KHELOGO</div><h2>Built around play and creativity.</h2><p>KHELOGO is developing a mobile entertainment experience with casual games, platform activities and planned creator features. Availability and eligibility may vary.</p></div></div>
 </section>
-<section id="contact">
+<section id="contact" class="auth-required">
 <div class="container"><div class="feature-box" style="text-align:center"><div class="kicker">STAY CONNECTED</div><h2>Questions about KHELOGO?</h2><p style="color:var(--muted);margin:12px auto 20px">For website or platform enquiries, contact the KHELOGO team.</p><a class="btn primary" href="mailto:support@khelogo.in">Contact KHELOGO ↗</a></div></div>
 </section>
 </main>
 <footer>
 <div class="container">
 <div class="footer-row"><a class="logo" href="#home">KHELO<span>GO</span></a><div class="footer-links"><a href="privacy.html">Privacy Policy</a><a href="terms.html">Terms &amp; Conditions</a><a href="mailto:support@khelogo.in">Contact</a></div><span>© 2026 KHELOGO. All rights reserved.</span></div>
-<p class="disclaimer">Browser demo games use fictional scores only. Rewards, referral programmes, creator tools and payouts depend on availability, eligibility, applicable terms and required approvals. This website does not display live balances or process withdrawals. No earnings or payout availability are guaranteed.</p>
+<p class="disclaimer">Game access, rewards and payouts depend on eligibility, backend verification and applicable terms. No earnings or payout availability are guaranteed.</p>
 </div>
 </footer>
 
@@ -299,6 +299,7 @@ footer{border-top:1px solid #ffffff20;padding:27px 0;color:#8994a5;font-size:12p
 (function(){
 const $=id=>document.getElementById(id);
 const menuButton=$('menuBtn'),navLinks=$('navLinks');
+$('heroLogin').addEventListener('click',()=>document.getElementById('openAccount').click());
 menuButton.addEventListener('click',function(){const opened=navLinks.classList.toggle('open');menuButton.setAttribute('aria-expanded',opened);menuButton.textContent=opened?'✕':'☰'});
 navLinks.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{navLinks.classList.remove('open');menuButton.textContent='☰';menuButton.setAttribute('aria-expanded','false')}));
 const modal=$('modal'),shell=$('shell'),panel=$('panel'),gm=$('gameMenu'),rulesModal=$('rulesModal');
@@ -319,6 +320,7 @@ Aviator:'<ul><li>Start the simulated flight.</li><li>Collect before the flight e
 'Battle Arena Mini':'<ul><li>Move with the direction buttons.</li><li>Tap Attack to clear nearby opponents.</li><li>Survive as long as possible; all scores are local.</li></ul>'
 };
 function openGame(name){
+if(!document.body.classList.contains("logged-in")){document.getElementById("openAccount").click();return;}
 stop();game=name;paused=false;gm.classList.remove('open');shell.style.borderColor=({Ludo:'#ffcc66',LuckyJava:'#48e0a1',Mines:'#a397ff',Aviator:'#ff78bd','Runway Surfing':'#00e5ff','Chicken Road':'#72a7ff','Dragon Tiger':'#ff925c','Reaction Rush':'#b09aff','Carrom Mini':'#48e0a1','Battle Arena Mini':'#ff78bd'})[name]||'#00e5ff';
 $('gameTitle').textContent=name==='Ludo'?'Ludo Mini':name;
 $('gameSub').textContent=({Ludo:'Roll, move and complete a simple solo board.',LuckyJava:'Choose a lucky target.',Mines:'Reveal safe cells and avoid hidden mines.',Aviator:'Collect the simulated multiplier before the flight ends.','Runway Surfing':'Switch lanes, jump and dodge obstacles.','Chicken Road':'Cross safely one step at a time.','Dragon Tiger':'A quick high-card comparison.','Reaction Rush':'Test your reaction time.','Carrom Mini':'Aim and pocket coins.','Battle Arena Mini':'Move, attack and survive.'})[name];
@@ -529,6 +531,7 @@ document.addEventListener('keydown',e=>{if(!modal.classList.contains('open')||ru
     $("shareReferral").disabled = true;
   }
   function resetAccount(){
+    document.body.classList.remove("logged-in"); menuButton.hidden=true; navLinks.hidden=true;
     stopUserListener();
     resetLivePanels();
     chip.classList.remove("show");
@@ -543,6 +546,7 @@ document.addEventListener('keydown',e=>{if(!modal.classList.contains('open')||ru
   function onSignedIn(user){
     stopUserListener();
     if(!user){ resetAccount(); return; }
+    document.body.classList.add("logged-in"); menuButton.hidden=false; navLinks.hidden=false;
     openButton.hidden = true;
     chip.classList.add("show");
     chip.textContent = "Loading account…";
@@ -764,7 +768,7 @@ document.addEventListener('keydown',e=>{if(!modal.classList.contains('open')||ru
       rewardStatus.textContent = "Session closed. Start a new game for a new session; incomplete sessions do not award coins.";
     }
   });
-  if(auth) auth.onAuthStateChanged(onSignedIn);
+  if(auth) auth.onAuthStateChanged(user=>{ document.body.classList.toggle("logged-in",!!user); menuButton.hidden=!user; navLinks.hidden=!user; onSignedIn(user); });
 })();
 </script>
 
