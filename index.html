@@ -114,7 +114,7 @@ footer{border-top:1px solid #ffffff20;padding:27px 0;color:#8994a5;font-size:12p
 .account-actions{display:flex;align-items:center;gap:9px;flex-shrink:0}
 .account-login{border:1px solid #00e5ff80;background:linear-gradient(110deg,#00e5ff,#9aefff);color:#061018;border-radius:10px;padding:10px 14px;font-weight:900;cursor:pointer}
 .account-chip{display:none;max-width:210px;padding:8px 10px;border:1px solid #48e0a155;border-radius:10px;background:#48e0a110;color:#dfffee;font-size:11px;overflow-wrap:anywhere}
-.account-chip.show{display:block}
+.account-chip.show{display:block;cursor:pointer}
 .auth-overlay{display:none;position:fixed;inset:0;z-index:250;background:#02050cf2;place-items:center;padding:16px;overflow:auto}
 .auth-overlay.open{display:grid}
 .auth-card{width:min(100%,430px);border:1px solid #00e5ff60;border-radius:22px;background:linear-gradient(145deg,#141e30,#0b101a);padding:24px;box-shadow:0 25px 80px #000a}
@@ -380,6 +380,11 @@ document.addEventListener('keydown',e=>{if(!modal.classList.contains('open')||ru
   function openDialog(){ overlay.classList.add("open"); showError(""); }
   function closeDialog(){ overlay.classList.remove("open"); }
   openButton.addEventListener("click", openDialog);
+  chip.setAttribute("role", "button");
+  chip.setAttribute("tabindex", "0");
+  chip.setAttribute("aria-label", "Open account options");
+  chip.addEventListener("click", openDialog);
+  chip.addEventListener("keydown", event => { if(event.key === "Enter" || event.key === " ") { event.preventDefault(); openDialog(); } });
   $("closeAccount").addEventListener("click", closeDialog);
   overlay.addEventListener("click", event => { if(event.target === overlay) closeDialog(); });
   document.addEventListener("keydown", event => { if(event.key === "Escape") closeDialog(); });
