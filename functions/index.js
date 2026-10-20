@@ -125,7 +125,8 @@ exports.completeArcadeSession = onCall(async (request) => {
   const user = result.snapshot.val() || {};
   const session = user.arcadeSessions && user.arcadeSessions[sessionId];
   if (session && session.status === "claimed") {
-    return { awarded: true, coinsAwarded: REWARD_PER_GAME, gameCoins: Number(user.gameCoins || 0) };
+    const awardedByThisRequest = Number(session.claimedAt) === now;
+    return { awarded: awardedByThisRequest, coinsAwarded: awardedByThisRequest ? REWARD_PER_GAME : 0, gameCoins: Number(user.gameCoins || 0), message: awardedByThisRequest ? undefined : "This session was already claimed." };
   }
   if (reason === "too_soon") throw new HttpsError("failed-precondition", "Play for at least 30 seconds before claiming the participation reward.");
   if (reason === "game_daily_limit") throw new HttpsError("resource-exhausted", "You have already received today's reward for this game.");
