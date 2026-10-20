@@ -500,8 +500,20 @@ document.addEventListener('keydown',e=>{if(!modal.classList.contains('open')||ru
     const ref = db.ref("users/" + user.uid);
     const callback = ref.on("value", snapshot => {
       if(!snapshot.exists()){
-        chip.textContent = "Signed in";
-        showError("Login succeeded, but no users/" + user.uid + " record was found. No data was changed.");
+        latestUserData = null;
+        chip.textContent = "Signed in · record missing";
+        $("walletBalance").textContent = "Unavailable";
+        $("walletCoins").textContent = "Unavailable";
+        $("walletStatus").textContent = "Record missing";
+        $("walletStatusNote").textContent = "Authentication succeeded, but no matching users/{uid} record exists.";
+        $("walletCardText").textContent = "The signed-in account has no matching database record. No balance has been inferred or changed.";
+        $("referralCode").textContent = "Unavailable";
+        $("referralCount").textContent = "—";
+        $("referralStatus").textContent = "Record missing";
+        $("referralStatusNote").textContent = "No referral fields can be read without the account record.";
+        $("copyReferral").disabled = true;
+        $("shareReferral").disabled = true;
+        showError("Login succeeded, but no matching account record was found. No data was changed.");
         return;
       }
       const data = snapshot.val() || {};
