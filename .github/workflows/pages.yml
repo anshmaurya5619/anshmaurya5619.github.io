@@ -44,6 +44,7 @@ jobs:
               raise SystemExit("Duplicate HTML IDs: " + ", ".join(duplicates))
           print(f"Validated {len(scripts)} inline scripts and {len(ids)} unique IDs.")
           PY
+          node --check functions/index.js
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
       - name: Upload static site
