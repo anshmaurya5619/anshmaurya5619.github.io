@@ -109,6 +109,25 @@ footer{border-top:1px solid #ffffff20;padding:27px 0;color:#8994a5;font-size:12p
  .navlinks.open{display:flex}.navlinks a{padding:7px}.hero{padding:48px 0}.steps{grid-template-columns:1fr}
 }
 @media(max-width:480px){.cards{grid-template-columns:1fr}.preview{padding:17px}.tiles{grid-template-columns:repeat(3,1fr)}}
+
+/* Firebase account integration */
+.account-actions{display:flex;align-items:center;gap:9px;flex-shrink:0}
+.account-login{border:1px solid #00e5ff80;background:linear-gradient(110deg,#00e5ff,#9aefff);color:#061018;border-radius:10px;padding:10px 14px;font-weight:900;cursor:pointer}
+.account-chip{display:none;max-width:210px;padding:8px 10px;border:1px solid #48e0a155;border-radius:10px;background:#48e0a110;color:#dfffee;font-size:11px;overflow-wrap:anywhere}
+.account-chip.show{display:block}
+.auth-overlay{display:none;position:fixed;inset:0;z-index:250;background:#02050cf2;place-items:center;padding:16px;overflow:auto}
+.auth-overlay.open{display:grid}
+.auth-card{width:min(100%,430px);border:1px solid #00e5ff60;border-radius:22px;background:linear-gradient(145deg,#141e30,#0b101a);padding:24px;box-shadow:0 25px 80px #000a}
+.auth-card h2{font-size:28px;margin:10px 0}
+.auth-card p{color:var(--muted);font-size:13px}
+.auth-card label{display:block;margin:14px 0 6px;font-size:12px;font-weight:800;color:#dbe6f5}
+.auth-card input{width:100%;padding:12px;border-radius:10px;border:1px solid #ffffff30;background:#080d16;color:#fff;font:inherit}
+.auth-row{display:flex;gap:10px;margin-top:16px}
+.auth-row button{flex:1}
+.auth-error{min-height:20px;margin-top:10px;color:#ff9ba8;font-size:12px}
+.auth-note{margin-top:14px!important;font-size:11px!important}
+@media(max-width:760px){nav{flex-wrap:wrap;padding:10px 0}.account-actions{margin-left:auto}.account-chip{max-width:145px}.account-login{padding:9px 11px}.navlinks{top:68px}}
+
 </style>
 </head>
 <body>
@@ -119,6 +138,10 @@ footer{border-top:1px solid #ffffff20;padding:27px 0;color:#8994a5;font-size:12p
 <button class="menu" id="menuBtn" aria-label="Open navigation" aria-expanded="false">☰</button>
 <div class="navlinks" id="navLinks">
 <a href="#games">Games</a><a href="#features">Features</a><a href="#wallet">Wallet</a><a href="#referral">Referral</a><a href="#about">About</a><a href="#contact">Contact</a>
+</div>
+<div class="account-actions">
+  <button class="account-login" id="openAccount" type="button">Login</button>
+  <div class="account-chip" id="accountChip" aria-live="polite"></div>
 </div>
 </nav>
 </div>
@@ -212,6 +235,30 @@ footer{border-top:1px solid #ffffff20;padding:27px 0;color:#8994a5;font-size:12p
 <p class="disclaimer">Browser demo games use fictional scores only. Rewards, referral programmes, creator tools and payouts depend on availability, eligibility, applicable terms and required approvals. This website does not display live balances or process withdrawals. No earnings or payout availability are guaranteed.</p>
 </div>
 </footer>
+
+<div class="auth-overlay" id="authOverlay" role="dialog" aria-modal="true" aria-labelledby="authTitle">
+  <div class="auth-card">
+    <div style="display:flex;justify-content:space-between;align-items:center;gap:12px">
+      <span class="eyebrow">KHELOGO ACCOUNT</span>
+      <button class="btn secondary" id="closeAccount" type="button" style="padding:8px 11px">Close ✕</button>
+    </div>
+    <h2 id="authTitle">Sign in to KHELOGO</h2>
+    <p>Use the same 10-digit mobile number and password linked to your existing KHELOGO Android account.</p>
+    <form id="accountForm">
+      <label for="accountMobile">Mobile number</label>
+      <input id="accountMobile" inputmode="numeric" autocomplete="username" maxlength="10" pattern="[0-9]{10}" placeholder="10-digit mobile number" required>
+      <label for="accountPassword">Password</label>
+      <input id="accountPassword" type="password" autocomplete="current-password" minlength="6" placeholder="Existing account password" required>
+      <div class="auth-row">
+        <button class="btn primary" id="accountSubmit" type="submit">Sign in</button>
+        <button class="btn secondary" id="accountSignOut" type="button" hidden>Sign out</button>
+      </div>
+      <div class="auth-error" id="accountError" role="status" aria-live="polite"></div>
+    </form>
+    <p class="auth-note">This page only reads your account summary. Browser game scores are demos and do not add or remove real coins. Never share your password or OTP.</p>
+  </div>
+</div>
+
 <div class="modal" id="modal" role="dialog" aria-modal="true" aria-label="KHELOGO game">
 <div class="shell" id="shell">
 <div class="game-head"><strong>KHELO<span style="color:var(--cyan)">GO</span> / WEB ARCADE</strong><div><button id="menuBtnGame" aria-label="Game settings">☰</button> <button id="exitBtn" aria-label="Exit game">✕</button></div></div>
@@ -302,5 +349,129 @@ run={timer:null};draw();say('Press Start / Restart to begin.');
 document.addEventListener('keydown',e=>{if(!modal.classList.contains('open')||rulesModal.classList.contains('open'))return;if(e.key==='Escape'){if(gm.classList.contains('open'))gm.classList.remove('open');else closeGame()}if(game==='Runway Surfing'){if(e.key==='ArrowLeft'){$('left').click();e.preventDefault()}if(e.key==='ArrowRight'){$('right').click();e.preventDefault()}if(e.key==='ArrowUp'||e.key===' '){$('jump').click();e.preventDefault()}}});
 })();
 </script>
+
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script>
+<script>
+(function(){
+  "use strict";
+  const config = {
+    apiKey: "AIzaSyA8f5mutU-HrU6B98R0_OaS9KgQPis3Li8",
+    authDomain: "khelogo-4daaf.firebaseapp.com",
+    databaseURL: "https://khelogo-4daaf-default-rtdb.asia-southeast1.firebasedatabase.app",
+    projectId: "khelogo-4daaf",
+    storageBucket: "khelogo-4daaf.firebasestorage.app",
+    messagingSenderId: "490767955975",
+    appId: "1:490767955975:web:cfccaae12b3a06e08b52a2",
+    measurementId: "G-K5PJ3BBQWX"
+  };
+  const $ = id => document.getElementById(id);
+  const overlay = $("authOverlay");
+  const openButton = $("openAccount");
+  const chip = $("accountChip");
+  const form = $("accountForm");
+  const submit = $("accountSubmit");
+  const signOut = $("accountSignOut");
+  const error = $("accountError");
+  let auth = null, db = null, currentRef = null, currentCallback = null;
+
+  function showError(message){ error.textContent = message || ""; }
+  function openDialog(){ overlay.classList.add("open"); showError(""); }
+  function closeDialog(){ overlay.classList.remove("open"); }
+  openButton.addEventListener("click", openDialog);
+  $("closeAccount").addEventListener("click", closeDialog);
+  overlay.addEventListener("click", event => { if(event.target === overlay) closeDialog(); });
+  document.addEventListener("keydown", event => { if(event.key === "Escape") closeDialog(); });
+
+  try {
+    if (!window.firebase) throw new Error("Firebase SDK did not load.");
+    if (!firebase.apps.length) firebase.initializeApp(config);
+    auth = firebase.auth();
+    db = firebase.database();
+  } catch (e) {
+    openButton.addEventListener("click", () => showError("Firebase could not start. Reload the page and check the network."));
+    console.error("KHELOGO Firebase initialization error:", e);
+  }
+
+  function stopUserListener(){
+    if(currentRef && currentCallback) currentRef.off("value", currentCallback);
+    currentRef = null;
+    currentCallback = null;
+  }
+  function resetAccount(){
+    stopUserListener();
+    chip.classList.remove("show");
+    chip.textContent = "";
+    openButton.hidden = false;
+    openButton.textContent = "Login";
+    submit.hidden = false;
+    signOut.hidden = true;
+  }
+  function onSignedIn(user){
+    stopUserListener();
+    if(!user){ resetAccount(); return; }
+    openButton.hidden = true;
+    chip.classList.add("show");
+    chip.textContent = "Loading account…";
+    submit.hidden = true;
+    signOut.hidden = false;
+
+    const ref = db.ref("users/" + user.uid);
+    const callback = ref.on("value", snapshot => {
+      if(!snapshot.exists()){
+        chip.textContent = "Signed in";
+        showError("Login succeeded, but no users/" + user.uid + " record was found. No data was changed.");
+        return;
+      }
+      const data = snapshot.val() || {};
+      const balance = Number(data.balance || 0);
+      const coins = Number(data.gameCoins || 0);
+      chip.textContent = "₹" + balance + " · " + coins + " coins";
+      showError("");
+    }, databaseError => {
+      chip.textContent = "Signed in";
+      showError("Signed in, but account data is blocked by Realtime Database rules. No data was changed.");
+      console.error("KHELOGO account read error:", databaseError);
+    });
+    currentRef = ref;
+    currentCallback = callback;
+  }
+
+  form.addEventListener("submit", async event => {
+    event.preventDefault();
+    if(!auth) { showError("Firebase SDK is not ready. Reload the page and try again."); return; }
+    const mobile = $("accountMobile").value.replace(/\D/g, "");
+    const password = $("accountPassword").value;
+    if(!/^\d{10}$/.test(mobile)){ showError("Enter the same 10-digit mobile number used in your KHELOGO account."); return; }
+    submit.disabled = true;
+    showError("Signing in…");
+    try {
+      await auth.signInWithEmailAndPassword(mobile + "@khelogo.app", password);
+      $("accountPassword").value = "";
+      showError("");
+      closeDialog();
+    } catch (e) {
+      const code = e && e.code ? e.code : "";
+      if(code === "auth/invalid-credential" || code === "auth/wrong-password" || code === "auth/user-not-found") {
+        showError("Login failed. Check the mobile number/password and confirm the existing account has a linked password.");
+      } else if(code === "auth/too-many-requests") {
+        showError("Too many attempts. Wait a while before trying again.");
+      } else if(code === "auth/operation-not-allowed") {
+        showError("Email/Password sign-in is disabled in Firebase Authentication. Do not change providers until the Android account setup is checked.");
+      } else {
+        showError("Login error: " + (e.message || code || "Unknown error"));
+      }
+    } finally { submit.disabled = false; }
+  });
+
+  signOut.addEventListener("click", async () => {
+    try { await auth.signOut(); showError(""); closeDialog(); }
+    catch(e){ showError("Sign out failed. Please try again."); }
+  });
+  if(auth) auth.onAuthStateChanged(onSignedIn);
+})();
+</script>
+
 </body>
 </html>
