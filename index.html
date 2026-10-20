@@ -288,7 +288,7 @@ footer{border-top:1px solid #ffffff20;padding:27px 0;color:#8994a5;font-size:12p
 <div class="shell" id="shell">
 <div class="game-head"><strong>KHELO<span style="color:var(--cyan)">GO</span> / WEB ARCADE</strong><div><button id="menuBtnGame" aria-label="Game settings">☰</button> <button id="exitBtn" aria-label="Exit game">✕</button></div></div>
 <div class="game-menu" id="gameMenu"><h3>Game settings</h3><div class="setting"><label for="soundToggle">Sound effects</label><input id="soundToggle" type="checkbox" checked></div><button class="gbtn alt" id="rulesBtn">Game rules</button><button class="gbtn alt" id="pauseBtn">Pause / Resume</button><button class="gbtn alt" id="exitMenu">Exit game</button><p class="message" id="menuMessage"></p></div>
-<div class="game-content"><div class="game-title"><div class="kicker">KHELOGO WEB ARCADE</div><h2 id="gameTitle">Mines</h2><p id="gameSub"></p></div><div class="panel" id="panel"></div><div class="message" id="message" aria-live="polite"></div></div>
+<div class="game-content"><div class="game-title"><div class="kicker">KHELOGO WEB ARCADE</div><h2 id="gameTitle">Mines</h2><p id="gameSub"></p><div id="arcadeRewardBar" style="margin-top:14px;padding:12px 14px;border:1px solid #ffffff25;border-radius:13px;background:#ffffff08;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap"><div><strong style="display:block;font-size:13px">🎁 Arcade participation reward</strong><span id="arcadeRewardStatus" class="message" style="display:block;margin-top:3px">Sign in and start a game to check reward eligibility.</span></div><button class="gbtn" id="claimArcadeReward" disabled>Claim 1 coin</button></div></div><div class="panel" id="panel"></div><div class="message" id="message" aria-live="polite"></div></div>
 </div>
 </div>
 <div class="modal" id="rulesModal" role="dialog" aria-modal="true" aria-label="Game rules">
@@ -321,9 +321,9 @@ function openGame(name){
 stop();game=name;paused=false;gm.classList.remove('open');shell.style.borderColor=({Ludo:'#ffcc66',LuckyJava:'#48e0a1',Mines:'#a397ff',Aviator:'#ff78bd','Runway Surfing':'#00e5ff','Chicken Road':'#72a7ff','Dragon Tiger':'#ff925c','Reaction Rush':'#b09aff','Carrom Mini':'#48e0a1','Battle Arena Mini':'#ff78bd'})[name]||'#00e5ff';
 $('gameTitle').textContent=name==='Ludo'?'Ludo Mini':name;
 $('gameSub').textContent=({Ludo:'Roll, move and complete a simple solo board.',LuckyJava:'Choose a lucky target.',Mines:'Reveal safe cells and avoid hidden mines.',Aviator:'Collect the simulated multiplier before the flight ends.','Runway Surfing':'Switch lanes, jump and dodge obstacles.','Chicken Road':'Cross safely one step at a time.','Dragon Tiger':'A quick high-card comparison.','Reaction Rush':'Test your reaction time.','Carrom Mini':'Aim and pocket coins.','Battle Arena Mini':'Move, attack and survive.'})[name];
-modal.classList.add('open');document.body.style.overflow='hidden';render();beep(650);
+modal.classList.add('open');document.body.style.overflow='hidden';window.dispatchEvent(new CustomEvent('khelogo:game-start',{detail:{game:name}}));render();beep(650);
 }
-function closeGame(){stop();modal.classList.remove('open');rulesModal.classList.remove('open');gm.classList.remove('open');document.body.style.overflow='';game=''}
+function closeGame(){stop();window.dispatchEvent(new CustomEvent('khelogo:game-close'));modal.classList.remove('open');rulesModal.classList.remove('open');gm.classList.remove('open');document.body.style.overflow='';game=''}
 document.querySelectorAll('.play-btn[data-game]').forEach(button=>button.addEventListener('click',()=>openGame(button.dataset.game)));
 $('exitBtn').onclick=closeGame;$('exitMenu').onclick=closeGame;
 $('menuBtnGame').onclick=()=>gm.classList.toggle('open');
@@ -434,6 +434,7 @@ document.addEventListener('keydown',e=>{if(!modal.classList.contains('open')||ru
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-functions-compat.js"></script>
 <script>
 (function(){
   "use strict";
@@ -455,7 +456,8 @@ document.addEventListener('keydown',e=>{if(!modal.classList.contains('open')||ru
   const submit = $("accountSubmit");
   const signOut = $("accountSignOut");
   const error = $("accountError");
-  let auth = null, db = null, currentRef = null, currentCallback = null, latestUserData = null;
+  let auth = null, db = null, functionsApi = null, currentRef = null, currentCallback = null, latestUserData = null;
+  let arcadeSessionId = null, arcadeSessionGame = null, rewardTimer = null;
 
   function showError(message){ error.textContent = message || ""; }
   function openDialog(){ overlay.classList.add("open"); showError(""); }
@@ -475,6 +477,7 @@ document.addEventListener('keydown',e=>{if(!modal.classList.contains('open')||ru
     if (!firebase.apps.length) firebase.initializeApp(config);
     auth = firebase.auth();
     db = firebase.database();
+    functionsApi = firebase.app().functions("asia-southeast1");
   } catch (e) {
     openButton.addEventListener("click", () => showError("Firebase could not start. Reload the page and check the network."));
     console.error("KHELOGO Firebase initialization error:", e);
@@ -629,6 +632,76 @@ document.addEventListener('keydown',e=>{if(!modal.classList.contains('open')||ru
   signOut.addEventListener("click", async () => {
     try { await auth.signOut(); showError(""); closeDialog(); }
     catch(e){ showError("Sign out failed. Please try again."); }
+  });
+  const rewardStatus = $("arcadeRewardStatus");
+  const claimRewardButton = $("claimArcadeReward");
+  function resetArcadeReward(message) {
+    if (rewardTimer) clearTimeout(rewardTimer);
+    rewardTimer = null;
+    arcadeSessionId = null;
+    arcadeSessionGame = null;
+    claimRewardButton.disabled = true;
+    claimRewardButton.textContent = "Claim 1 coin";
+    rewardStatus.textContent = message || "Start a game while signed in to check reward eligibility.";
+  }
+  window.addEventListener("khelogo:game-start", async event => {
+    resetArcadeReward("Checking account and starting a secure reward session…");
+    const game = event.detail && event.detail.game;
+    if (!auth || !auth.currentUser || !functionsApi) {
+      rewardStatus.textContent = "Sign in first, then close and reopen this game to start a reward session.";
+      return;
+    }
+    try {
+      const response = await functionsApi.httpsCallable("startArcadeSession")({ game });
+      arcadeSessionId = response.data.sessionId;
+      arcadeSessionGame = game;
+      rewardStatus.textContent = "Session started. Play for at least 30 seconds; eligible accounts can earn 1 game coin. Daily limits apply.";
+      rewardTimer = setTimeout(() => {
+        if (arcadeSessionId && arcadeSessionGame === game) {
+          claimRewardButton.disabled = false;
+          rewardStatus.textContent = "Minimum play time reached. Claim your participation reward.";
+        }
+      }, Math.max(1, Number(response.data.minimumPlaySeconds || 30)) * 1000);
+    } catch (err) {
+      console.error("KHELOGO arcade session error:", err);
+      rewardStatus.textContent = err && err.code === "functions/not-found"
+        ? "Reward service is not deployed yet. The game still works, but no coins were changed."
+        : (err && err.message ? err.message : "Could not start a reward session. No coins were changed.");
+    }
+  });
+  claimRewardButton.addEventListener("click", async () => {
+    if (!arcadeSessionId || !auth || !auth.currentUser || !functionsApi) return;
+    claimRewardButton.disabled = true;
+    rewardStatus.textContent = "Verifying session with KHELOGO…";
+    try {
+      const response = await functionsApi.httpsCallable("completeArcadeSession")({ sessionId: arcadeSessionId });
+      if (response.data && response.data.awarded) {
+        rewardStatus.textContent = "Success: 1 game coin was added to your Firebase account. Your wallet will refresh automatically.";
+      } else {
+        rewardStatus.textContent = response.data && response.data.message ? response.data.message : "This session did not award additional coins.";
+      }
+      arcadeSessionId = null;
+      arcadeSessionGame = null;
+    } catch (err) {
+      console.error("KHELOGO arcade reward error:", err);
+      rewardStatus.textContent = err && err.message ? err.message : "Reward could not be verified. No additional coins were added.";
+      if (err && (err.code === "functions/failed-precondition" || err.code === "functions/resource-exhausted")) {
+        arcadeSessionId = null;
+        arcadeSessionGame = null;
+      } else {
+        claimRewardButton.disabled = false;
+      }
+    }
+  });
+  window.addEventListener("khelogo:game-close", () => {
+    if (rewardTimer) clearTimeout(rewardTimer);
+    rewardTimer = null;
+    if (arcadeSessionId) {
+      arcadeSessionId = null;
+      arcadeSessionGame = null;
+      claimRewardButton.disabled = true;
+      rewardStatus.textContent = "Session closed. Start a new game for a new session; incomplete sessions do not award coins.";
+    }
   });
   if(auth) auth.onAuthStateChanged(onSignedIn);
 })();
