@@ -1,15 +1,13 @@
 name: Deploy KHELOGO Firebase Functions
 
 on:
-  # Manual only: deploying Functions can require a configured service-account
-  # secret and a Firebase billing plan. Do not trigger deployment on every push.
   workflow_dispatch:
 
 permissions:
   contents: read
 
 jobs:
-  validate:
+  deploy:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -23,6 +21,14 @@ jobs:
       - name: Install Functions dependencies
         working-directory: functions
         run: npm install
+      - name: Check Firebase deployment credentials
+        env:
+          GCP_SA_KEY: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_KHELOGO_4DAAF }}
+        run: |
+          if [ -z "$GCP_SA_KEY" ]; then
+            echo "::error::Missing GitHub Actions secret FIREBASE_SERVICE_ACCOUNT_KHELOGO_4DAAF. Add a Firebase service-account JSON key under Repository Settings > Secrets and variables > Actions, then rerun this workflow."
+            exit 1
+          fi
       - name: Deploy Firebase Functions
         uses: w9jds/firebase-action@v13.24.0
         with:
