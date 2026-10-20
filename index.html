@@ -194,9 +194,9 @@ footer{border-top:1px solid #ffffff20;padding:27px 0;color:#8994a5;font-size:12p
 <article class="card violet"><div class="card-icon">💎</div><h3>Mines</h3><p>Reveal safe cells and avoid hidden mines on a 5×5 board.</p><span class="tag">Playable demo</span><button class="play-btn" data-game="Mines">Play Mines ↗</button></article>
 <article class="card pink"><div class="card-icon">✈️</div><h3>Aviator</h3><p>Watch a simulated multiplier and collect demo points before the flight ends.</p><span class="tag">Playable demo</span><button class="play-btn" data-game="Aviator">Play Aviator ↗</button></article>
 <article class="card cyan"><div class="card-icon">🏃</div><h3>Runway Surfing</h3><p>Switch lanes, jump and dodge barriers in this simple runner.</p><span class="tag">Playable demo</span><button class="play-btn" data-game="Runway Surfing">Play Runway Surfing ↗</button></article>
-<article class="card blue"><div class="card-icon">🐔</div><h3>Chicken Road 2</h3><p>More game experiences are planned for future updates.</p><span class="tag">Coming soon</span></article>
-<article class="card orange"><div class="card-icon">🐉</div><h3>Dragon Tiger</h3><p>Check official KHELOGO updates for availability.</p><span class="tag">Coming soon</span></article>
-<article class="card violet"><div class="card-icon">🏏</div><h3>More Games</h3><p>Carrom, PUBG Mini and additional game concepts are planned.</p><span class="tag">Coming soon</span></article>
+<article class="card blue"><div class="card-icon">🐔</div><h3>Chicken Road</h3><p>Choose a step, cross the road and avoid the hidden hazard.</p><span class="tag">Playable arcade</span><button class="play-btn" data-game="Chicken Road">Play Chicken Road ↗</button></article>
+<article class="card orange"><div class="card-icon">🐉</div><h3>Dragon Tiger</h3><p>Draw two cards and see which side wins. No bets or money involved.</p><span class="tag">Playable arcade</span><button class="play-btn" data-game="Dragon Tiger">Play Dragon Tiger ↗</button></article>
+<article class="card violet"><div class="card-icon">⚡</div><h3>Reaction Rush</h3><p>Wait for the signal and tap as fast as you can.</p><span class="tag">Playable arcade</span><button class="play-btn" data-game="Reaction Rush">Play Reaction Rush ↗</button></article>
 </div>
 <p class="section-note">Arcade scores are local to each round. They do not change your real account balance or create a payout.</p>
 </div>
@@ -299,21 +299,24 @@ const menuButton=$('menuBtn'),navLinks=$('navLinks');
 menuButton.addEventListener('click',function(){const opened=navLinks.classList.toggle('open');menuButton.setAttribute('aria-expanded',opened);menuButton.textContent=opened?'✕':'☰'});
 navLinks.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{navLinks.classList.remove('open');menuButton.textContent='☰';menuButton.setAttribute('aria-expanded','false')}));
 const modal=$('modal'),shell=$('shell'),panel=$('panel'),gm=$('gameMenu'),rulesModal=$('rulesModal');
-let game='',sound=true,paused=false,interval=null,run=null,context=null;
+let game='',sound=true,paused=false,interval=null,run=null,context=null,delayTimer=null;
 function beep(freq=500,duration=.08){if(!sound)return;try{context=context||new(window.AudioContext||window.webkitAudioContext)();const osc=context.createOscillator(),gain=context.createGain();osc.frequency.value=freq;gain.gain.value=.05;osc.connect(gain);gain.connect(context.destination);osc.start();osc.stop(context.currentTime+duration)}catch(e){}}
 function say(text){$('message').textContent=text}
-function stop(){if(interval)clearInterval(interval);interval=null;if(run&&run.timer)clearInterval(run.timer);run=null}
+function stop(){if(interval)clearInterval(interval);interval=null;if(delayTimer)clearTimeout(delayTimer);delayTimer=null;if(run&&run.timer)clearInterval(run.timer);run=null}
 const rules={
 Ludo:'<ul><li>Roll the dice, then move your token.</li><li>This is a simplified solo demo, not multiplayer Ludo.</li></ul>',
 LuckyJava:'<ul><li>Choose one of three clovers.</li><li>Correct picks add fictional demo points.</li></ul>',
 Mines:'<ul><li>Reveal cells on the 5×5 board.</li><li>Safe cells add demo points; a mine ends the round.</li><li>Points have no cash value.</li></ul>',
 Aviator:'<ul><li>Start the simulated flight.</li><li>Collect before the flight ends to save fictional demo points.</li><li>This is not a real-money game.</li></ul>',
-'Runway Surfing':'<ul><li>Use left/right buttons or arrow keys to change lanes.</li><li>Jump with the Jump button, up arrow or space bar.</li><li>Avoid barriers to increase distance.</li></ul>'
+'Runway Surfing':'<ul><li>Use left/right buttons or arrow keys to change lanes.</li><li>Jump with the Jump button, up arrow or space bar.</li><li>Avoid barriers to increase distance.</li></ul>',
+'Chicken Road':'<ul><li>Choose Cross one step at a time.</li><li>Each safe step increases your local round score.</li><li>A hazard ends the round; scores have no cash value.</li></ul>',
+'Dragon Tiger':'<ul><li>Deal one card to Dragon and one to Tiger.</li><li>The higher card wins the round; equal cards are a tie.</li><li>No betting, wallet changes, or payouts.</li></ul>',
+'Reaction Rush':'<ul><li>Press Start and wait for the signal to turn green.</li><li>Tap only after it turns green.</li><li>Early taps count as a false start.</li></ul>'
 };
 function openGame(name){
-stop();game=name;paused=false;gm.classList.remove('open');shell.style.borderColor=({Ludo:'#ffcc66',LuckyJava:'#48e0a1',Mines:'#a397ff',Aviator:'#ff78bd','Runway Surfing':'#00e5ff'})[name];
+stop();game=name;paused=false;gm.classList.remove('open');shell.style.borderColor=({Ludo:'#ffcc66',LuckyJava:'#48e0a1',Mines:'#a397ff',Aviator:'#ff78bd','Runway Surfing':'#00e5ff','Chicken Road':'#72a7ff','Dragon Tiger':'#ff925c','Reaction Rush':'#b09aff'})[name]||'#00e5ff';
 $('gameTitle').textContent=name==='Ludo'?'Ludo Mini':name;
-$('gameSub').textContent=({Ludo:'Roll, move and complete a simple solo board.',LuckyJava:'Choose a lucky target.',Mines:'Reveal safe cells and avoid hidden mines.',Aviator:'Collect the simulated multiplier before the flight ends.','Runway Surfing':'Switch lanes, jump and dodge obstacles.'})[name];
+$('gameSub').textContent=({Ludo:'Roll, move and complete a simple solo board.',LuckyJava:'Choose a lucky target.',Mines:'Reveal safe cells and avoid hidden mines.',Aviator:'Collect the simulated multiplier before the flight ends.','Runway Surfing':'Switch lanes, jump and dodge obstacles.','Chicken Road':'Cross safely one step at a time.','Dragon Tiger':'A quick high-card comparison.','Reaction Rush':'Test your reaction time.'})[name];
 modal.classList.add('open');document.body.style.overflow='hidden';render();beep(650);
 }
 function closeGame(){stop();modal.classList.remove('open');rulesModal.classList.remove('open');gm.classList.remove('open');document.body.style.overflow='';game=''}
@@ -326,7 +329,7 @@ $('rulesClose').onclick=()=>rulesModal.classList.remove('open');$('rulesBack').o
 $('pauseBtn').onclick=()=>{paused=!paused;$('menuMessage').textContent=paused?'Paused. Open the menu and resume to continue.':'Resumed.'};
 modal.addEventListener('click',e=>{if(e.target===modal)closeGame()});
 rulesModal.addEventListener('click',e=>{if(e.target===rulesModal)rulesModal.classList.remove('open')});
-function render(){stop();paused=false;panel.innerHTML='';if(game==='Mines')mines();if(game==='LuckyJava')lucky();if(game==='Aviator')aviator();if(game==='Ludo')ludo();if(game==='Runway Surfing')runner();say('Ready when you are.')}
+function render(){stop();paused=false;panel.innerHTML='';if(game==='Mines')mines();if(game==='LuckyJava')lucky();if(game==='Aviator')aviator();if(game==='Ludo')ludo();if(game==='Runway Surfing')runner();if(game==='Chicken Road')chickenRoad();if(game==='Dragon Tiger')dragonTiger();if(game==='Reaction Rush')reactionRush();say('Ready when you are.')}
 function mines(){
 let score=0,ended=false,mineSet=new Set();while(mineSet.size<5)mineSet.add(Math.floor(Math.random()*25));
 panel.innerHTML='<div class="stats"><div class="stat">Demo points <b id="score">0</b></div><div class="stat">Safe cells <b id="safe">0</b>/20</div></div><div class="mines-grid" id="grid"></div><div class="game-buttons"><button class="gbtn" id="collect">Collect demo points</button><button class="gbtn alt" id="restart">Restart</button></div>';
@@ -356,6 +359,34 @@ $('roll').onclick=()=>{if(paused)return;dice=1+Math.floor(Math.random()*6);$('di
 move.onclick=()=>{if(paused||move.disabled)return;position=Math.min(30,position+dice);$('pos').textContent=position;move.disabled=true;say(position>=30?'Finish reached! You completed the mini board.':'Token moved. Roll again.');beep(650)};
 $('resetL').onclick=ludo;
 }
+
+function chickenRoad(){
+  let step=0,points=0,ended=false;
+  panel.innerHTML='<div class="stats"><div class="stat">Safe steps <b id="crStep">0</b>/12</div><div class="stat">Round score <b id="crScore">0</b></div></div><div id="crRoad" style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:7px;max-width:460px;margin:16px auto"></div><p style="text-align:center;color:var(--muted);font-size:12px">Every step is a fresh local random challenge. No money or wallet credit.</p><div class="game-buttons"><button class="gbtn" id="crCross">Cross one step</button><button class="gbtn alt" id="crBank" disabled>Finish round</button><button class="gbtn alt" id="crRestart">Restart</button></div>';
+  const road=$('crRoad');
+  function draw(){road.innerHTML='';for(let i=0;i<12;i++){const cell=document.createElement('div');cell.style.cssText='min-height:50px;display:grid;place-items:center;border:1px solid #ffffff24;border-radius:10px;background:'+(i<step?'#15553e':i===step?'#203f7a':'#ffffff08');cell.textContent=i<step?'🐔':i===step?'🐾':'·';road.appendChild(cell)}}
+  function reset(){step=0;points=0;ended=false;$('crStep').textContent='0';$('crScore').textContent='0';$('crCross').disabled=false;$('crBank').disabled=true;draw();say('Ready to cross.');}
+  $('crCross').onclick=()=>{if(ended||paused)return;const hazard=Math.random()<.22; if(hazard){ended=true;$('crCross').disabled=true;$('crBank').disabled=true;say('Hazard! Round over with '+points+' local points. Restart to play again.');beep(160,.18);draw();return;}step++;points+=10;$('crStep').textContent=step;$('crScore').textContent=points;draw();$('crBank').disabled=false;if(step>=12){ended=true;$('crCross').disabled=true;say('Road crossed! You scored '+points+' local points.');}else say('Safe step! Continue or finish the round.');beep(620);};
+  $('crBank').onclick=()=>{if(ended||points===0)return;ended=true;$('crCross').disabled=true;$('crBank').disabled=true;say('Round finished with '+points+' local points. These are not redeemable.');};
+  $('crRestart').onclick=reset;draw();
+}
+function dragonTiger(){
+  let rounds=0,dragonWins=0,tigerWins=0,ties=0;
+  const cards=['A','2','3','4','5','6','7','8','9','10','J','Q','K'];
+  const value=c=>c==='A'?14:c==='K'?13:c==='Q'?12:c==='J'?11:Number(c);
+  panel.innerHTML='<div class="stats"><div class="stat">Rounds <b id="dtRounds">0</b></div><div class="stat">Dragon <b id="dtDragonWins">0</b></div><div class="stat">Tiger <b id="dtTigerWins">0</b></div><div class="stat">Ties <b id="dtTies">0</b></div></div><div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:18px auto;max-width:440px"><div class="live-stat" style="text-align:center"><small>🐉 Dragon</small><strong id="dtDragonCard">—</strong></div><div class="live-stat" style="text-align:center"><small>🐅 Tiger</small><strong id="dtTigerCard">—</strong></div></div><p id="dtResult" style="text-align:center;min-height:24px">Deal a card to each side.</p><div class="game-buttons"><button class="gbtn" id="dtDeal">Deal cards</button><button class="gbtn alt" id="dtReset">Reset score</button></div><p style="text-align:center;color:var(--muted);font-size:12px;margin-top:10px">Entertainment-only card comparison. No bets, real money, or wallet changes.</p>';
+  $('dtDeal').onclick=()=>{if(paused)return;const d=cards[Math.floor(Math.random()*13)],t=cards[Math.floor(Math.random()*13)];$('dtDragonCard').textContent=d;$('dtTigerCard').textContent=t;rounds++;if(value(d)>value(t)){dragonWins++;$('dtResult').textContent='Dragon wins this round.';}else if(value(t)>value(d)){tigerWins++;$('dtResult').textContent='Tiger wins this round.';}else{ties++;$('dtResult').textContent='Tie round.';}$('dtRounds').textContent=rounds;$('dtDragonWins').textContent=dragonWins;$('dtTigerWins').textContent=tigerWins;$('dtTies').textContent=ties;beep(500);};
+  $('dtReset').onclick=()=>{rounds=dragonWins=tigerWins=ties=0;$('dtRounds').textContent=$('dtDragonWins').textContent=$('dtTigerWins').textContent=$('dtTies').textContent='0';$('dtDragonCard').textContent=$('dtTigerCard').textContent='—';$('dtResult').textContent='Deal a card to each side.';};
+}
+function reactionRush(){
+  let state='idle',startedAt=0,best=null;
+  panel.innerHTML='<div class="stats"><div class="stat">Best reaction <b id="rrBest">—</b></div></div><button id="rrTarget" style="display:block;width:100%;min-height:210px;border:1px solid #ffffff30;border-radius:18px;background:#203f7a;color:#fff;font-size:clamp(24px,5vw,38px);font-weight:900;cursor:pointer">Press Start</button><p id="rrMessage" style="text-align:center;min-height:28px;margin-top:12px">Wait for green, then tap quickly.</p><div class="game-buttons"><button class="gbtn alt" id="rrReset">Reset best</button></div>';
+  const target=$('rrTarget');
+  function idle(){state='idle';if(delayTimer)clearTimeout(delayTimer);delayTimer=null;target.style.background='#203f7a';target.textContent='Press Start';$('rrMessage').textContent='Wait for green, then tap quickly.';}
+  target.onclick=()=>{if(paused)return;if(state==='idle'){state='waiting';target.style.background='#7a2639';target.textContent='Wait…';$('rrMessage').textContent='Do not tap yet.';delayTimer=setTimeout(()=>{if(state!=='waiting')return;state='go';startedAt=performance.now();target.style.background='#15553e';target.textContent='TAP NOW!';$('rrMessage').textContent='Go!';},900+Math.random()*2600);return;}if(state==='waiting'){if(delayTimer)clearTimeout(delayTimer);delayTimer=null;state='idle';target.style.background='#7a2639';target.textContent='False start';$('rrMessage').textContent='Too early! Tap to try again.';beep(180);return;}if(state==='go'){const ms=Math.round(performance.now()-startedAt);best=best===null?ms:Math.min(best,ms);$('rrBest').textContent=best+' ms';state='idle';target.style.background='#203f7a';target.textContent=ms+' ms — Play again';$('rrMessage').textContent=ms<250?'Excellent reaction!':ms<400?'Good reaction!':'Try to beat your time.';beep(760);}};
+  $('rrReset').onclick=()=>{best=null;$('rrBest').textContent='—';idle();};idle();
+}
+
 function runner(){
 panel.innerHTML='<div class="stats"><div class="stat">Distance <b id="dist">0</b> m</div><div class="stat">Coins <b id="coins">0</b></div></div><div class="runner-stage"><div class="road"></div><div class="lanes"></div><div class="runner" id="actor">🏃</div><div class="obstacle" id="ob">🚧</div></div><div class="game-buttons"><button class="gbtn alt" id="left">← Left</button><button class="gbtn" id="jump">⬆ Jump</button><button class="gbtn alt" id="right">Right →</button></div><div class="game-buttons"><button class="gbtn" id="runStart">Start / Restart</button></div>';
 let lane=1,distance=0,coins=0,obstacleLane=1,obstacleTop=-40,jumping=false,live=false;
