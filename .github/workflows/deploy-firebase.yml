@@ -1,6 +1,13 @@
 name: Deploy KHELOGO Firebase Functions
 
 on:
+  push:
+    branches: ["main"]
+    paths:
+      - "functions/**"
+      - "firebase.json"
+      - ".firebaserc"
+      - ".github/workflows/deploy-firebase.yml"
   workflow_dispatch:
 
 permissions:
