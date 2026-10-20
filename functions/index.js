@@ -135,3 +135,99 @@ exports.completeArcadeSession = onCall(async (request) => {
   if (reason === "already_claimed") return { awarded: false, coinsAwarded: 0, gameCoins: Number(user.gameCoins || 0), message: "This session was already claimed." };
   throw new HttpsError("failed-precondition", "This game session cannot be rewarded. Start a new session.");
 });
+
+
+// Website withdrawal flow. Admin authorization is enforced on the server using
+// the UID already configured in the Android app; client-side role fields are ignored.
+const ADMIN_UID = "uZcwOVMchEWaxj0iEWBCCuvo1Uy2";
+function requireAdmin(request) {
+  const uid = requireUser(request);
+  if (uid !== ADMIN_UID) throw new HttpsError("permission-denied", "Admin access required.");
+  return uid;
+}
+function validUpi(value) {
+  return typeof value === "string" && value.trim().length >= 3 &&
+    value.trim().length <= 120 && /^[A-Za-z0-9._-]+@[A-Za-z0-9.-]+$/.test(value.trim());
+}
+
+exports.createWithdrawalRequest = onCall(async (request) => {
+  const uid = requireUser(request);
+  const amount = Number(request.data && request.data.amount);
+  const upiId = request.data && request.data.upiId;
+  if (!Number.isSafeInteger(amount) || amount < 10 || amount > 100000) {
+    throw new HttpsError("invalid-argument", "Withdrawal amount must be a whole rupee amount between ₹10 and ₹100000.");
+  }
+  if (!validUpi(upiId)) throw new HttpsError("invalid-argument", "Enter a valid UPI ID.");
+  const db = admin.database();
+  const userRef = db.ref("users/" + uid);
+  const userSnap = await userRef.get();
+  if (!userSnap.exists()) throw new HttpsError("failed-precondition", "KHELOGO account record was not found.");
+  const balance = Number((userSnap.val() || {}).balance || 0);
+  const pendingSnap = await db.ref("withdrawRequests/" + uid).orderByChild("status").equalTo("Pending").get();
+  const pendingTotal = 0;
+  let pendingCount = 0;
+  pendingSnap.forEach(() => { pendingCount += 1; });
+  if (pendingCount >= 3) throw new HttpsError("resource-exhausted", "You already have 3 pending withdrawal requests.");
+  if (amount > balance) throw new HttpsError("failed-precondition", "Insufficient wallet balance.");
+  const requestRef = db.ref("withdrawRequests/" + uid).push();
+  const now = Date.now();
+  await requestRef.set({ uid, upiId: upiId.trim(), amount, status: "Pending", createdAt: now });
+  return { requestId: requestRef.key, status: "Pending", createdAt: now };
+});
+
+exports.listAdminWithdrawals = onCall(async (request) => {
+  requireAdmin(request);
+  const snap = await admin.database().ref("withdrawRequests").get();
+  const requests = [];
+  snap.forEach(userNode => {
+    userNode.forEach(reqNode => {
+      const item = reqNode.val() || {};
+      requests.push({ uid: userNode.key, requestId: reqNode.key, upiId: String(item.upiId || ""),
+        amount: Number(item.amount || 0), status: String(item.status || "Pending"),
+        createdAt: Number(item.createdAt || 0) });
+    });
+  });
+  requests.sort((a,b) => b.createdAt - a.createdAt);
+  return { requests: requests.slice(0, 200) };
+});
+
+exports.processWithdrawalRequest = onCall(async (request) => {
+  requireAdmin(request);
+  const uid = request.data && request.data.uid;
+  const requestId = request.data && request.data.requestId;
+  const action = request.data && request.data.action;
+  if (typeof uid !== "string" || typeof requestId !== "string" ||
+      !/^[A-Za-z0-9_-]{1,128}$/.test(uid) || !/^[A-Za-z0-9_-]{1,128}$/.test(requestId) ||
+      !["approve", "reject"].includes(action)) {
+    throw new HttpsError("invalid-argument", "Invalid withdrawal action.");
+  }
+  const db = admin.database();
+  const reqRef = db.ref("withdrawRequests/" + uid + "/" + requestId);
+  let claimError = null;
+  const claim = await reqRef.transaction(current => {
+    if (!current || current.status !== "Pending") { claimError = "processed"; return; }
+    return { ...current, status: action === "approve" ? "Processing" : "Rejected", reviewedAt: Date.now(), reviewedBy: ADMIN_UID };
+  }, undefined, false);
+  if (!claim.committed) {
+    if (claimError === "processed") throw new HttpsError("failed-precondition", "This request has already been processed.");
+    throw new HttpsError("not-found", "Withdrawal request not found.");
+  }
+  if (action === "reject") return { status: "Rejected" };
+  const amount = Number((claim.snapshot.val() || {}).amount || 0);
+  if (!Number.isSafeInteger(amount) || amount < 10) {
+    await reqRef.update({ status: "Pending", reviewError: "invalid_amount" });
+    throw new HttpsError("failed-precondition", "Invalid withdrawal amount; request restored to Pending.");
+  }
+  let insufficient = false;
+  const balanceResult = await db.ref("users/" + uid + "/balance").transaction(current => {
+    const balance = Number(current || 0);
+    if (!Number.isFinite(balance) || balance < amount) { insufficient = true; return; }
+    return balance - amount;
+  }, undefined, false);
+  if (!balanceResult.committed) {
+    await reqRef.update({ status: "Pending", reviewError: insufficient ? "insufficient_balance" : "balance_update_failed" });
+    throw new HttpsError("failed-precondition", insufficient ? "Insufficient balance. Request restored to Pending." : "Balance update failed; request restored to Pending.");
+  }
+  await reqRef.update({ status: "Approved", processedAt: Date.now(), reviewedBy: ADMIN_UID });
+  return { status: "Approved", amount };
+});
