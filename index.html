@@ -136,6 +136,7 @@ footer{border-top:1px solid #ffffff20;padding:27px 0;color:#8994a5;font-size:12p
 .account-login{border:1px solid #00e5ff80;background:linear-gradient(110deg,#00e5ff,#9aefff);color:#061018;border-radius:10px;padding:10px 14px;font-weight:900;cursor:pointer}
 .account-chip{display:none;max-width:210px;padding:8px 10px;border:1px solid #48e0a155;border-radius:10px;background:#48e0a110;color:#dfffee;font-size:11px;overflow-wrap:anywhere}
 .account-chip.show{display:block;cursor:pointer}
+.account-menu-wrap{position:relative}.account-menu{display:none;position:absolute;right:0;top:calc(100% + 10px);z-index:100;min-width:220px;padding:8px;border:1px solid #00e5ff50;border-radius:14px;background:#101827;box-shadow:0 18px 50px #000a}.account-menu.open{display:grid;gap:5px}.account-menu a,.account-menu button{display:block;width:100%;text-align:left;border:0;border-radius:9px;padding:11px 12px;background:transparent;color:#edf5ff;font:700 13px Arial;cursor:pointer}.account-menu a:hover,.account-menu button:hover{background:#00e5ff16;color:#00e5ff}.account-menu .menu-sep{height:1px;background:#ffffff20;margin:3px 5px}.account-menu [hidden]{display:none!important}.withdraw-history{margin-top:18px;padding:18px;border:1px solid #ffffff22;border-radius:16px;background:#ffffff06}.withdraw-list{display:grid;gap:9px;margin-top:12px}.withdraw-item{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px;border:1px solid #ffffff18;border-radius:10px;background:#ffffff05;font-size:13px}.withdraw-item small{display:block;color:var(--muted)}.withdraw-status{font-weight:800;color:var(--gold)}
 .auth-overlay{display:none;position:fixed;inset:0;z-index:250;background:#02050cf2;place-items:center;padding:16px;overflow:auto}
 .auth-overlay.open{display:grid}
 .auth-card{width:min(100%,430px);border:1px solid #00e5ff60;border-radius:22px;background:linear-gradient(145deg,#141e30,#0b101a);padding:24px;box-shadow:0 25px 80px #000a}
@@ -162,7 +163,7 @@ footer{border-top:1px solid #ffffff20;padding:27px 0;color:#8994a5;font-size:12p
 </div>
 <div class="account-actions">
   <button class="account-login" id="openAccount" type="button">Login</button>
-  <div class="account-chip" id="accountChip" aria-live="polite"></div>
+  <div class="account-menu-wrap"><button class="account-chip" id="accountChip" aria-live="polite" type="button" aria-haspopup="true" aria-expanded="false"></button><div class="account-menu" id="accountMenu" role="menu"><a href="#wallet" role="menuitem">💰 Wallet &amp; Game Coins</a><a href="#referral" role="menuitem">🤝 Share / Earn</a><a href="#withdrawals" role="menuitem">📜 Withdrawal History</a><a href="#adminPanel" id="adminMenuLink" role="menuitem" hidden>🛡️ Admin Panel</a><div class="menu-sep"></div><button type="button" id="menuSignOut" role="menuitem">↪ Sign out</button></div></div>
 </div>
 </nav>
 </div>
@@ -226,7 +227,7 @@ footer{border-top:1px solid #ffffff20;padding:27px 0;color:#8994a5;font-size:12p
 </div>
 </div>
 </section>
-<section id="referral">
+<section id="withdrawals"><div class="container"><div class="section-head"><div class="kicker">ACCOUNT ACTIVITY</div><h2>Withdrawal history.</h2><p>Requests attached to your signed-in KHELOGO account appear here. Status is read from Firebase.</p></div><div class="withdraw-history"><div id="withdrawHistoryStatus" role="status">Sign in to load withdrawal history.</div><div id="withdrawHistoryList" class="withdraw-list"></div></div><p class="section-note">This page does not approve payouts or deduct balance. Withdrawal requests must be validated by trusted backend logic.</p></div></section><section id="adminPanel" hidden><div class="container"><div class="section-head"><div class="kicker">RESTRICTED AREA</div><h2>Admin panel</h2><p id="adminPanelStatus">Admin access must be verified securely by the server before management actions are enabled.</p></div><div class="withdraw-history"><p>Admin management actions remain disabled until server-side admin authorization is configured. A browser-visible role field alone is not a secure permission check.</p></div></div></section><section id="referral">
 <div class="container">
 <div class="section-head"><div class="kicker">SHARE THE EXPERIENCE</div><h2>Your referral details.</h2><p>Sign in to read the referral code and referral data already attached to your account. Rewards are never fabricated by the website.</p></div>
 <div class="account-live"><div class="live-stat"><small>Your referral code</small><strong id="referralCode">Sign in to view</strong><div class="referral-tools"><button type="button" id="copyReferral" disabled>Copy code</button><button type="button" id="shareReferral" disabled>Share invite</button></div></div><div class="live-stat"><small>Referral count</small><strong id="referralCount">—</strong><p>Based on the stored referral field</p></div><div class="live-stat"><small>Referral status</small><strong id="referralStatus">Signed out</strong><p id="referralStatusNote">No referral data loaded.</p></div></div>
@@ -456,6 +457,11 @@ document.addEventListener('keydown',e=>{if(!modal.classList.contains('open')||ru
   const submit = $("accountSubmit");
   const signOut = $("accountSignOut");
   const error = $("accountError");
+  const accountMenu = $("accountMenu");
+  const adminMenuLink = $("adminMenuLink");
+  const historyStatus = $("withdrawHistoryStatus");
+  const historyList = $("withdrawHistoryList");
+  let withdrawalRef = null, withdrawalCallback = null;
   let auth = null, db = null, functionsApi = null, currentRef = null, currentCallback = null, latestUserData = null;
   let arcadeSessionId = null, arcadeSessionGame = null, rewardTimer = null;
 
@@ -463,10 +469,13 @@ document.addEventListener('keydown',e=>{if(!modal.classList.contains('open')||ru
   function openDialog(){ overlay.classList.add("open"); showError(""); }
   function closeDialog(){ overlay.classList.remove("open"); }
   openButton.addEventListener("click", openDialog);
+  chip.addEventListener("click", event => { event.stopPropagation(); accountMenu.classList.toggle("open"); chip.setAttribute("aria-expanded", accountMenu.classList.contains("open") ? "true" : "false"); });
+  document.addEventListener("click", event => { if(!event.target.closest(".account-menu-wrap")) { accountMenu.classList.remove("open"); chip.setAttribute("aria-expanded","false"); } });
+  accountMenu.querySelectorAll("a[href^=\"#\"]").forEach(link => link.addEventListener("click", () => { accountMenu.classList.remove("open"); chip.setAttribute("aria-expanded","false"); }));
+  $("menuSignOut").addEventListener("click", async () => { accountMenu.classList.remove("open"); try { await auth.signOut(); closeDialog(); } catch(e) { showError("Sign out failed. Please try again."); } });
   chip.setAttribute("role", "button");
   chip.setAttribute("tabindex", "0");
   chip.setAttribute("aria-label", "Open account options");
-  chip.addEventListener("click", openDialog);
   chip.addEventListener("keydown", event => { if(event.key === "Enter" || event.key === " ") { event.preventDefault(); openDialog(); } });
   $("closeAccount").addEventListener("click", closeDialog);
   overlay.addEventListener("click", event => { if(event.target === overlay) closeDialog(); });
@@ -484,6 +493,8 @@ document.addEventListener('keydown',e=>{if(!modal.classList.contains('open')||ru
   }
 
   function stopUserListener(){
+    if(withdrawalRef && withdrawalCallback) withdrawalRef.off("value", withdrawalCallback);
+    withdrawalRef = null; withdrawalCallback = null;
     if(currentRef && currentCallback) currentRef.off("value", currentCallback);
     currentRef = null;
     currentCallback = null;
@@ -496,6 +507,10 @@ document.addEventListener('keydown',e=>{if(!modal.classList.contains('open')||ru
   }
   function resetLivePanels(){
     latestUserData = null;
+    adminMenuLink.hidden = true;
+    $("adminPanel").hidden = true;
+    historyStatus.textContent = "Sign in to load withdrawal history.";
+    historyList.replaceChildren();
     $("walletBalance").textContent = "Sign in to view";
     $("walletCoins").textContent = "Sign in to view";
     $("walletStatus").textContent = "Signed out";
@@ -513,6 +528,8 @@ document.addEventListener('keydown',e=>{if(!modal.classList.contains('open')||ru
     resetLivePanels();
     chip.classList.remove("show");
     chip.textContent = "";
+    accountMenu.classList.remove("open");
+    chip.setAttribute("aria-expanded","false");
     openButton.hidden = false;
     openButton.textContent = "Login";
     submit.hidden = false;
@@ -548,6 +565,32 @@ document.addEventListener('keydown',e=>{if(!modal.classList.contains('open')||ru
       }
       const data = snapshot.val() || {};
       latestUserData = data;
+      const isAdmin = data.role === "admin" || data.isAdmin === true;
+      adminMenuLink.hidden = !isAdmin;
+      $("adminPanel").hidden = !isAdmin;
+      if(isAdmin) $("adminPanelStatus").textContent = "Admin account detected. Sensitive actions remain disabled until server-side authorization is verified.";
+      historyStatus.textContent = "Loading withdrawal history…";
+      historyList.replaceChildren();
+      if(withdrawalRef && withdrawalCallback) withdrawalRef.off("value", withdrawalCallback);
+      withdrawalRef = db.ref("withdrawRequests/" + user.uid);
+      withdrawalCallback = withdrawalRef.on("value", snap => {
+        historyList.replaceChildren();
+        if(!snap.exists()) { historyStatus.textContent = "No withdrawal requests found for this account."; return; }
+        const records = [];
+        snap.forEach(child => { const value = child.val() || {}; if(value && typeof value === "object") records.push({id: child.key, ...value}); });
+        records.sort((a,b) => Number(b.createdAt || 0) - Number(a.createdAt || 0));
+        historyStatus.textContent = records.length + " withdrawal request(s)";
+        records.forEach(item => {
+          const row = document.createElement("div"); row.className = "withdraw-item";
+          const left = document.createElement("div");
+          const amount = document.createElement("strong"); amount.textContent = "₹" + Math.max(0, Number(item.amount || 0)).toLocaleString("en-IN");
+          const meta = document.createElement("small"); const when = Number(item.createdAt || 0);
+          meta.textContent = (when ? new Date(when).toLocaleString("en-IN") : "Date unavailable") + (item.upiId ? " · UPI: " + String(item.upiId) : "");
+          left.append(amount, meta);
+          const status = document.createElement("span"); status.className = "withdraw-status"; status.textContent = String(item.status || "Pending");
+          row.append(left, status); historyList.append(row);
+        });
+      }, err => { historyStatus.textContent = "Withdrawal history could not be read. Check Firebase database rules."; console.error("Withdrawal history read error:", err); });
       const balance = Number(data.balance || 0);
       const coins = Number(data.gameCoins || 0);
       chip.textContent = "₹" + balance.toLocaleString("en-IN") + " · " + coins.toLocaleString("en-IN") + " coins";
