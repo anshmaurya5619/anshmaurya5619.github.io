@@ -570,7 +570,7 @@ document.addEventListener('keydown',e=>{if(!modal.classList.contains('open')||ru
       }
       const data = snapshot.val() || {};
       latestUserData = data;
-      const isAdmin = data.role === "admin" || data.isAdmin === true;
+      const isAdmin = user.uid === "uZcwOVMchEWaxj0iEWBCCuvo1Uy2";
       adminMenuLink.hidden = !isAdmin;
       $("adminPanel").hidden = !isAdmin;
       if(isAdmin) { $("adminPanelStatus").textContent = "Admin account detected. Withdrawal decisions are checked by Firebase server authorization."; loadAdminWithdrawals(); }
