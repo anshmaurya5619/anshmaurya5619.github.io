@@ -227,7 +227,7 @@ footer{border-top:1px solid #ffffff20;padding:27px 0;color:#8994a5;font-size:12p
 </div>
 </div>
 </section>
-<section id="withdrawals"><div class="container"><div class="section-head"><div class="kicker">ACCOUNT ACTIVITY</div><h2>Withdrawal history.</h2><p>Requests attached to your signed-in KHELOGO account appear here. Status is read from Firebase.</p></div><div class="withdraw-history"><div id="withdrawHistoryStatus" role="status">Sign in to load withdrawal history.</div><div id="withdrawHistoryList" class="withdraw-list"></div></div><p class="section-note">This page does not approve payouts or deduct balance. Withdrawal requests must be validated by trusted backend logic.</p></div></section><section id="adminPanel" hidden><div class="container"><div class="section-head"><div class="kicker">RESTRICTED AREA</div><h2>Admin panel</h2><p id="adminPanelStatus">Admin access must be verified securely by the server before management actions are enabled.</p></div><div class="withdraw-history"><p>Admin management actions remain disabled until server-side admin authorization is configured. A browser-visible role field alone is not a secure permission check.</p></div></div></section><section id="referral">
+<section id="withdrawals"><div class="container"><div class="section-head"><div class="kicker">ACCOUNT ACTIVITY</div><h2>Withdrawal history.</h2><p>Requests attached to your signed-in KHELOGO account appear here. Status is read from Firebase.</p></div><div class="withdraw-history"><h3>New withdrawal request</h3><p style="color:var(--muted);font-size:13px;margin:5px 0 12px">Minimum ₹10. Requests are checked by Firebase. Approval is not an instant payout guarantee.</p><form id="withdrawForm" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:10px;margin-bottom:18px"><label style="display:grid;gap:5px;font-size:12px">UPI ID<input id="withdrawUpi" required maxlength="120" placeholder="name@bank" style="padding:11px;border-radius:9px;border:1px solid #ffffff30;background:#080d16;color:#fff"></label><label style="display:grid;gap:5px;font-size:12px">Amount (₹)<input id="withdrawAmount" type="number" required min="10" max="100000" step="1" placeholder="Minimum ₹10" style="padding:11px;border-radius:9px;border:1px solid #ffffff30;background:#080d16;color:#fff"></label><button class="btn primary" id="withdrawSubmit" type="submit" style="align-self:end">Submit request</button></form><div id="withdrawFormStatus" role="status" style="font-size:13px;margin-bottom:12px"></div><h3>Your requests</h3><div id="withdrawHistoryStatus" role="status">Sign in to load withdrawal history.</div><div id="withdrawHistoryList" class="withdraw-list"></div></div><p class="section-note">This page does not approve payouts or deduct balance. Withdrawal requests must be validated by trusted backend logic.</p></div></section><section id="adminPanel" hidden><div class="container"><div class="section-head"><div class="kicker">RESTRICTED AREA</div><h2>Admin panel</h2><p id="adminPanelStatus">Admin access must be verified securely by the server before management actions are enabled.</p></div><div class="withdraw-history"><p id="adminRequestsStatus">Loading admin withdrawal requests…</p><div id="adminRequestsList" class="withdraw-list"></div></div></div></section><section id="referral">
 <div class="container">
 <div class="section-head"><div class="kicker">SHARE THE EXPERIENCE</div><h2>Your referral details.</h2><p>Sign in to read the referral code and referral data already attached to your account. Rewards are never fabricated by the website.</p></div>
 <div class="account-live"><div class="live-stat"><small>Your referral code</small><strong id="referralCode">Sign in to view</strong><div class="referral-tools"><button type="button" id="copyReferral" disabled>Copy code</button><button type="button" id="shareReferral" disabled>Share invite</button></div></div><div class="live-stat"><small>Referral count</small><strong id="referralCount">—</strong><p>Based on the stored referral field</p></div><div class="live-stat"><small>Referral status</small><strong id="referralStatus">Signed out</strong><p id="referralStatusNote">No referral data loaded.</p></div></div>
@@ -462,6 +462,7 @@ document.addEventListener('keydown',e=>{if(!modal.classList.contains('open')||ru
   const historyStatus = $("withdrawHistoryStatus");
   const historyList = $("withdrawHistoryList");
   let withdrawalRef = null, withdrawalCallback = null;
+  let adminRequestsLoadedFor = null;
   let auth = null, db = null, functionsApi = null, currentRef = null, currentCallback = null, latestUserData = null;
   let arcadeSessionId = null, arcadeSessionGame = null, rewardTimer = null;
 
@@ -473,6 +474,7 @@ document.addEventListener('keydown',e=>{if(!modal.classList.contains('open')||ru
   document.addEventListener("click", event => { if(!event.target.closest(".account-menu-wrap")) { accountMenu.classList.remove("open"); chip.setAttribute("aria-expanded","false"); } });
   accountMenu.querySelectorAll("a[href^=\"#\"]").forEach(link => link.addEventListener("click", () => { accountMenu.classList.remove("open"); chip.setAttribute("aria-expanded","false"); }));
   $("menuSignOut").addEventListener("click", async () => { accountMenu.classList.remove("open"); try { await auth.signOut(); closeDialog(); } catch(e) { showError("Sign out failed. Please try again."); } });
+  $("withdrawForm").addEventListener("submit", async event => { event.preventDefault(); const status=$("withdrawFormStatus"), button=$("withdrawSubmit"); if(!auth || !auth.currentUser || !functionsApi) { status.textContent="Please sign in first."; return; } const amount=Number($("withdrawAmount").value), upiId=$("withdrawUpi").value.trim(); if(!Number.isSafeInteger(amount)||amount<10||amount>100000){status.textContent="Enter a whole amount from ₹10 to ₹100000.";return;} button.disabled=true;status.textContent="Submitting request securely…";try{const result=await functionsApi.httpsCallable("createWithdrawalRequest")({amount,upiId});status.textContent="Withdrawal request submitted. Status: "+result.data.status;$("withdrawUpi").value="";$("withdrawAmount").value="";}catch(err){status.textContent=err&&err.message?err.message:"Request failed. No balance was deducted.";}finally{button.disabled=false;} });
   chip.setAttribute("role", "button");
   chip.setAttribute("tabindex", "0");
   chip.setAttribute("aria-label", "Open account options");
@@ -509,6 +511,9 @@ document.addEventListener('keydown',e=>{if(!modal.classList.contains('open')||ru
     latestUserData = null;
     adminMenuLink.hidden = true;
     $("adminPanel").hidden = true;
+    adminRequestsLoadedFor = null;
+    $("adminRequestsList").replaceChildren();
+    $("adminRequestsStatus").textContent = "Admin access required.";
     historyStatus.textContent = "Sign in to load withdrawal history.";
     historyList.replaceChildren();
     $("walletBalance").textContent = "Sign in to view";
@@ -568,7 +573,7 @@ document.addEventListener('keydown',e=>{if(!modal.classList.contains('open')||ru
       const isAdmin = data.role === "admin" || data.isAdmin === true;
       adminMenuLink.hidden = !isAdmin;
       $("adminPanel").hidden = !isAdmin;
-      if(isAdmin) $("adminPanelStatus").textContent = "Admin account detected. Sensitive actions remain disabled until server-side authorization is verified.";
+      if(isAdmin) { $("adminPanelStatus").textContent = "Admin account detected. Withdrawal decisions are checked by Firebase server authorization."; loadAdminWithdrawals(); }
       historyStatus.textContent = "Loading withdrawal history…";
       historyList.replaceChildren();
       if(withdrawalRef && withdrawalCallback) withdrawalRef.off("value", withdrawalCallback);
@@ -678,6 +683,19 @@ document.addEventListener('keydown',e=>{if(!modal.classList.contains('open')||ru
   });
   const rewardStatus = $("arcadeRewardStatus");
   const claimRewardButton = $("claimArcadeReward");
+  async function loadAdminWithdrawals() {
+    if(!auth || !auth.currentUser || adminRequestsLoadedFor === auth.currentUser.uid) return;
+    adminRequestsLoadedFor = auth.currentUser.uid;
+    const status=$("adminRequestsStatus"), list=$("adminRequestsList"); status.textContent="Loading requests…"; list.replaceChildren();
+    try {
+      const result=await functionsApi.httpsCallable("listAdminWithdrawals")({});
+      const requests=result.data && Array.isArray(result.data.requests) ? result.data.requests : [];
+      if(!requests.length){status.textContent="No withdrawal requests found.";return;} status.textContent=requests.length+" recent request(s)";
+      requests.forEach(item=>{const row=document.createElement("div");row.className="withdraw-item";const info=document.createElement("div");const amount=document.createElement("strong");amount.textContent="₹"+Number(item.amount||0).toLocaleString("en-IN");const details=document.createElement("small");details.textContent="UID: "+item.uid+" · UPI: "+item.upiId+" · "+(item.createdAt?new Date(item.createdAt).toLocaleString("en-IN"):"Date unavailable");const state=document.createElement("small");state.textContent="Status: "+item.status;info.append(amount,details,state);row.append(info);
+        if(item.status==="Pending"){const actions=document.createElement("div");actions.style.cssText="display:flex;gap:6px;flex-wrap:wrap";[["Approve","approve"],["Reject","reject"]].forEach(pair=>{const label=pair[0],action=pair[1],btn=document.createElement("button");btn.type="button";btn.className="btn "+(action==="approve"?"primary":"secondary");btn.textContent=label;btn.style.cssText="padding:8px 10px;font-size:12px";btn.addEventListener("click",async()=>{if(!confirm(label+" this withdrawal request?"))return;btn.disabled=true;status.textContent="Processing request…";try{const response=await functionsApi.httpsCallable("processWithdrawalRequest")({uid:item.uid,requestId:item.requestId,action});status.textContent="Request "+response.data.status+".";adminRequestsLoadedFor=null;await loadAdminWithdrawals();}catch(err){status.textContent=err&&err.message?err.message:"Could not process request.";btn.disabled=false;}});actions.append(btn);});row.append(actions);} list.append(row);
+      });
+    } catch(err) { status.textContent=err&&err.message?err.message:"Admin request list could not be loaded."; }
+  }
   function resetArcadeReward(message) {
     if (rewardTimer) clearTimeout(rewardTimer);
     rewardTimer = null;
