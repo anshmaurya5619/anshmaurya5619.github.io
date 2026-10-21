@@ -304,19 +304,26 @@ footer{border-top:1px solid #ffffff20;padding:27px 0;color:#8994a5;font-size:12p
       <button class="btn secondary" id="closeAccount" type="button" style="padding:8px 11px">Close ✕</button>
     </div>
     <h2 id="authTitle">Sign in to KHELOGO</h2>
-    <p>Use the same 10-digit mobile number and password linked to your existing KHELOGO Android account.</p>
+    <p id="authDescription">Use your existing KHELOGO mobile number and password.</p>
     <form id="accountForm">
       <label for="accountMobile">Mobile number</label>
       <input id="accountMobile" inputmode="numeric" autocomplete="username" maxlength="10" pattern="[0-9]{10}" placeholder="10-digit mobile number" required>
       <label for="accountPassword">Password</label>
-      <input id="accountPassword" type="password" autocomplete="current-password" minlength="6" placeholder="Existing account password" required>
+      <input id="accountPassword" type="password" autocomplete="current-password" minlength="6" placeholder="Password (minimum 6 characters)" required>
+      <div id="confirmPasswordWrap" hidden>
+        <label for="accountConfirmPassword">Confirm password</label>
+        <input id="accountConfirmPassword" type="password" autocomplete="new-password" minlength="6" placeholder="Enter password again">
+        <label style="display:flex;align-items:flex-start;gap:9px;font-weight:500"><input id="acceptTerms" type="checkbox" style="width:auto;margin-top:4px"> <span>I agree to the <a href="terms.html" target="_blank" rel="noopener">Terms &amp; Conditions</a> and have read the <a href="privacy.html" target="_blank" rel="noopener">Privacy Policy</a>.</span></label>
+        <p class="auth-note">This web form does not verify ownership of the mobile number by SMS. Do not use a number you do not control. Payouts remain unavailable until secure services are enabled.</p>
+      </div>
       <div class="auth-row">
         <button class="btn primary" id="accountSubmit" type="submit">Sign in</button>
         <button class="btn secondary" id="accountSignOut" type="button" hidden>Sign out</button>
       </div>
+      <button class="btn secondary" id="toggleAuthMode" type="button" style="width:100%;margin-top:10px">New here? Create an account</button>
       <div class="auth-error" id="accountError" role="status" aria-live="polite"></div>
     </form>
-    <p class="auth-note">This page reads your account record only. Game scores do not directly add or remove wallet balance. Never share your password or OTP.</p>
+    <p class="auth-note">Keep your password private. Game scores do not directly add or remove wallet balance.</p>
   </div>
 </div>
 
@@ -497,6 +504,30 @@ document.addEventListener('keydown',e=>{if(!modal.classList.contains('open')||ru
   const accountMenu = $("accountMenu");
   const adminMenuLink = $("adminMenuLink");
   const historyStatus = $("withdrawHistoryStatus");
+  const authTitle = $("authTitle");
+  const authDescription = $("authDescription");
+  const toggleAuthMode = $("toggleAuthMode");
+  const confirmPasswordWrap = $("confirmPasswordWrap");
+  const confirmPassword = $("accountConfirmPassword");
+  const acceptTerms = $("acceptTerms");
+  let authMode = "login";
+  function setAuthMode(mode) {
+    authMode = mode === "signup" ? "signup" : "login";
+    const isSignup = authMode === "signup";
+    authTitle.textContent = isSignup ? "Create your KHELOGO account" : "Sign in to KHELOGO";
+    authDescription.textContent = isSignup
+      ? "Create a new account using a mobile number you control and a password."
+      : "Use your existing KHELOGO mobile number and password.";
+    confirmPasswordWrap.hidden = !isSignup;
+    confirmPassword.required = isSignup;
+    acceptTerms.required = isSignup;
+    submit.textContent = isSignup ? "Create account" : "Sign in";
+    toggleAuthMode.textContent = isSignup ? "Already have an account? Sign in" : "New here? Create an account";
+    $("accountMobile").autocomplete = isSignup ? "tel-national" : "username";
+    $("accountPassword").autocomplete = isSignup ? "new-password" : "current-password";
+    showError("");
+  }
+  toggleAuthMode.addEventListener("click", () => setAuthMode(authMode === "login" ? "signup" : "login"));
   const historyList = $("withdrawHistoryList");
   let withdrawalRef = null, withdrawalCallback = null;
   let adminRequestsLoadedFor = null;
@@ -666,32 +697,68 @@ document.addEventListener('keydown',e=>{if(!modal.classList.contains('open')||ru
 
   form.addEventListener("submit", async event => {
     event.preventDefault();
-    if(!auth) { showError("Firebase SDK is not ready. Reload the page and try again."); return; }
+    if(!auth || !db) { showError("Firebase is not ready. Check your connection and try again."); return; }
     const mobile = $("accountMobile").value.replace(/\D/g, "");
     const password = $("accountPassword").value;
-    if(!/^\d{10}$/.test(mobile)){ showError("Enter the same 10-digit mobile number used in your KHELOGO account."); return; }
+    if(!/^\d{10}$/.test(mobile)){ showError("Enter a valid 10-digit mobile number."); return; }
+    if(authMode === "signup") {
+      if(password.length < 6) { showError("Choose a password with at least 6 characters."); return; }
+      if(password !== confirmPassword.value) { showError("The passwords do not match."); return; }
+      if(!acceptTerms.checked) { showError("Please agree to the Terms and Privacy Policy to continue."); return; }
+    }
     submit.disabled = true;
-    showError("Signing in…");
+    toggleAuthMode.disabled = true;
+    showError(authMode === "signup" ? "Creating your account securely…" : "Signing in…");
+    let newlyCreatedUser = null;
     try {
-      await auth.signInWithEmailAndPassword(mobile + "@khelogo.app", password);
+      const email = mobile + "@khelogo.app";
+      if(authMode === "signup") {
+        const credential = await auth.createUserWithEmailAndPassword(email, password);
+        newlyCreatedUser = credential.user;
+        try {
+          await db.ref("users/" + newlyCreatedUser.uid).set({
+            mobile: mobile,
+            balance: 0,
+            gameCoins: 0,
+            createdAt: firebase.database.ServerValue.TIMESTAMP
+          });
+        } catch (dbError) {
+          try { await newlyCreatedUser.delete(); } catch (cleanupError) { console.error("Could not roll back incomplete signup:", cleanupError); }
+          throw new Error("Account setup was blocked by database permissions. No complete account was created. Please contact support; no billing change is needed.");
+        }
+      } else {
+        await auth.signInWithEmailAndPassword(email, password);
+      }
       $("accountPassword").value = "";
+      confirmPassword.value = "";
+      acceptTerms.checked = false;
+      setAuthMode("login");
       showError("");
       closeDialog();
     } catch (e) {
       const code = e && e.code ? e.code : "";
-      if(code === "auth/invalid-credential" || code === "auth/wrong-password" || code === "auth/user-not-found") {
+      if(code === "auth/email-already-in-use") {
+        showError("An account already exists for this mobile number. Switch to Sign in or use account recovery.");
+      } else if(code === "auth/weak-password") {
+        showError("Choose a stronger password with at least 6 characters.");
+      } else if(code === "auth/invalid-credential" || code === "auth/wrong-password" || code === "auth/user-not-found") {
         showError("Login failed. Check the mobile number/password and confirm the existing account has a linked password.");
       } else if(code === "auth/too-many-requests") {
         showError("Too many attempts. Wait a while before trying again.");
       } else if(code === "auth/operation-not-allowed") {
-        showError("Email/Password sign-in is disabled in Firebase Authentication. Do not change providers until the Android account setup is checked.");
+        showError("Email/Password sign-in is disabled in Firebase Authentication. An administrator must check Firebase settings.");
       } else if(code === "auth/network-request-failed") {
         showError("Network error. Check your internet connection and try again.");
+      } else if(e && e.message && e.message.startsWith("Account setup was blocked")) {
+        showError(e.message);
       } else {
-        console.error("KHELOGO sign-in error:", code);
-        showError("Sign-in could not be completed. Check Firebase Authentication settings and try again.");
+        console.error("KHELOGO account error:", code, e);
+        showError("Account action could not be completed. Check your details and try again.");
       }
-    } finally { submit.disabled = false; }
+    } finally {
+      submit.disabled = false;
+      toggleAuthMode.disabled = false;
+    }
   });
 
   $("copyReferral").addEventListener("click", async () => {
