@@ -19,7 +19,7 @@ a{color:inherit;text-decoration:none}
 header{position:sticky;top:0;z-index:20;background:#080b12f2;border-bottom:1px solid #ffffff20}
 nav{min-height:68px;display:flex;align-items:center;justify-content:space-between;gap:16px}
 .logo{font-size:24px;font-weight:900;letter-spacing:1px}.logo span{color:var(--cyan)}
-.navlinks{display:none;align-items:center;gap:17px}body.logged-in .navlinks{display:flex}body.logged-in .menu{display:block}.auth-required{display:none!important}body.logged-in .auth-required{display:block!important}.auth-required[hidden],[hidden]{display:none!important}
+.navlinks{display:none;align-items:center;gap:17px}body.logged-in .navlinks{display:flex}body.logged-in .menu{display:block}.auth-required{display:none!important}body:not(.logged-in) .auth-required{display:none!important}body.logged-in .auth-required:not([hidden]){display:block!important}body.logged-in .auth-required[hidden],[hidden]{display:none!important}
 .navlinks a{font-size:13px;color:#c2ccda;font-weight:bold}
 .navlinks a:hover{color:var(--cyan)}
 .menu{display:none;background:#182234;color:white;border:1px solid #ffffff30;border-radius:9px;padding:8px 13px;font-size:20px}
