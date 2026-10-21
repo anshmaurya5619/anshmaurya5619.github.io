@@ -721,7 +721,15 @@ document.addEventListener('keydown',e=>{if(!modal.classList.contains('open')||ru
           throw new Error("Account setup was blocked by database permissions. No complete account was created. Please contact support; no billing change is needed.");
         }
       } else {
-        await auth.signInWithEmailAndPassword(email, password);
+        // Fail visibly if Firebase Auth does not answer; never leave the form stuck on "Signing in…".
+        await Promise.race([
+          auth.signInWithEmailAndPassword(email, password),
+          new Promise((_, reject) => setTimeout(() => {
+            const timeoutError = new Error("Firebase sign-in timed out after 20 seconds. Check internet access and Firebase Authentication status, then try again.");
+            timeoutError.code = "khelogo/auth-timeout";
+            reject(timeoutError);
+          }, 20000))
+        ]);
       }
       $("accountPassword").value = "";
       confirmPassword.value = "";
@@ -742,6 +750,8 @@ document.addEventListener('keydown',e=>{if(!modal.classList.contains('open')||ru
         showError("Too many attempts. Wait a while before trying again.");
       } else if(code === "auth/operation-not-allowed") {
         showError("Email/Password sign-in is disabled in Firebase Authentication. An administrator must check Firebase settings.");
+      } else if(code === "khelogo/auth-timeout") {
+        showError("Firebase login is not responding. Check internet, then try again. If it repeats, Firebase Authentication settings/service must be checked.");
       } else if(code === "auth/network-request-failed") {
         showError("Network error. Check your internet connection and try again.");
       } else if(e && e.message && e.message.startsWith("Account setup was blocked")) {
