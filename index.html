@@ -336,8 +336,10 @@ footer{border-top:1px solid #ffffff20;padding:27px 0;color:#8994a5;font-size:12p
 const $=id=>document.getElementById(id);
 const menuButton=$('menuBtn'),navLinks=$('navLinks');
 $('heroLogin').addEventListener('click',()=>document.getElementById('openAccount').click());
-menuButton.addEventListener('click',function(){const opened=navLinks.classList.toggle('open');menuButton.setAttribute('aria-expanded',opened);menuButton.textContent=opened?'✕':'☰'});
-navLinks.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{navLinks.classList.remove('open');menuButton.textContent='☰';menuButton.setAttribute('aria-expanded','false')}));
+if(menuButton && navLinks) {
+ menuButton.addEventListener('click',function(){const opened=navLinks.classList.toggle('open');menuButton.setAttribute('aria-expanded',opened);menuButton.textContent=opened?'✕':'☰'});
+ navLinks.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{navLinks.classList.remove('open');menuButton.textContent='☰';menuButton.setAttribute('aria-expanded','false')}));
+}
 const modal=$('modal'),shell=$('shell'),panel=$('panel'),gm=$('gameMenu'),rulesModal=$('rulesModal');
 let game='',sound=true,paused=false,interval=null,run=null,context=null,delayTimer=null;
 function beep(freq=500,duration=.08){if(!sound)return;try{context=context||new(window.AudioContext||window.webkitAudioContext)();const osc=context.createOscillator(),gain=context.createGain();osc.frequency.value=freq;gain.gain.value=.05;osc.connect(gain);gain.connect(context.destination);osc.start();osc.stop(context.currentTime+duration)}catch(e){}}
