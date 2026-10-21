@@ -763,7 +763,8 @@ document.addEventListener('keydown',e=>{if(!modal.classList.contains('open')||ru
         showError(e.message);
       } else {
         console.error("KHELOGO account error:", code, e);
-        showError("Account action could not be completed. Check your details and try again.");
+        const detail = (e && e.message) ? String(e.message).slice(0, 180) : "No error detail returned.";
+        showError("Login error" + (code ? " (" + code + ")" : "") + ": " + detail);
       }
     } finally {
       submit.disabled = false;
