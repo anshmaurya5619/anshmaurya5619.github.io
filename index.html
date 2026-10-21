@@ -149,7 +149,7 @@ footer{border-top:1px solid #ffffff20;padding:27px 0;color:#8994a5;font-size:12p
 .auth-error{min-height:20px;margin-top:10px;color:#ff9ba8;font-size:12px}
 .auth-note{margin-top:14px!important;font-size:11px!important}
 @media(max-width:760px){nav{flex-wrap:nowrap;padding:10px 0}.account-actions{margin-left:auto}.account-chip{max-width:145px}.account-login{padding:9px 11px}.navlinks{top:58px;left:auto;right:8px;min-width:230px;max-width:calc(100vw - 24px)}}
-main{display:flex;flex-direction:column}#home{order:0}.auth-required{order:10}#about{order:90}#terms{order:91}#contact{order:92}
+main{display:flex;flex-direction:column}#home{order:0}.auth-required{order:10}#about{order:90}#terms{order:91}#contact{order:92}body.logged-in #home,body.logged-in #about,body.logged-in #terms,body.logged-in #contact{display:none!important}body.logged-in section.auth-required:not(.active-view){display:none!important}body.logged-in section.auth-required.active-view{display:block!important}.navlinks a{font-size:14px!important;padding:12px 14px!important;border:1px solid #ffffff12;background:linear-gradient(110deg,#ffffff08,#ffffff03)}.navlinks a:before{content:"";display:inline-block;width:4px;height:18px;border-radius:5px;background:var(--cyan);vertical-align:middle;margin-right:9px}
 
 </style>
 </head>
@@ -339,7 +339,7 @@ const menuButton=$('menuBtn'),navLinks=$('navLinks');
 $('heroLogin').addEventListener('click',()=>document.getElementById('openAccount').click());
 if(menuButton && navLinks) {
  menuButton.addEventListener('click',function(){const opened=navLinks.classList.toggle('open');menuButton.setAttribute('aria-expanded',opened);menuButton.textContent=opened?'✕':'☰'});
- navLinks.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{navLinks.classList.remove('open');menuButton.textContent='☰';menuButton.setAttribute('aria-expanded','false')}));
+ navLinks.querySelectorAll('a').forEach(a=>a.addEventListener('click',event=>{const targetId=a.getAttribute('href')?.slice(1);const target=document.getElementById(targetId);if(target&&target.classList.contains('auth-required')){event.preventDefault();document.querySelectorAll('section.auth-required').forEach(section=>section.classList.toggle('active-view',section===target));target.hidden=false;target.scrollIntoView({behavior:'smooth',block:'start'});}navLinks.classList.remove('open');menuButton.textContent='☰';menuButton.setAttribute('aria-expanded','false')}));
 }
 const modal=$('modal'),shell=$('shell'),panel=$('panel'),gm=$('gameMenu'),rulesModal=$('rulesModal');
 let game='',sound=true,paused=false,interval=null,run=null,context=null,delayTimer=null;
@@ -594,7 +594,7 @@ document.addEventListener('keydown',e=>{if(!modal.classList.contains('open')||ru
     $("shareReferral").disabled = true;
   }
   function resetAccount(){
-    document.body.classList.remove("logged-in"); $("menuBtn").hidden=true; $("navLinks").hidden=true;
+    document.body.classList.remove("logged-in"); $("menuBtn").hidden=true; $("navLinks").hidden=true; document.querySelectorAll("section.auth-required").forEach(section=>{section.classList.remove("active-view");section.hidden=true;});
     stopUserListener();
     resetLivePanels();
     chip.classList.remove("show");
@@ -884,7 +884,7 @@ document.addEventListener('keydown',e=>{if(!modal.classList.contains('open')||ru
       rewardStatus.textContent = "Session closed. Start a new game for a new session; incomplete sessions do not award coins.";
     }
   });
-  function applyAuthState(user){ const signedIn=!!user; document.body.classList.toggle("logged-in",signedIn); $("menuBtn").hidden=!signedIn; $("navLinks").hidden=!signedIn; $("navLinks").classList.remove("open"); $("adminNavLink").hidden=true; document.querySelectorAll("section.auth-required").forEach(section=>{ if(section.id==="adminPanel") return; section.hidden=!signedIn; }); if(signedIn){ closeDialog(); showError(""); } onSignedIn(user); }
+  function applyAuthState(user){ const signedIn=!!user; document.body.classList.toggle("logged-in",signedIn); $("menuBtn").hidden=!signedIn; $("navLinks").hidden=!signedIn; $("navLinks").classList.remove("open"); $("adminNavLink").hidden=true; document.querySelectorAll("section.auth-required").forEach(section=>{section.hidden=!signedIn;section.classList.remove("active-view");}); if(signedIn){const games=$("games");if(games){games.hidden=false;games.classList.add("active-view");} closeDialog(); showError(""); } onSignedIn(user); }
   if(auth) auth.onAuthStateChanged(user=>applyAuthState(user));
 })();
 </script>
