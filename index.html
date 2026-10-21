@@ -162,7 +162,7 @@ main{display:flex;flex-direction:column}#home{order:0}.auth-required{order:10}#a
 <button class="menu" id="menuBtn" hidden aria-label="Open navigation" aria-expanded="false">☰</button>
 <div class="menu-scrim" id="menuScrim"></div>
 <div class="navlinks" id="navLinks" hidden>
-<a href="#games">🎮 Games</a><a href="#features">✨ Features</a><a href="#wallet">💰 Wallet &amp; Coins</a><a href="#withdrawals">📜 Withdrawal History</a><a href="#referral">🤝 Referral</a><a href="#adminPanel" id="adminNavLink" hidden>🛡️ Admin Panel</a><button type="button" id="drawerLogout" class="drawer-logout">↪ Logout</button>
+<a href="#games">🎮 Games</a><a href="#wallet">👤 My Profile &amp; Wallet</a><a href="#features">✨ Features</a><a href="#withdrawals">📜 Withdrawal History</a><a href="#referral">🤝 Share &amp; Earn</a><a href="#adminPanel" id="adminNavLink" hidden>🛡️ Admin Panel</a><button type="button" id="drawerLogout" class="drawer-logout">↪ Logout</button>
 </div>
 <div class="account-actions">
   <button class="account-login" id="openAccount" type="button">Login</button>
@@ -818,7 +818,7 @@ document.addEventListener('keydown',e=>{if(!modal.classList.contains('open')||ru
       requests.forEach(item=>{const row=document.createElement("div");row.className="withdraw-item";const info=document.createElement("div");const amount=document.createElement("strong");amount.textContent="₹"+Number(item.amount||0).toLocaleString("en-IN");const details=document.createElement("small");details.textContent="UID: "+item.uid+" · UPI: "+item.upiId+" · "+(item.createdAt?new Date(item.createdAt).toLocaleString("en-IN"):"Date unavailable");const state=document.createElement("small");state.textContent="Status: "+item.status;info.append(amount,details,state);row.append(info);
         if(item.status==="Pending"){const actions=document.createElement("div");actions.style.cssText="display:flex;gap:6px;flex-wrap:wrap";[["Approve","approve"],["Reject","reject"]].forEach(pair=>{const label=pair[0],action=pair[1],btn=document.createElement("button");btn.type="button";btn.className="btn "+(action==="approve"?"primary":"secondary");btn.textContent=label;btn.style.cssText="padding:8px 10px;font-size:12px";btn.addEventListener("click",async()=>{if(!confirm(label+" this withdrawal request?"))return;btn.disabled=true;status.textContent="Processing request…";try{const response=await functionsApi.httpsCallable("processWithdrawalRequest")({uid:item.uid,requestId:item.requestId,action});status.textContent="Request "+response.data.status+".";adminRequestsLoadedFor=null;await loadAdminWithdrawals();}catch(err){status.textContent=err&&err.message?err.message:"Could not process request.";btn.disabled=false;}});actions.append(btn);});row.append(actions);} list.append(row);
       });
-    } catch(err) { status.textContent=err&&err.message?err.message:"Admin request list could not be loaded."; }
+    } catch(err) { const code=err&&err.code?String(err.code):""; status.textContent=(code==="functions/not-found"||code==="functions/unavailable"||code==="functions/internal")?"Admin backend is not active yet. No withdrawal was approved or paid. Deploy the secure backend when a no-cost deployment option is available.":(err&&err.message?err.message:"Admin request list could not be loaded."); }
   }
   function resetArcadeReward(message) {
     if (rewardTimer) clearTimeout(rewardTimer);
