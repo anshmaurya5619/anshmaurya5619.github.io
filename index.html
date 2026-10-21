@@ -271,9 +271,17 @@ main{display:flex;flex-direction:column}#home{order:0}.auth-required{order:10}#a
 <div class="live-stat"><small>Mobile number</small><strong id="profileMobile">—</strong><p>Registered mobile</p></div>
 <div class="live-stat"><small>Email / account ID</small><strong id="profileEmail" style="overflow-wrap:anywhere">—</strong><p>Firebase account</p></div>
 </div>
+<div class="withdraw-history" style="margin:18px 0">
+<h3>✏️ Edit Profile</h3><p style="color:var(--muted);margin:5px 0 14px">Update your display name. Your login mobile number is shown for reference and is not changed here.</p>
+<form id="profileEditForm" style="display:grid;gap:12px;max-width:620px">
+<label style="display:grid;gap:6px">Display name <input id="profileNameInput" maxlength="50" required placeholder="Enter your name" style="padding:12px;border-radius:10px;border:1px solid #ffffff30;background:#080d16;color:#fff"></label>
+<div style="display:grid;gap:6px"><label for="profileMobileRead">Mobile number</label><input id="profileMobileRead" readonly style="padding:12px;border-radius:10px;border:1px solid #ffffff30;background:#111827;color:#a5afbf"></div>
+<button type="submit" id="saveProfileBtn" class="play-btn" style="justify-self:start">Save Profile</button><p id="profileEditStatus" aria-live="polite" style="color:var(--muted)"></p>
+</form>
+</div>
 <div class="cards">
-<article class="card violet"><div class="card-icon">👤</div><h3>Profile details</h3><p id="profileDetails">Your profile details will appear here after sign-in.</p><span class="tag">Account-linked information</span></article>
-<article class="card green"><div class="card-icon">💰</div><h3>Wallet shortcut</h3><p>Open your wallet separately to view the saved balance and game coins.</p><a class="tag" href="#wallet" data-member-nav="wallet">Open Wallet →</a></article>
+<article class="card violet"><div class="card-icon">👤</div><h3>Account details</h3><p id="profileDetails">Your account details will appear here after sign-in.</p><span class="tag">Account-linked information</span></article>
+<article class="card green"><div class="card-icon">💰</div><h3>Wallet</h3><p>View your balance and game coins on the separate Wallet page.</p><a class="tag" href="#wallet" data-member-nav="wallet">Open Wallet →</a></article>
 </div>
 </div>
 </section>
@@ -304,6 +312,12 @@ main{display:flex;flex-direction:column}#home{order:0}.auth-required{order:10}#a
 <button type="button" class="theme-choice" data-theme="fire" style="background:linear-gradient(120deg,#b91c1c,#f97316,#facc15);color:#111">Fire Mix</button>
 </div><p id="themeStatus" aria-live="polite" style="margin-top:14px;color:var(--muted)">Select any colour to preview it.</p>
 </div>
+<div class="withdraw-history" style="margin-top:18px"><h3>⚙️ Other Settings</h3><p style="color:var(--muted);margin:5px 0 14px">Useful account and website options are available here as full-page links.</p><div class="cards">
+<article class="card blue"><div class="card-icon">👤</div><h3>Profile</h3><p>Review or edit your display name.</p><a class="tag" href="#profile" data-member-nav="profile">Open Profile →</a></article>
+<article class="card green"><div class="card-icon">💰</div><h3>Wallet</h3><p>View saved balance and coins.</p><a class="tag" href="#wallet" data-member-nav="wallet">Open Wallet →</a></article>
+<article class="card violet"><div class="card-icon">🤝</div><h3>Share &amp; Earn</h3><p>Open your referral details.</p><a class="tag" href="#referral" data-member-nav="referral">Open Referrals →</a></article>
+<article class="card gold"><div class="card-icon">📜</div><h3>Withdrawal History</h3><p>Review your withdrawal requests.</p><a class="tag" href="#withdrawals" data-member-nav="withdrawals">Open History →</a></article>
+</div><button type="button" id="resetThemeBtn" class="play-btn" style="margin-top:14px">Reset Background</button></div>
 </div>
 </section>
 <section id="wallet" class="auth-required" hidden>
@@ -311,10 +325,10 @@ main{display:flex;flex-direction:column}#home{order:0}.auth-required{order:10}#a
 <div class="section-head"><div class="kicker">ACCOUNT OVERVIEW</div><h2>Your balance, clearly shown.</h2><p>Sign in with your existing KHELOGO account to read the latest balance and coin fields stored in your account.</p></div>
 <div class="account-live" aria-live="polite"><div class="live-stat"><small>Wallet balance</small><strong id="walletBalance">Sign in to view</strong><p>Read-only account value</p></div><div class="live-stat"><small>Game coins</small><strong id="walletCoins">Sign in to view</strong><p>Read-only account value</p></div><div class="live-stat"><small>Account status</small><strong id="walletStatus">Signed out</strong><p id="walletStatusNote">Sign in to load your account record.</p></div></div>
 <div class="cards">
-<article class="card green"><div class="card-icon">💰</div><h3>Live wallet summary</h3><p id="walletCardText">Sign in above to load your linked account balance. This page never edits the balance.</p><span class="tag">Live read-only data</span></article>
-<article class="card violet"><div class="card-icon">🔄</div><h3>Coin conversion</h3><p>Conversion rates and eligibility must come from the official app/backend rules. This page will not guess a rate.</p><span class="tag">No invented rates</span></article>
-<article class="card blue"><div class="card-icon">🧾</div><h3>Transaction history</h3><p>Transaction history is not shown until the actual database schema and read permissions are verified.</p><span class="tag">Protected data</span></article>
-<article class="card gold"><div class="card-icon">💸</div><h3>Withdrawals</h3><p>Payouts depend on verification, rules and provider approval.</p><span class="tag">Not a payout portal</span></article>
+<article class="card green"><div class="card-icon">💰</div><h3>Live wallet summary</h3><p id="walletCardText">Sign in above to load your linked account balance. This page never edits the balance.</p><a class="tag" href="#profile" data-member-nav="profile">View Profile →</a></article>
+<article class="card violet"><div class="card-icon">🪙</div><h3>Game coins</h3><p>Your saved game-coin balance appears above. Coin-to-cash conversion will only be enabled when the verified backend rules are active.</p><p id="walletConversionStatus" class="tag">Conversion service not connected</p></article>
+<article class="card blue"><div class="card-icon">🧾</div><h3>Withdrawal history</h3><p>Open the withdrawal page to view requests or submit a request when the secure service is available.</p><a class="tag" href="#withdrawals" data-member-nav="withdrawals">Open Withdrawal History →</a></article>
+<article class="card gold"><div class="card-icon">🤝</div><h3>Referral coins</h3><p>Open Share &amp; Earn to see the referral code and count saved to your account.</p><a class="tag" href="#referral" data-member-nav="referral">Open Share &amp; Earn →</a></article>
 </div>
 </div>
 </section>
@@ -405,6 +419,7 @@ function applyTheme(key,save=true){
 }
 try{applyTheme(localStorage.getItem("khelogo-site-theme")||"default",false)}catch(e){applyTheme("default",false)}
 document.querySelectorAll(".theme-choice").forEach(b=>b.addEventListener("click",()=>applyTheme(b.dataset.theme)));
+const resetThemeBtn=document.getElementById("resetThemeBtn");if(resetThemeBtn)resetThemeBtn.addEventListener("click",()=>applyTheme("default"));
 
 const menuButton=$('menuBtn'),navLinks=$('navLinks');
 const drawerLogout=$('drawerLogout');
@@ -712,10 +727,13 @@ document.addEventListener('keydown',e=>{if(!modal.classList.contains('open')||ru
       }
       const data = snapshot.val() || {};
       latestUserData = data;
-      $("profileName").textContent = data.displayName || data.name || data.fullName || "KHELOGO Member";
+      const savedDisplayName = data.displayName || data.name || data.fullName || "";
+      $("profileName").textContent = savedDisplayName || "KHELOGO Member";
+      $("profileNameInput").value = savedDisplayName;
       $("profileMobile").textContent = data.mobile || user.phoneNumber || "Not available";
+      $("profileMobileRead").value = data.mobile || user.phoneNumber || "Not available";
       $("profileEmail").textContent = user.email || ("Account ID: " + user.uid);
-      $("profileDetails").textContent = "Account ID: " + user.uid + " · Registered account data is read from Firebase. Profile edits are not enabled here unless the database rules explicitly permit them.";
+      $("profileDetails").textContent = "Account ID: " + user.uid + " · Profile details are linked to your signed-in account.";
       const isAdmin = user.uid === "uZcwOVMchEWaxj0iEWBCCuvo1Uy2";
       adminMenuLink.hidden = !isAdmin; $("adminNavLink").hidden = !isAdmin;
       $("adminPanel").hidden = !isAdmin;
@@ -964,6 +982,26 @@ document.addEventListener('keydown',e=>{if(!modal.classList.contains('open')||ru
     }
   });
   function applyAuthState(user){ const signedIn=!!user; document.body.classList.toggle("logged-in",signedIn); $("menuBtn").hidden=!signedIn; $("navLinks").hidden=!signedIn; $("navLinks").classList.remove("open"); $("adminNavLink").hidden=true; document.querySelectorAll("section.auth-required").forEach(section=>{section.hidden=!signedIn;section.classList.remove("active-view");}); if(signedIn){const games=$("games");if(games){document.querySelectorAll("section.auth-required").forEach(section=>{section.hidden=section!==games;section.classList.toggle("active-view",section===games);});} closeDialog(); showError(""); } onSignedIn(user); }
+  const profileEditForm=$("profileEditForm");
+  if(profileEditForm) profileEditForm.addEventListener("submit",async event=>{
+    event.preventDefault();
+    const user=auth&&auth.currentUser;
+    const name=$("profileNameInput").value.trim();
+    const status=$("profileEditStatus");
+    const save=$("saveProfileBtn");
+    if(!user){status.textContent="Please sign in again to edit your profile.";return;}
+    if(!name){status.textContent="Please enter your display name.";return;}
+    save.disabled=true;status.textContent="Saving profile…";
+    try{
+      await db.ref("users/"+user.uid).update({displayName:name});
+      $("profileName").textContent=name;
+      $("profileDetails").textContent="Display name saved to your account.";
+      status.textContent="Profile saved successfully.";
+    }catch(error){
+      console.error("Profile update failed:",error);
+      status.textContent=error&&error.code==="PERMISSION_DENIED"?"Could not save: Firebase database rules do not allow profile updates. The existing profile was not changed.":"Could not save profile. Please check your connection and try again.";
+    }finally{save.disabled=false;}
+  });
   if(auth) auth.onAuthStateChanged(user=>applyAuthState(user));
 })();
 </script>
