@@ -704,11 +704,13 @@ document.addEventListener('keydown',e=>{if(!modal.classList.contains('open')||ru
     toggleAuthMode.disabled = true;
     showError(authMode === "signup" ? "Creating your account securely…" : "Signing in…");
     let newlyCreatedUser = null;
+    let authenticatedUser = null;
     try {
       const email = mobile + "@khelogo.app";
       if(authMode === "signup") {
         const credential = await auth.createUserWithEmailAndPassword(email, password);
         newlyCreatedUser = credential.user;
+        authenticatedUser = credential.user;
         try {
           await db.ref("users/" + newlyCreatedUser.uid).set({
             mobile: mobile,
@@ -722,7 +724,7 @@ document.addEventListener('keydown',e=>{if(!modal.classList.contains('open')||ru
         }
       } else {
         // Fail visibly if Firebase Auth does not answer; never leave the form stuck on "Signing in…".
-        await Promise.race([
+        const credential = await Promise.race([
           auth.signInWithEmailAndPassword(email, password),
           new Promise((_, reject) => setTimeout(() => {
             const timeoutError = new Error("Firebase sign-in timed out after 20 seconds. Check internet access and Firebase Authentication status, then try again.");
@@ -730,14 +732,17 @@ document.addEventListener('keydown',e=>{if(!modal.classList.contains('open')||ru
             reject(timeoutError);
           }, 20000))
         ]);
+        authenticatedUser = credential.user;
       }
       $("accountPassword").value = "";
       confirmPassword.value = "";
       acceptTerms.checked = false;
       setAuthMode("login");
-      showError("Credentials accepted. Waiting for Firebase to confirm your signed-in session…");
-      // Keep the dialog open until onAuthStateChanged confirms a real signed-in user.
-      // This prevents the form from appearing to succeed when the session was not established.
+      if (!authenticatedUser) throw new Error("Firebase did not return a signed-in user.");
+      // Apply the confirmed credential immediately; the auth-state listener will keep it synchronized.
+      applyAuthState(authenticatedUser);
+      closeDialog();
+      showError("");
     } catch (e) {
       const code = e && e.code ? e.code : "";
       if(code === "auth/email-already-in-use") {
@@ -875,7 +880,8 @@ document.addEventListener('keydown',e=>{if(!modal.classList.contains('open')||ru
       rewardStatus.textContent = "Session closed. Start a new game for a new session; incomplete sessions do not award coins.";
     }
   });
-  if(auth) auth.onAuthStateChanged(user=>{ const signedIn=!!user; document.body.classList.toggle("logged-in",signedIn); menuButton.hidden=!signedIn; navLinks.hidden=!signedIn; document.querySelectorAll("section.auth-required").forEach(section=>{ if(section.id==="adminPanel") return; section.hidden=!signedIn; }); if(signedIn){ closeDialog(); showError(""); } onSignedIn(user); });
+  function applyAuthState(user){ const signedIn=!!user; document.body.classList.toggle("logged-in",signedIn); menuButton.hidden=!signedIn; navLinks.hidden=!signedIn; document.querySelectorAll("section.auth-required").forEach(section=>{ if(section.id==="adminPanel") return; section.hidden=!signedIn; }); if(signedIn){ closeDialog(); showError(""); } onSignedIn(user); }
+  if(auth) auth.onAuthStateChanged(user=>applyAuthState(user));
 })();
 </script>
 
