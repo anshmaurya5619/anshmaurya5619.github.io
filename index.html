@@ -593,7 +593,7 @@ document.addEventListener('keydown',e=>{if(!modal.classList.contains('open')||ru
     $("shareReferral").disabled = true;
   }
   function resetAccount(){
-    document.body.classList.remove("logged-in"); menuButton.hidden=true; navLinks.hidden=true;
+    document.body.classList.remove("logged-in"); $("menuBtn").hidden=true; $("navLinks").hidden=true;
     stopUserListener();
     resetLivePanels();
     chip.classList.remove("show");
@@ -608,7 +608,7 @@ document.addEventListener('keydown',e=>{if(!modal.classList.contains('open')||ru
   function onSignedIn(user){
     stopUserListener();
     if(!user){ resetAccount(); return; }
-    document.body.classList.add("logged-in"); menuButton.hidden=false; navLinks.hidden=false;
+    document.body.classList.add("logged-in"); $("menuBtn").hidden=false; $("navLinks").hidden=false;
     openButton.hidden = true;
     chip.classList.add("show");
     chip.textContent = "Loading account…";
@@ -883,7 +883,7 @@ document.addEventListener('keydown',e=>{if(!modal.classList.contains('open')||ru
       rewardStatus.textContent = "Session closed. Start a new game for a new session; incomplete sessions do not award coins.";
     }
   });
-  function applyAuthState(user){ const signedIn=!!user; document.body.classList.toggle("logged-in",signedIn); menuButton.hidden=!signedIn; navLinks.hidden=!signedIn; document.querySelectorAll("section.auth-required").forEach(section=>{ if(section.id==="adminPanel") return; section.hidden=!signedIn; }); if(signedIn){ closeDialog(); showError(""); } onSignedIn(user); }
+  function applyAuthState(user){ const signedIn=!!user; document.body.classList.toggle("logged-in",signedIn); $("menuBtn").hidden=!signedIn; $("navLinks").hidden=!signedIn; document.querySelectorAll("section.auth-required").forEach(section=>{ if(section.id==="adminPanel") return; section.hidden=!signedIn; }); if(signedIn){ closeDialog(); showError(""); } onSignedIn(user); }
   if(auth) auth.onAuthStateChanged(user=>applyAuthState(user));
 })();
 </script>
