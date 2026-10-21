@@ -727,8 +727,9 @@ document.addEventListener('keydown',e=>{if(!modal.classList.contains('open')||ru
       confirmPassword.value = "";
       acceptTerms.checked = false;
       setAuthMode("login");
-      showError("");
-      closeDialog();
+      showError("Credentials accepted. Waiting for Firebase to confirm your signed-in session…");
+      // Keep the dialog open until onAuthStateChanged confirms a real signed-in user.
+      // This prevents the form from appearing to succeed when the session was not established.
     } catch (e) {
       const code = e && e.code ? e.code : "";
       if(code === "auth/email-already-in-use") {
@@ -864,7 +865,7 @@ document.addEventListener('keydown',e=>{if(!modal.classList.contains('open')||ru
       rewardStatus.textContent = "Session closed. Start a new game for a new session; incomplete sessions do not award coins.";
     }
   });
-  if(auth) auth.onAuthStateChanged(user=>{ const signedIn=!!user; document.body.classList.toggle("logged-in",signedIn); menuButton.hidden=!signedIn; navLinks.hidden=!signedIn; document.querySelectorAll("section.auth-required").forEach(section=>{ if(section.id==="adminPanel") return; section.hidden=!signedIn; }); onSignedIn(user); });
+  if(auth) auth.onAuthStateChanged(user=>{ const signedIn=!!user; document.body.classList.toggle("logged-in",signedIn); menuButton.hidden=!signedIn; navLinks.hidden=!signedIn; document.querySelectorAll("section.auth-required").forEach(section=>{ if(section.id==="adminPanel") return; section.hidden=!signedIn; }); if(signedIn){ closeDialog(); showError(""); } onSignedIn(user); });
 })();
 </script>
 
