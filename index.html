@@ -221,7 +221,7 @@ footer{border-top:1px solid #ffffff20;padding:27px 0;color:#8994a5;font-size:12p
 <div class="feature-box"><p><strong>Support email:</strong> <a href="mailto:support@khelogo.in">support@khelogo.in</a></p><p style="margin-top:10px;color:var(--muted)">Please do not email passwords, OTPs, payment PINs or other secret credentials. Support details and response times may change as the platform develops.</p></div>
 </div>
 </section>
-<section id="games" class="auth-required">
+<section id="games" class="auth-required" hidden>
 <div class="container">
 <div class="section-head"><div class="kicker">KHELOGO ARCADE</div><h2>Pick your next challenge.</h2><p>Choose a game after signing in. Rewards are only granted when verified by KHELOGO services.</p></div>
 <div class="cards">
@@ -239,7 +239,7 @@ footer{border-top:1px solid #ffffff20;padding:27px 0;color:#8994a5;font-size:12p
 <p class="section-note">Account rewards require server verification and are subject to published eligibility rules.</p>
 </div>
 </section>
-<section id="features" class="auth-required">
+<section id="features" class="auth-required" hidden>
 <div class="container">
 <div class="section-head"><div class="kicker">THE KHELOGO EXPERIENCE</div><h2>More than just a game screen.</h2><p>Explore features planned around the KHELOGO mobile app.</p></div>
 <div class="cards">
@@ -250,7 +250,7 @@ footer{border-top:1px solid #ffffff20;padding:27px 0;color:#8994a5;font-size:12p
 </div>
 </div>
 </section>
-<section id="wallet" class="auth-required">
+<section id="wallet" class="auth-required" hidden>
 <div class="container">
 <div class="section-head"><div class="kicker">ACCOUNT OVERVIEW</div><h2>Your balance, clearly shown.</h2><p>Sign in with your existing KHELOGO account to read the latest balance and coin fields stored in your account.</p></div>
 <div class="account-live" aria-live="polite"><div class="live-stat"><small>Wallet balance</small><strong id="walletBalance">Sign in to view</strong><p>Read-only account value</p></div><div class="live-stat"><small>Game coins</small><strong id="walletCoins">Sign in to view</strong><p>Read-only account value</p></div><div class="live-stat"><small>Account status</small><strong id="walletStatus">Signed out</strong><p id="walletStatusNote">Sign in to load your account record.</p></div></div>
@@ -262,7 +262,7 @@ footer{border-top:1px solid #ffffff20;padding:27px 0;color:#8994a5;font-size:12p
 </div>
 </div>
 </section>
-<section id="withdrawals" class="auth-required"><div class="container"><div class="section-head"><div class="kicker">ACCOUNT ACTIVITY</div><h2>Withdrawal history.</h2><p>Requests attached to your signed-in KHELOGO account appear here. Status is read from Firebase.</p></div><div class="withdraw-history"><h3>New withdrawal request</h3><p style="color:var(--muted);font-size:13px;margin:5px 0 12px">Minimum ₹10. Requests are checked by Firebase. Approval is not an instant payout guarantee.</p><form id="withdrawForm" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:10px;margin-bottom:18px"><label style="display:grid;gap:5px;font-size:12px">UPI ID<input id="withdrawUpi" required maxlength="120" placeholder="name@bank" style="padding:11px;border-radius:9px;border:1px solid #ffffff30;background:#080d16;color:#fff"></label><label style="display:grid;gap:5px;font-size:12px">Amount (₹)<input id="withdrawAmount" type="number" required min="10" max="100000" step="1" placeholder="Minimum ₹10" style="padding:11px;border-radius:9px;border:1px solid #ffffff30;background:#080d16;color:#fff"></label><button class="btn primary" id="withdrawSubmit" type="submit" style="align-self:end">Submit request</button></form><div id="withdrawFormStatus" role="status" style="font-size:13px;margin-bottom:12px"></div><h3>Your requests</h3><div id="withdrawHistoryStatus" role="status">Sign in to load withdrawal history.</div><div id="withdrawHistoryList" class="withdraw-list"></div></div><p class="section-note">This page does not approve payouts or deduct balance. Withdrawal requests must be validated by trusted backend logic.</p></div></section><section id="adminPanel" class="auth-required" hidden><div class="container"><div class="section-head"><div class="kicker">RESTRICTED AREA</div><h2>Admin panel</h2><p id="adminPanelStatus">Admin access must be verified securely by the server before management actions are enabled.</p></div><div class="withdraw-history"><p id="adminRequestsStatus">Loading admin withdrawal requests…</p><div id="adminRequestsList" class="withdraw-list"></div></div></div></section><section id="referral" class="auth-required">
+<section id="withdrawals" class="auth-required" hidden><div class="container"><div class="section-head"><div class="kicker">ACCOUNT ACTIVITY</div><h2>Withdrawal history.</h2><p>Requests attached to your signed-in KHELOGO account appear here. Status is read from Firebase.</p></div><div class="withdraw-history"><h3>New withdrawal request</h3><p style="color:var(--muted);font-size:13px;margin:5px 0 12px">Minimum ₹10. Requests are checked by Firebase. Approval is not an instant payout guarantee.</p><form id="withdrawForm" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:10px;margin-bottom:18px"><label style="display:grid;gap:5px;font-size:12px">UPI ID<input id="withdrawUpi" required maxlength="120" placeholder="name@bank" style="padding:11px;border-radius:9px;border:1px solid #ffffff30;background:#080d16;color:#fff"></label><label style="display:grid;gap:5px;font-size:12px">Amount (₹)<input id="withdrawAmount" type="number" required min="10" max="100000" step="1" placeholder="Minimum ₹10" style="padding:11px;border-radius:9px;border:1px solid #ffffff30;background:#080d16;color:#fff"></label><button class="btn primary" id="withdrawSubmit" type="submit" style="align-self:end">Submit request</button></form><div id="withdrawFormStatus" role="status" style="font-size:13px;margin-bottom:12px"></div><h3>Your requests</h3><div id="withdrawHistoryStatus" role="status">Sign in to load withdrawal history.</div><div id="withdrawHistoryList" class="withdraw-list"></div></div><p class="section-note">This page does not approve payouts or deduct balance. Withdrawal requests must be validated by trusted backend logic.</p></div></section><section id="adminPanel" class="auth-required" hidden><div class="container"><div class="section-head"><div class="kicker">RESTRICTED AREA</div><h2>Admin panel</h2><p id="adminPanelStatus">Admin access must be verified securely by the server before management actions are enabled.</p></div><div class="withdraw-history"><p id="adminRequestsStatus">Loading admin withdrawal requests…</p><div id="adminRequestsList" class="withdraw-list"></div></div></div></section><section id="referral" class="auth-required" hidden>
 <div class="container">
 <div class="section-head"><div class="kicker">SHARE THE EXPERIENCE</div><h2>Your referral details.</h2><p>Sign in to read the referral code and referral data already attached to your account. Rewards are never fabricated by the website.</p></div>
 <div class="account-live"><div class="live-stat"><small>Your referral code</small><strong id="referralCode">Sign in to view</strong><div class="referral-tools"><button type="button" id="copyReferral" disabled>Copy code</button><button type="button" id="shareReferral" disabled>Share invite</button></div></div><div class="live-stat"><small>Referral count</small><strong id="referralCount">—</strong><p>Based on the stored referral field</p></div><div class="live-stat"><small>Referral status</small><strong id="referralStatus">Signed out</strong><p id="referralStatusNote">No referral data loaded.</p></div></div>
@@ -274,10 +274,10 @@ footer{border-top:1px solid #ffffff20;padding:27px 0;color:#8994a5;font-size:12p
 </div>
 </div>
 </section>
-<section id="creators" class="auth-required">
+<section id="creators" class="auth-required" hidden>
 <div class="container"><div class="feature-box"><div class="kicker">COMING IN FUTURE UPDATES</div><h2>Your ideas. Your videos. A new creator journey.</h2><p style="color:var(--muted);margin-top:12px">KHELOGO plans to introduce video creation and sharing. Creator rewards, if launched, will follow published programme rules and eligibility.</p><span class="tag" style="margin-top:15px">Not available yet</span></div></div>
 </section>
-<section id="how" class="auth-required">
+<section id="how" class="auth-required" hidden>
 <div class="container">
 <div class="section-head"><div class="kicker">SIMPLE BY DESIGN</div><h2>A clear, easy-to-explore experience.</h2><p>Use the official app for account actions and check official updates for availability.</p></div>
 <div class="steps"><article class="step"><small>STEP 01</small><h3>Explore</h3><p>Learn about games and features currently available.</p></article><article class="step"><small>STEP 02</small><h3>Take part</h3><p>Use available activities according to displayed rules.</p></article><article class="step"><small>STEP 03</small><h3>Follow updates</h3><p>Check official updates for new games and creator tools.</p></article></div>
@@ -870,7 +870,7 @@ document.addEventListener('keydown',e=>{if(!modal.classList.contains('open')||ru
       rewardStatus.textContent = "Session closed. Start a new game for a new session; incomplete sessions do not award coins.";
     }
   });
-  if(auth) auth.onAuthStateChanged(user=>{ document.body.classList.toggle("logged-in",!!user); menuButton.hidden=!user; navLinks.hidden=!user; onSignedIn(user); });
+  if(auth) auth.onAuthStateChanged(user=>{ const signedIn=!!user; document.body.classList.toggle("logged-in",signedIn); menuButton.hidden=!signedIn; navLinks.hidden=!signedIn; document.querySelectorAll("section.auth-required").forEach(section=>{ if(section.id==="adminPanel") return; section.hidden=!signedIn; }); onSignedIn(user); });
 })();
 </script>
 
