@@ -19,7 +19,7 @@ a{color:inherit;text-decoration:none}
 header{position:sticky;top:0;z-index:20;background:#080b12f2;border-bottom:1px solid #ffffff20}
 nav{min-height:68px;display:flex;align-items:center;justify-content:space-between;gap:16px}
 .logo{font-size:24px;font-weight:900;letter-spacing:1px}.logo span{color:var(--cyan)}
-.navlinks{display:none;align-items:stretch;gap:8px;position:absolute;right:max(12px,calc((100vw - 1080px)/2));top:64px;z-index:40;min-width:220px;padding:12px;background:#101725;border:1px solid #ffffff24;border-radius:14px;box-shadow:0 18px 50px #0009;flex-direction:column}body.logged-in .menu{display:block}body.logged-in .navlinks.open{display:flex!important}.navlinks a{display:block;padding:10px 12px;border-radius:9px;font-size:14px;color:#e7edf7}.navlinks a:hover{background:#ffffff10}.auth-required{display:none!important}body:not(.logged-in) .auth-required{display:none!important}body.logged-in .auth-required:not([hidden]){display:block!important}body.logged-in .auth-required[hidden],[hidden]{display:none!important}
+.navlinks{display:none;align-items:stretch;gap:12px;position:fixed;left:0;top:0;bottom:0;width:min(86vw,360px);z-index:300;padding:92px 18px 26px;background:linear-gradient(180deg,#10182c,#080d20 72%);border:0;border-right:1px solid #7f75ff66;border-radius:0 24px 24px 0;box-shadow:20px 0 70px #000b;flex-direction:column;overflow-y:auto}.navlinks.open{display:flex!important}.navlinks:before{content:"🎮  KHELOGO  /  MENU";position:absolute;left:22px;top:24px;color:#e9eaff;font-size:18px;font-weight:900;letter-spacing:.5px}.navlinks a{display:flex;align-items:center;min-height:72px;gap:12px;padding:14px 16px;border-radius:17px;font-size:16px!important;font-weight:800;color:#fff!important;border:1px solid #ffffff20;box-shadow:0 8px 20px #0002;transition:transform .15s}.navlinks a:nth-of-type(1){background:linear-gradient(110deg,#6936ef,#a63df0)}.navlinks a:nth-of-type(2){background:linear-gradient(110deg,#087e69,#1ab28e)}.navlinks a:nth-of-type(3){background:linear-gradient(110deg,#145db9,#168bd4)}.navlinks a:nth-of-type(4){background:linear-gradient(110deg,#a65c0a,#e39a19)}.navlinks a:nth-of-type(5){background:linear-gradient(110deg,#a51f50,#e32f68)}.navlinks a:nth-of-type(6){background:linear-gradient(110deg,#a51f50,#e32f68)}.navlinks a:before{display:none!important}.navlinks a:hover{transform:translateX(3px);filter:brightness(1.08)}.navlinks:after{content:"KHELOGO  •  PLAY  •  EXPLORE";margin-top:auto;padding:14px 5px 0;text-align:center;color:#9ca8c6;font-size:11px;letter-spacing:1px}.auth-required{display:none!important}body:not(.logged-in) .auth-required{display:none!important}body.logged-in .auth-required:not([hidden]){display:block!important}body.logged-in .auth-required[hidden],[hidden]{display:none!important}body.logged-in:after{content:"";display:none}body.logged-in .navlinks.open:after{content:"KHELOGO  •  PLAY  •  EXPLORE"}
 .navlinks a{font-size:13px;color:#c2ccda;font-weight:bold}
 .navlinks a:hover{color:var(--cyan)}
 .menu{display:none;background:#182234;color:white;border:1px solid #ffffff30;border-radius:9px;padding:8px 13px;font-size:20px}
@@ -151,6 +151,7 @@ footer{border-top:1px solid #ffffff20;padding:27px 0;color:#8994a5;font-size:12p
 @media(max-width:760px){nav{flex-wrap:nowrap;padding:10px 0}.account-actions{margin-left:auto}.account-chip{max-width:145px}.account-login{padding:9px 11px}.navlinks{top:58px;left:auto;right:8px;min-width:230px;max-width:calc(100vw - 24px)}}
 main{display:flex;flex-direction:column}#home{order:0}.auth-required{order:10}#about{order:90}#terms{order:91}#contact{order:92}body.logged-in #home,body.logged-in #about,body.logged-in #terms,body.logged-in #contact{display:none!important}body.logged-in section.auth-required:not(.active-view){display:none!important}body.logged-in section.auth-required.active-view{display:block!important}.navlinks a{font-size:14px!important;padding:12px 14px!important;border:1px solid #ffffff12;background:linear-gradient(110deg,#ffffff08,#ffffff03)}.navlinks a:before{content:"";display:inline-block;width:4px;height:18px;border-radius:5px;background:var(--cyan);vertical-align:middle;margin-right:9px}
 
+ .menu-scrim{display:none;position:fixed;inset:0;z-index:299;background:#02040bd9;backdrop-filter:blur(3px)}.menu-scrim.open{display:block}.menu{position:relative;z-index:301}
 </style>
 </head>
 <body>
@@ -159,6 +160,7 @@ main{display:flex;flex-direction:column}#home{order:0}.auth-required{order:10}#a
 <nav>
 <a class="logo" href="#home">KHELO<span>GO</span></a>
 <button class="menu" id="menuBtn" hidden aria-label="Open navigation" aria-expanded="false">☰</button>
+<div class="menu-scrim" id="menuScrim"></div>
 <div class="navlinks" id="navLinks" hidden>
 <a href="#games">🎮 Games</a><a href="#features">✨ Features</a><a href="#wallet">💰 Wallet &amp; Coins</a><a href="#withdrawals">📜 Withdrawal History</a><a href="#referral">🤝 Referral</a><a href="#adminPanel" id="adminNavLink" hidden>🛡️ Admin Panel</a>
 </div>
@@ -338,8 +340,8 @@ const $=id=>document.getElementById(id);
 const menuButton=$('menuBtn'),navLinks=$('navLinks');
 $('heroLogin').addEventListener('click',()=>document.getElementById('openAccount').click());
 if(menuButton && navLinks) {
- menuButton.addEventListener('click',function(){const opened=navLinks.classList.toggle('open');menuButton.setAttribute('aria-expanded',opened);menuButton.textContent=opened?'✕':'☰'});
- navLinks.querySelectorAll('a').forEach(a=>a.addEventListener('click',event=>{const targetId=a.getAttribute('href')?.slice(1);const target=document.getElementById(targetId);if(target&&target.classList.contains('auth-required')){event.preventDefault();document.querySelectorAll('section.auth-required').forEach(section=>section.classList.toggle('active-view',section===target));target.hidden=false;target.scrollIntoView({behavior:'smooth',block:'start'});}navLinks.classList.remove('open');menuButton.textContent='☰';menuButton.setAttribute('aria-expanded','false')}));
+ const scrim=$('menuScrim');const setMenu=opened=>{navLinks.classList.toggle('open',opened);if(scrim)scrim.classList.toggle('open',opened);menuButton.setAttribute('aria-expanded',opened);menuButton.textContent=opened?'✕':'☰';menuButton.setAttribute('aria-label',opened?'Close navigation':'Open navigation')};menuButton.addEventListener('click',()=>setMenu(!navLinks.classList.contains('open')));if(scrim)scrim.addEventListener('click',()=>setMenu(false));
+ navLinks.querySelectorAll('a').forEach(a=>a.addEventListener('click',event=>{const targetId=a.getAttribute('href')?.slice(1);const target=document.getElementById(targetId);if(target&&target.classList.contains('auth-required')){event.preventDefault();document.querySelectorAll('section.auth-required').forEach(section=>section.classList.toggle('active-view',section===target));target.hidden=false;target.scrollIntoView({behavior:'smooth',block:'start'});}setMenu(false)}));
 }
 const modal=$('modal'),shell=$('shell'),panel=$('panel'),gm=$('gameMenu'),rulesModal=$('rulesModal');
 let game='',sound=true,paused=false,interval=null,run=null,context=null,delayTimer=null;
