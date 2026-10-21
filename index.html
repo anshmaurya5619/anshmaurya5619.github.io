@@ -12,6 +12,16 @@
 <style>
 :root{--bg:#080b12;--panel:#111827;--text:#f5f7fb;--muted:#a5afbf;--cyan:#00e5ff;--purple:#a397ff;--green:#48e0a1;--pink:#ff78bd;--gold:#ffcc66}
 *{box-sizing:border-box;margin:0;padding:0}
+.theme-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(135px,1fr));gap:12px}
+.theme-choice{min-height:78px;border:2px solid #ffffff30;border-radius:15px;padding:12px;font-weight:900;font-size:14px;cursor:pointer;box-shadow:0 8px 22px #0002;transition:transform .15s,border-color .15s}
+.theme-choice:hover{transform:translateY(-2px)}
+.theme-choice.selected{border-color:var(--cyan);outline:2px solid var(--cyan);outline-offset:2px}
+body.theme-light{color:#101827}
+body.theme-light .section-head p,body.theme-light .withdraw-history p,body.theme-light .live-stat p{color:#374151!important}
+body.theme-light .card,body.theme-light .live-stat,body.theme-light .withdraw-history{background:#ffffffed;color:#111827;border-color:#cbd5e1}
+body.theme-light .card p,body.theme-light .live-stat small{color:#475569}
+body.theme-light input{background:#fff!important;color:#111827!important;border-color:#cbd5e1!important}
+body.theme-light .section-head h2{color:#111827}
 html{scroll-behavior:smooth;scroll-padding-top:85px}
 body{font-family:Arial,sans-serif;background:radial-gradient(ellipse at 80% 0%,#493a9230,transparent 500px),var(--bg);color:var(--text);line-height:1.6}
 a{color:inherit;text-decoration:none}
@@ -162,11 +172,11 @@ main{display:flex;flex-direction:column}#home{order:0}.auth-required{order:10}#a
 <button class="menu" id="menuBtn" hidden aria-label="Open navigation" aria-expanded="false">☰</button>
 <div class="menu-scrim" id="menuScrim"></div>
 <div class="navlinks" id="navLinks" hidden>
-<a href="#games">🎮 Games</a><a href="#wallet">👤 My Profile &amp; Wallet</a><a href="#features">✨ Features</a><a href="#withdrawals">📜 Withdrawal History</a><a href="#referral">🤝 Share &amp; Earn</a><a href="#adminPanel" id="adminNavLink" hidden>🛡️ Admin Panel</a><button type="button" id="drawerLogout" class="drawer-logout">↪ Logout</button>
+<a href="#games">🎮 Games</a><a href="#profile">👤 Profile</a><a href="#wallet">💰 Wallet</a><a href="#settings">⚙️ Settings</a><a href="#features">✨ Features</a><a href="#withdrawals">📜 Withdrawal History</a><a href="#referral">🤝 Share &amp; Earn</a><a href="#adminPanel" id="adminNavLink" hidden>🛡️ Admin Panel</a><button type="button" id="drawerLogout" class="drawer-logout">↪ Logout</button>
 </div>
 <div class="account-actions">
   <button class="account-login" id="openAccount" type="button">Login</button>
-  <div class="account-menu-wrap"><button class="account-chip" id="accountChip" aria-live="polite" type="button" aria-haspopup="true" aria-expanded="false"></button><div class="account-menu" id="accountMenu" role="menu"><a href="#wallet" role="menuitem">💰 Wallet &amp; Game Coins</a><a href="#referral" role="menuitem">🤝 Share / Earn</a><a href="#withdrawals" role="menuitem">📜 Withdrawal History</a><a href="#adminPanel" id="adminMenuLink" role="menuitem" hidden>🛡️ Admin Panel</a><div class="menu-sep"></div><button type="button" id="menuSignOut" role="menuitem">↪ Sign out</button></div></div>
+  <div class="account-menu-wrap"><button class="account-chip" id="accountChip" aria-live="polite" type="button" aria-haspopup="true" aria-expanded="false"></button><div class="account-menu" id="accountMenu" role="menu"><a href="#profile" role="menuitem">👤 Profile</a><a href="#wallet" role="menuitem">💰 Wallet &amp; Game Coins</a><a href="#settings" role="menuitem">⚙️ Settings</a><a href="#referral" role="menuitem">🤝 Share / Earn</a><a href="#withdrawals" role="menuitem">📜 Withdrawal History</a><a href="#adminPanel" id="adminMenuLink" role="menuitem" hidden>🛡️ Admin Panel</a><div class="menu-sep"></div><button type="button" id="menuSignOut" role="menuitem">↪ Sign out</button></div></div>
 </div>
 </nav>
 </div>
@@ -250,6 +260,49 @@ main{display:flex;flex-direction:column}#home{order:0}.auth-required{order:10}#a
 <article class="card pink"><div class="card-icon">📺</div><h3>Watch &amp; Earn</h3><p>Video and ad activities depend on provider rules and availability.</p><span class="tag">Availability varies</span></article>
 <article class="card green"><div class="card-icon">🪙</div><h3>Coins &amp; Conversion</h3><p>Check the current coin rate and eligibility inside the app.</p><span class="tag">Rules apply</span></article>
 <article class="card blue"><div class="card-icon">🛡️</div><h3>Account &amp; Safety</h3><p>Review the privacy policy and terms before account actions.</p><span class="tag">Account safety</span></article>
+</div>
+</div>
+</section>
+<section id="profile" class="auth-required" hidden>
+<div class="container">
+<div class="section-head"><div class="kicker">YOUR ACCOUNT</div><h2>My Profile</h2><p>Your KHELOGO account details, loaded from your signed-in account.</p></div>
+<div class="account-live">
+<div class="live-stat"><small>Display name</small><strong id="profileName">Loading…</strong><p>Account profile</p></div>
+<div class="live-stat"><small>Mobile number</small><strong id="profileMobile">—</strong><p>Registered mobile</p></div>
+<div class="live-stat"><small>Email / account ID</small><strong id="profileEmail" style="overflow-wrap:anywhere">—</strong><p>Firebase account</p></div>
+</div>
+<div class="cards">
+<article class="card violet"><div class="card-icon">👤</div><h3>Profile details</h3><p id="profileDetails">Your profile details will appear here after sign-in.</p><span class="tag">Account-linked information</span></article>
+<article class="card green"><div class="card-icon">💰</div><h3>Wallet shortcut</h3><p>Open your wallet separately to view the saved balance and game coins.</p><a class="tag" href="#wallet" data-member-nav="wallet">Open Wallet →</a></article>
+</div>
+</div>
+</section>
+<section id="settings" class="auth-required" hidden>
+<div class="container">
+<div class="section-head"><div class="kicker">PERSONALIZE KHELOGO</div><h2>Settings</h2><p>Choose a background for the website. Your selection is saved on this browser and applies across the website pages.</p></div>
+<div class="withdraw-history"><h3>🎨 Background Colour</h3><p style="color:var(--muted);margin:6px 0 16px">Choose a solid colour or a mixed gradient. Changes apply immediately—this is a full page, not a popup.</p>
+<div id="themeChoices" class="theme-grid">
+<button type="button" class="theme-choice" data-theme="default" style="background:linear-gradient(120deg,#080b12,#493a92);color:#fff">KHELOGO Dark</button>
+<button type="button" class="theme-choice" data-theme="black" style="background:#050505;color:#fff">Black</button>
+<button type="button" class="theme-choice" data-theme="navy" style="background:#071a3d;color:#fff">Navy Blue</button>
+<button type="button" class="theme-choice" data-theme="blue" style="background:#123b8a;color:#fff">Blue</button>
+<button type="button" class="theme-choice" data-theme="sky" style="background:#0b6e99;color:#fff">Sky Blue</button>
+<button type="button" class="theme-choice" data-theme="purple" style="background:#542080;color:#fff">Purple</button>
+<button type="button" class="theme-choice" data-theme="pink" style="background:#8b2258;color:#fff">Pink</button>
+<button type="button" class="theme-choice" data-theme="red" style="background:#7f1d1d;color:#fff">Red</button>
+<button type="button" class="theme-choice" data-theme="orange" style="background:#9a3412;color:#fff">Orange</button>
+<button type="button" class="theme-choice" data-theme="gold" style="background:#78520b;color:#fff">Gold</button>
+<button type="button" class="theme-choice" data-theme="green" style="background:#075e46;color:#fff">Green</button>
+<button type="button" class="theme-choice" data-theme="teal" style="background:#0f625f;color:#fff">Teal</button>
+<button type="button" class="theme-choice" data-theme="white" style="background:#f8fafc;color:#111827;border:1px solid #94a3b8">White</button>
+<button type="button" class="theme-choice" data-theme="gray" style="background:#374151;color:#fff">Gray</button>
+<button type="button" class="theme-choice" data-theme="sunset" style="background:linear-gradient(120deg,#f97316,#e11d48,#7c3aed);color:#fff">Sunset Mix</button>
+<button type="button" class="theme-choice" data-theme="ocean" style="background:linear-gradient(120deg,#1d4ed8,#06b6d4,#0f766e);color:#fff">Ocean Mix</button>
+<button type="button" class="theme-choice" data-theme="neon" style="background:linear-gradient(120deg,#6d28d9,#db2777,#0891b2);color:#fff">Neon Mix</button>
+<button type="button" class="theme-choice" data-theme="forest" style="background:linear-gradient(120deg,#14532d,#65a30d,#0f766e);color:#fff">Forest Mix</button>
+<button type="button" class="theme-choice" data-theme="candy" style="background:linear-gradient(120deg,#ec4899,#8b5cf6,#38bdf8);color:#fff">Candy Mix</button>
+<button type="button" class="theme-choice" data-theme="fire" style="background:linear-gradient(120deg,#b91c1c,#f97316,#facc15);color:#111">Fire Mix</button>
+</div><p id="themeStatus" aria-live="polite" style="margin-top:14px;color:var(--muted)">Select any colour to preview it.</p>
 </div>
 </div>
 </section>
@@ -337,6 +390,22 @@ main{display:flex;flex-direction:column}#home{order:0}.auth-required{order:10}#a
 <script>
 (function(){
 const $=id=>document.getElementById(id);
+const themeBackgrounds={
+ default:"radial-gradient(ellipse at 80% 0%,#493a9230,transparent 500px),#080b12",
+ black:"#050505",navy:"#071a3d",blue:"#123b8a",sky:"#0b6e99",purple:"#542080",pink:"#8b2258",red:"#7f1d1d",orange:"#9a3412",gold:"#78520b",green:"#075e46",teal:"#0f625f",white:"#f8fafc",gray:"#374151",
+ sunset:"linear-gradient(135deg,#f97316,#e11d48,#7c3aed)",ocean:"linear-gradient(135deg,#1d4ed8,#06b6d4,#0f766e)",neon:"linear-gradient(135deg,#6d28d9,#db2777,#0891b2)",forest:"linear-gradient(135deg,#14532d,#65a30d,#0f766e)",candy:"linear-gradient(135deg,#ec4899,#8b5cf6,#38bdf8)",fire:"linear-gradient(135deg,#b91c1c,#f97316,#facc15)"
+};
+function applyTheme(key,save=true){
+ const chosen=themeBackgrounds[key]?key:"default";
+ document.body.style.background=themeBackgrounds[chosen];
+ document.body.classList.toggle("theme-light",chosen==="white");
+ document.querySelectorAll(".theme-choice").forEach(b=>b.classList.toggle("selected",b.dataset.theme===chosen));
+ const status=$("themeStatus");if(status)status.textContent="Selected: "+(document.querySelector('.theme-choice[data-theme="'+chosen+'"]')?.textContent||"KHELOGO Dark")+". Applied across the website.";
+ if(save){try{localStorage.setItem("khelogo-site-theme",chosen)}catch(e){}}
+}
+try{applyTheme(localStorage.getItem("khelogo-site-theme")||"default",false)}catch(e){applyTheme("default",false)}
+document.querySelectorAll(".theme-choice").forEach(b=>b.addEventListener("click",()=>applyTheme(b.dataset.theme)));
+
 const menuButton=$('menuBtn'),navLinks=$('navLinks');
 const drawerLogout=$('drawerLogout');
 if(drawerLogout) drawerLogout.addEventListener('click',()=>{const signOutButton=$('menuSignOut');if(signOutButton)signOutButton.click();if(menuButton){navLinks.classList.remove('open');const scrim=$('menuScrim');if(scrim)scrim.classList.remove('open');menuButton.setAttribute('aria-expanded','false');menuButton.textContent='☰';}});
@@ -344,6 +413,8 @@ $('heroLogin').addEventListener('click',()=>document.getElementById('openAccount
 if(menuButton && navLinks) {
  const scrim=$('menuScrim');const setMenu=opened=>{navLinks.classList.toggle('open',opened);if(scrim)scrim.classList.toggle('open',opened);menuButton.setAttribute('aria-expanded',opened);menuButton.textContent=opened?'✕':'☰';menuButton.setAttribute('aria-label',opened?'Close navigation':'Open navigation')};menuButton.addEventListener('click',()=>setMenu(!navLinks.classList.contains('open')));if(scrim)scrim.addEventListener('click',()=>setMenu(false));
  function showMemberSection(targetId){const target=document.getElementById(targetId);if(!target||!target.classList.contains("auth-required"))return false;if(!document.body.classList.contains("logged-in")){document.getElementById("openAccount")?.click();return true;}document.querySelectorAll("section.auth-required").forEach(section=>{const active=section===target;section.classList.toggle("active-view",active);section.hidden=!active;});target.hidden=false;target.scrollIntoView({behavior:"smooth",block:"start"});return true;} navLinks.querySelectorAll("a").forEach(a=>a.addEventListener("click",event=>{const targetId=a.getAttribute("href")?.slice(1);if(showMemberSection(targetId))event.preventDefault();setMenu(false);}));
+ document.querySelectorAll('[data-member-nav]').forEach(a=>a.addEventListener('click',event=>{event.preventDefault();showMemberSection(a.dataset.memberNav);}));
+
 }
 const modal=$('modal'),shell=$('shell'),panel=$('panel'),gm=$('gameMenu'),rulesModal=$('rulesModal');
 let game='',sound=true,paused=false,interval=null,run=null,context=null,delayTimer=null;
@@ -641,6 +712,10 @@ document.addEventListener('keydown',e=>{if(!modal.classList.contains('open')||ru
       }
       const data = snapshot.val() || {};
       latestUserData = data;
+      $("profileName").textContent = data.displayName || data.name || data.fullName || "KHELOGO Member";
+      $("profileMobile").textContent = data.mobile || user.phoneNumber || "Not available";
+      $("profileEmail").textContent = user.email || ("Account ID: " + user.uid);
+      $("profileDetails").textContent = "Account ID: " + user.uid + " · Registered account data is read from Firebase. Profile edits are not enabled here unless the database rules explicitly permit them.";
       const isAdmin = user.uid === "uZcwOVMchEWaxj0iEWBCCuvo1Uy2";
       adminMenuLink.hidden = !isAdmin; $("adminNavLink").hidden = !isAdmin;
       $("adminPanel").hidden = !isAdmin;
